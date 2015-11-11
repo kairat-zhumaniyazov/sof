@@ -21,12 +21,12 @@ RSpec.describe AnswersController, type: :controller do
       post :create, question_id: question, answer: attributes_for(:answer)
       expect(assigns(:question)).to eq question
     end
-    
+
     context "with valid params" do
       it 'should create new answer' do
-        expect do
+        expect {
           post :create, question_id: question, answer: attributes_for(:answer)
-        end.to change(Answer, :count).by(1)
+        }.to change(question.answers, :count).by(1)
       end
       it 'should redirect to question' do
         post :create, question_id: question, answer: attributes_for(:answer)
@@ -36,9 +36,9 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid params' do
       it 'should not create new answer' do
-        expect do
+        expect {
           post :create, question_id: question, answer: attributes_for(:invalid_answer)
-        end.to_not change(Answer, :count)
+        }.to_not change(Answer, :count)
       end
       it 'should render :new template' do
         post :create, question_id: question, answer: attributes_for(:invalid_answer)
