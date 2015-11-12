@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: [ :create ]
-  before_action :get_question, only: [:index, :new, :create]
+  before_action :authenticate_user!, only: [ :create, :destroy ]
+  before_action :get_question, only: [:index, :new, :create, :destroy ]
 
   def new
     @answer = @question.answers.build
@@ -14,6 +14,17 @@ class AnswersController < ApplicationController
     else
       render :new
     end
+  end
+
+  def destroy
+    @answer = Answer.find(params[:id])
+    if @answer.user == current_user
+      @answer.destroy
+      flash[:notice] = 'Your answer deleted.'
+    else
+      flash[:alert] = 'You can not delete this answer.'
+    end
+    redirect_to question_path @question
   end
 
   private

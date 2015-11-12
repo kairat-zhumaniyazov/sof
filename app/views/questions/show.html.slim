@@ -8,6 +8,9 @@ div
     - @question.answers.each do |answer|
       p= answer.body
 
+      - if answer.id
+        p= link_to 'Delete answer', [@question, answer], method: :delete
+
 = form_for [ @question, @answer] do |f|
   = f.label :body, 'Answer body'
   = f.text_area :body
