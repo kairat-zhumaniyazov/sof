@@ -1,6 +1,7 @@
 div
   p= @question.title
   p= @question.body
+  p= link_to 'Delete question', @question, method: :delete
 
 -if @question.answers.any?
   div.answers
