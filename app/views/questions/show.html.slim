@@ -1,0 +1,13 @@
+div
+  p= @question.title
+  p= @question.body
+
+-if @question.answers.any?
+  div.answers
+    - @question.answers.each do |answer|
+      p= answer.body
+
+= form_for [ @question, @answer] do |f|
+  = f.label :body, 'Answer body'
+  = f.text_area :body
+  = f.submit 'Create Answer'
