@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Destroy Anser', %q{
+feature 'Destroy Answer', %q{
   In order to destroy answer
   For Answer Owner
   I want to destroy answer
@@ -19,18 +19,16 @@ feature 'Destroy Anser', %q{
     expect(page).to have_content 'Your answer deleted.'
   end
 
-  scenario 'non-sign in user can not destroy answer' do
+  scenario 'non-sign in user dont have delte link' do
     answer
     visit question_path question
-    click_on 'Delete answer'
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_link 'Delete answer'
   end
 
-  scenario 'Not owner can not destroy answer' do
+  scenario 'Not owner dont have delte link' do
     another_answer
     sign_in user
     visit question_path question
-    click_on 'Delete answer'
-    expect(page).to have_content 'You can not delete this answer.'
+    expect(page).to_not have_link 'Delete answer'
   end
 end

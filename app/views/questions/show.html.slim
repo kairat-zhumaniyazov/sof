@@ -8,7 +8,7 @@ div
     - @question.answers.each do |answer|
       p= answer.body
 
-      - if answer.id
+      - if answer.id && current_user && current_user.id == answer.user_id
         p= link_to 'Delete answer', [@question, answer], method: :delete
 
 = form_for [ @question, @answer] do |f|
