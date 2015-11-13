@@ -35,9 +35,10 @@ RSpec.describe AnswersController, type: :controller do
         post :create, question_id: question, answer: attributes_for(:answer)
         expect(response).to redirect_to question_path question
       end
-      it 'should have right user id' do
-        post :create, question_id: question, answer: attributes_for(:answer)
-        expect(assigns(:answer).user_id).to eq @user.id
+      it 'should have right answer owner' do
+        expect {
+          post :create, question_id: question, answer: attributes_for(:answer)
+        }.to change(@user.answers, :count).by(1)
       end
     end
 
