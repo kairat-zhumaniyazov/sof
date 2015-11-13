@@ -22,6 +22,15 @@ feature 'Create Answer for Question', %q{
     expect(current_path).to eq question_path(question)
   end
 
+  scenario 'Signed in user try to create answer with invalid params' do
+    sign_in user
+    visit question_path question
+
+    fill_in 'Answer body', with: ''
+    click_on 'Create Answer'
+    expect(page).to have_content 'Body can\'t be blank'
+  end
+
   scenario 'non-signed in user try to create answer' do
     visit question_path question
 
