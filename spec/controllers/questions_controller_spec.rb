@@ -51,6 +51,10 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, question: attributes_for(:question)
         expect(response).to redirect_to question_path assigns(:question)
       end
+      it 'should have right user id' do
+        post :create, question: attributes_for(:question)
+        expect(assigns(:question).user_id).to eq @user.id
+      end
     end
 
     context "with invalid params" do
