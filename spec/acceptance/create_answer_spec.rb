@@ -31,7 +31,7 @@ feature 'Create Answer for Question', %q{
     expect(page).to have_content 'Body can\'t be blank'
   end
 
-  scenario 'non-authorized user dont have Create Answer form', js: true do
+  scenario 'non-authorized user dont have Create Answer form' do
     visit question_path question
     expect(page).to_not have_selector('form#new_answer')
     expect(page).to_not have_selector('input[type=submit][value=\'Create Answer\']')
