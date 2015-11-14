@@ -46,9 +46,9 @@ end
 group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
-  gem 'selenium-webdriver'
   gem 'launchy'
   gem 'database_cleaner'
+  gem 'poltergeist'
 end
 
 group :development do
