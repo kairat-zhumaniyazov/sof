@@ -1,0 +1,6 @@
+<% if @answer.valid? %>
+  $('div.answers').html('<%= j render 'questions/answers' %>');
+  $('#answer_body').val('');
+<% else %>
+  $('<%= j render 'answers/validation_errors' %>').insertBefore($('#new-answer-form form'));
+<% end %>
