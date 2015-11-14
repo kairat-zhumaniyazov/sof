@@ -1,10 +1,5 @@
-hr
 h2 Answers
 
 - @question.answers.each do |answer|
   - if answer.id
-    div
-      = answer.body
-      - if current_user && current_user.id == answer.user_id
-        p= link_to 'Delete answer', [@question, answer], method: :delete
-hr
+    = render partial: 'answers/answer_block', locals: { answer: answer }
