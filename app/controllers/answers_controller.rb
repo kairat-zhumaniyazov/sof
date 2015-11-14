@@ -1,19 +1,18 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
-  before_action :get_question, only: [:index, :new, :create, :destroy]
+  before_action :get_question, only: [:new, :create, :destroy]
 
   def new
     @answer = @question.answers.build
   end
 
   def create
-    @answer = @question.answers.build(answer_params)
-    @answer.user = current_user
-    if @answer.save
-      redirect_to question_path @question
-    else
-      render :new
-    end
+    @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
+    # if @answer.valid?
+    #   render :create
+    # else
+    #   render js: 'answers/validation_errors'
+    # end
   end
 
   def destroy

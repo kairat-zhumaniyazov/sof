@@ -21,23 +21,23 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
 
     it 'should be right question' do
-      post :create, question_id: question, answer: attributes_for(:answer)
+      post :create, question_id: question, answer: attributes_for(:answer), format: :js
       expect(assigns(:question)).to eq question
     end
 
     context "with valid params" do
       it 'should create new answer' do
         expect {
-          post :create, question_id: question, answer: attributes_for(:answer)
+          post :create, question_id: question, answer: attributes_for(:answer), format: :js
         }.to change(question.answers, :count).by(1)
       end
-      it 'should redirect to question' do
-        post :create, question_id: question, answer: attributes_for(:answer)
-        expect(response).to redirect_to question_path question
+      it 'should render :create template' do
+        post :create, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(response).to render_template :create
       end
       it 'should have right answer owner' do
         expect {
-          post :create, question_id: question, answer: attributes_for(:answer)
+          post :create, question_id: question, answer: attributes_for(:answer), format: :js
         }.to change(@user.answers, :count).by(1)
       end
     end
@@ -45,12 +45,12 @@ RSpec.describe AnswersController, type: :controller do
     context 'with invalid params' do
       it 'should not create new answer' do
         expect {
-          post :create, question_id: question, answer: attributes_for(:invalid_answer)
+          post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js
         }.to_not change(Answer, :count)
       end
-      it 'should render :new template' do
-        post :create, question_id: question, answer: attributes_for(:invalid_answer)
-        expect(response).to render_template :new
+      it 'should render :create template' do
+        post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :js
+        expect(response).to render_template :create
       end
     end
   end
