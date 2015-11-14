@@ -7,8 +7,9 @@ div
 -if @question.answers.any?
   div.answers= render 'answers'
 
-div#new-answer-form
-  = form_for [@question, @answer], remote: true do |f|
-    = f.label :body, 'Answer body'
-    = f.text_area :body
-    = f.submit 'Create Answer'
+- if user_signed_in?
+  div#new-answer-form
+    = form_for [@question, @answer], remote: true do |f|
+      = f.label :body, 'Answer body'
+      = f.text_area :body
+      = f.submit 'Create Answer'

@@ -19,7 +19,6 @@ feature 'Create Answer for Question', %q{
     within 'div.answers' do
       expect(page).to have_content 'My Answer'
     end
-    save_and_open_page
     expect(current_path).to eq question_path(question)
   end
 
@@ -32,12 +31,9 @@ feature 'Create Answer for Question', %q{
     expect(page).to have_content 'Body can\'t be blank'
   end
 
-  scenario 'non-signed in user try to create answer' do
+  scenario 'non-authorized user dont have Create Answer form', js: true do
     visit question_path question
-
-    fill_in 'Answer body', with: 'My Answer'
-    click_on 'Create Answer'
-    save_and_open_page
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_selector('form#new_answer')
+    expect(page).to_not have_selector('input[type=submit][value=\'Create Answer\']')
   end
 end
