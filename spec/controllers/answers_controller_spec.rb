@@ -86,6 +86,51 @@ RSpec.describe AnswersController, type: :controller do
       patch :update, question_id: question, id: answer, answer: { body: 'updated body' }, format: :js
       expect(response).to render_template :update
     end
+  end
 
+  describe 'POST #best_answer' do
+    let(:another_user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+    let!(:answer) { create(:answer, question: question) }
+
+    context 'Question author' do
+      before { sign_in user }
+
+      it 'should have right question' do
+        post :best_answer, id: answer, question_id: question, format: :js
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'should have right answer' do
+        post :best_answer, id: answer, question_id: question, format: :js
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'should change best status' do
+        post :best_answer, id: answer, question_id: question, format: :js
+        answer.reload
+        expect(answer.best).to be true
+      end
+
+      context 'with answers list' do
+        let!(:answer_1) { create(:answer, question: question, best: true) }
+        let!(:answer_2) { create(:answer, question: question) }
+
+        it 'should change best attr for answer_1' do
+          post :best_answer, id: answer_2, question_id: question, format: :js
+          answer_1.reload
+          expect(answer_1.best).to_not be true
+        end
+      end
+    end
+
+    context 'Not question author' do
+      before { sign_in another_user }
+      it 'should not change best attr' do
+        post :best_answer, id: answer, question_id: question, format: :js
+        answer.reload
+        expect(answer.best).to_not be true
+      end
+    end
   end
 end
