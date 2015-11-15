@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :destroy]
-  before_action :load_question, only: [:show, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :destroy, :edit]
+  before_action :load_question, only: [:show, :destroy, :edit]
   def index
     @questions = Question.all
   end
@@ -32,6 +32,10 @@ class QuestionsController < ApplicationController
       flash[:alert] = 'You can not delete this question.'
     end
     redirect_to questions_path
+  end
+
+  def edit
+    @question.update(question_params)
   end
 
   private
