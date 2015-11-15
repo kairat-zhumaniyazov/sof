@@ -17,9 +17,11 @@ feature 'Edit Answer for Question', %q{
       visit question_path question
     end
 
-    scenario 'have edit link' do
+    scenario 'have edit link and form' do
       within('.answers') do
         expect(page).to have_link('Edit')
+        click_on 'Edit'
+        expect(page).to have_selector 'form.edit_answer textarea'
       end
     end
 
