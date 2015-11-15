@@ -8,6 +8,7 @@ feature 'Edit Answer for Question', %q{
 
   given(:user) { create(:user) }
   given(:question) { create(:question) }
+  given!(:another_user_answer) { create(:answer, question: question) }
 
   describe 'Author' do
     given!(:answer) { create(:answer, user: user, question: question) }
@@ -45,6 +46,18 @@ feature 'Edit Answer for Question', %q{
     end
   end
 
-  scenario 'Non-authorized user dont have edit link'
-  scenario 'Not the author dont have edit link'
+  scenario 'Non-authorized user dont have edit link' do
+    visit question_path question
+    within('.answers') do
+      expect(page).to_not have_link('Edit')
+    end
+  end
+
+  scenario 'Not the author dont have edit link' do
+    sign_in user
+    visit question_path question
+    save_and_open_page
+
+    expect(page).to_not have_link('Edit')
+  end
 end
