@@ -8,4 +8,4 @@ div id="answer-id-#{answer.id}"
         = f.text_area :body
         = f.submit 'Save'
 
-    p= link_to 'Delete answer', [@question, answer], method: :delete
+    p= link_to 'Delete answer', [@question, answer], remote: true, method: :delete

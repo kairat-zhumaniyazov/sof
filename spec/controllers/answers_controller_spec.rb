@@ -60,18 +60,22 @@ RSpec.describe AnswersController, type: :controller do
     context 'signed in user' do
       it 'should delete answer' do
         sign_in user
-        expect { delete :destroy, question_id: answer.question, id: answer }.to change(Answer, :count).by(-1)
+        expect {
+          delete :destroy, question_id: answer.question, id: answer, format: :js
+        }.to change(Answer, :count).by(-1)
       end
       it 'should redirect to question show page' do
         sign_in user
-        delete :destroy, question_id: question, id: answer
-        expect(response).to redirect_to question_path question
+        delete :destroy, question_id: question, id: answer, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
     context 'non-signed in user' do
       it 'should not delete answer' do
-        expect { delete :destroy, question_id: answer.question, id: answer }.to_not change(Answer, :count)
+        expect {
+          delete :destroy, question_id: answer.question, id: answer, format: :js
+        }.to_not change(Answer, :count)
       end
     end
   end
