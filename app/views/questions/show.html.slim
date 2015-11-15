@@ -1,8 +1,5 @@
-div
-  p= @question.title
-  p= @question.body
-  - if current_user && current_user.id == @question.user_id
-    p= link_to 'Delete question', @question, method: :delete
+div.question
+  = render 'question_block'
 
 -if @question.answers.any?
   div.answers
