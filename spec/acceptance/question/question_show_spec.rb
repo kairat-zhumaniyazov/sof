@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../acceptance_helper'
 
 feature 'Show Question page with answers', %q{
   In order to Show Question page with answers
