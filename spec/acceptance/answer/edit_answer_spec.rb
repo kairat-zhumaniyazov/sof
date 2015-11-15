@@ -56,7 +56,6 @@ feature 'Edit Answer for Question', %q{
   scenario 'Not the author dont have edit link' do
     sign_in user
     visit question_path question
-    save_and_open_page
 
     expect(page).to_not have_link('Edit')
   end
