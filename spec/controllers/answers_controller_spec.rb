@@ -75,4 +75,26 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update' do
+    let(:answer) { create(:answer, user: user, question: question) }
+    it 'should be right question' do
+      patch :update, question_id: question, id: answer, answer: { body: 'updated body' }, format: :js
+      expect(assigns(:question)).to eq question
+    end
+    it 'should be right answer' do
+      patch :update, question_id: question, id: answer, answer: { body: 'updated body' }, format: :js
+      expect(assigns(:answer)).to eq answer
+    end
+    it 'should change answer' do
+      patch :update, question_id: question, id: answer, answer: { body: 'updated body' }, format: :js
+      answer.reload
+      expect(answer.body).to eq 'updated body'
+    end
+    it 'should render update template' do
+      patch :update, question_id: question, id: answer, answer: { body: 'updated body' }, format: :js
+      expect(response).to render_template :update
+    end
+
+  end
 end
