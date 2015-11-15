@@ -96,11 +96,11 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'PATCH #edit' do
+  describe 'PATCH #update' do
     context 'Non-signed user' do
       it 'should not change question' do
         expect {
-          patch :edit, id: question, question: attributes_for(:question), format: :js
+          patch :update, id: question, question: attributes_for(:question), format: :js
         }.to_not change{question}
       end
     end
@@ -110,34 +110,34 @@ RSpec.describe QuestionsController, type: :controller do
 
       context 'with valid attrs' do
         it 'should be a right question' do
-          patch :edit, id: question, question: attributes_for(:question), format: :js
+          patch :update, id: question, question: attributes_for(:question), format: :js
           expect(assigns(:question)).to eq question
         end
         it 'should change title' do
-          patch :edit, id: question, question: { title: 'Edited title', body: 'Edited body' }, format: :js
+          patch :update, id: question, question: { title: 'Edited title', body: 'Edited body' }, format: :js
           question.reload
           expect(question.title).to eq 'Edited title'
         end
         it 'should change body' do
-          patch :edit, id: question, question: { title: 'Edited title', body: 'Edited body' }, format: :js
+          patch :update, id: question, question: { title: 'Edited title', body: 'Edited body' }, format: :js
           question.reload
           expect(question.body).to eq 'Edited body'
         end
-        it 'should render template :edit' do
-          patch :edit, id: question, question: { title: 'Edited title', body: 'Edited body' }, format: :js
-          expect(response).to render_template :edit
+        it 'should render template :update' do
+          patch :update, id: question, question: { title: 'Edited title', body: 'Edited body' }, format: :js
+          expect(response).to render_template :update
         end
       end
 
       context 'with invalid params' do
         it 'should not change title' do
           expect {
-            patch :edit, id: question, question: { title: '', body: 'Edited body' }, format: :js
+            patch :update, id: question, question: { title: '', body: 'Edited body' }, format: :js
           }.to_not change(question, :title)
         end
         it 'should not change body' do
           expect {
-            patch :edit, id: question, question: { title: 'Edited title', body: '' }, format: :js
+            patch :update, id: question, question: { title: 'Edited title', body: '' }, format: :js
           }.to_not change(question, :body)
         end
       end

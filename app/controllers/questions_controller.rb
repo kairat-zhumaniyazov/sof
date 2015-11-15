@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :destroy, :edit]
-  before_action :load_question, only: [:show, :destroy, :edit]
+  before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
+  before_action :load_question, only: [:show, :destroy, :update]
   def index
     @questions = Question.all
   end
@@ -34,7 +34,7 @@ class QuestionsController < ApplicationController
     redirect_to questions_path
   end
 
-  def edit
+  def update
     @question.update(question_params)
   end
 
