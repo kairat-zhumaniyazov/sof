@@ -60,5 +60,5 @@ group :development do
   gem 'spring-commands-rspec'
   gem 'guard-rspec', require: false
   gem 'guard-spring'
-  gem 'pry'
+  gem 'pry-rails'
 end
