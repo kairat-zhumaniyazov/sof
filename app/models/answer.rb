@@ -9,7 +9,7 @@ class Answer < ActiveRecord::Base
   def make_best
     ActiveRecord::Base.transaction do
       question.answers.update_all(best: false)
-      update(best: true)
+      update!(best: true)
     end
   end
 end
