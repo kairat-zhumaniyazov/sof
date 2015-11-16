@@ -7,7 +7,10 @@ class Answer < ActiveRecord::Base
   default_scope -> { order(best: :desc) }
 
   def make_best
+    old_best = question.answers.where(best: true).first
     question.answers.update_all(best: false)
-    update(best: true)
+    if !update(best: true) && old_best
+      old_best.update(best: true)
+    end
   end
 end
