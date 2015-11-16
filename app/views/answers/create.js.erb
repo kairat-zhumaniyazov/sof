@@ -1,5 +1,5 @@
 <% if @answer.valid? %>
-  $('div.answers').append('<%= j render partial: 'answers/answer_block', locals: { answer: @answer } %>');
+  $('div.answers div.answers-list').append('<%= j render partial: 'answers/answer_block', locals: { answer: @answer } %>');
   $('form#new_answer textarea').val('');
 <% else %>
   $('<%= j render 'answers/validation_errors' %>').insertBefore($('#new-answer-form form'));

@@ -27,7 +27,7 @@ feature 'Edit Answer for Question', %q{
 
     scenario 'can edit his answer', js: true do
       click_on 'Edit'
-      within '.answers' do
+      within 'form.edit_answer' do
         fill_in 'Answer', with: 'edited answer'
       end
       click_on 'Save'
@@ -39,7 +39,7 @@ feature 'Edit Answer for Question', %q{
 
     scenario 'with invalid attr should see errors', js: true do
       click_on 'Edit'
-      within '.answers' do
+      within 'form.edit_answer' do
         fill_in 'Answer', with: ''
       end
       click_on 'Save'

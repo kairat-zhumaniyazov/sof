@@ -1,14 +1,20 @@
-h3= @question.title
+.question-header
+  h3= @question.title
 p= @question.body
-- if current_user && current_user.id == @question.user_id
-    p= link_to 'Edit', '', class: 'edit-question-link'
-    div#edit-question-form-container
-      div#validation-errors
-      = form_for @question, remote: true do |f|
-        = f.label :title
-        = f.text_field :title
-        = f.label :body
-        = f.text_area :body
-        = f.submit 'Save'
 
-    p= link_to 'Delete question', @question, method: :delete
+- if current_user && current_user.id == @question.user_id
+  .question-controls
+    ul.clear
+      li
+        = link_to 'Edit', '', class: 'edit-question-link'
+      li
+        = link_to 'Delete question', @question, method: :delete
+
+  div#edit-question-form-container
+    div#validation-errors
+    = form_for @question, remote: true do |f|
+      p= f.label :title
+      p= f.text_field :title
+      p= f.label :body
+      p= f.text_area :body
+      p= f.submit 'Save'

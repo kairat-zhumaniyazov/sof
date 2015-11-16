@@ -2,12 +2,13 @@ div.question
   = render 'question_block'
 
 -if @question.answers.any?
-  div.answers
-    = render 'answers'
+  .answers
+    .answers-list
+      = render 'answers'
 
-- if user_signed_in?
-  div#new-answer-form
-    = form_for [@question, @answer], remote: true do |f|
-      = f.label :body, 'Answer body'
-      = f.text_area :body
-      = f.submit 'Create Answer'
+    - if user_signed_in?
+      div#new-answer-form
+        = form_for [@question, @answer], remote: true do |f|
+          p= f.label :body, 'Answer body'
+          p= f.text_area :body
+          p= f.submit 'Create Answer'
