@@ -18,4 +18,5 @@ div id="answer-id-#{answer.id}"
       = link_to 'Best answer', best_answer_question_answer_path(@question, answer),
                  remote: true,
                  method: :post,
-                 class: 'best-answer-link'
+                 class: 'best-answer-link',
+                 id: "best-answer-link-#{answer.id}"
