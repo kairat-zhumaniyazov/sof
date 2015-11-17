@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../acceptance_helper'
 
 feature 'Destroy Answer', %q{
   In order to destroy answer
@@ -11,12 +11,22 @@ feature 'Destroy Answer', %q{
   given(:answer) { create(:answer, user: user, question: question) }
   given(:another_answer) { create(:answer, user: create(:user), question: question) }
 
-  scenario 'Signed in User can destroy answer' do
-    answer
-    sign_in user
-    visit question_path question
-    click_on 'Delete answer'
-    expect(page).to have_content 'Your answer deleted.'
+  context 'Author' do
+    before do
+      answer
+      sign_in user
+      visit question_path question
+    end
+
+    scenario 'can destroy answer', js: true do
+      click_on 'Delete answer'
+      expect(page).to have_content 'Your answer deleted.'
+    end
+
+    scenario 'deleted answer should remove from page', js: true do
+      click_on 'Delete answer'
+      expect(page).to_not have_selector ("div#answer-id-#{answer.id}")
+    end
   end
 
   scenario 'non-sign in user dont have delte link' do

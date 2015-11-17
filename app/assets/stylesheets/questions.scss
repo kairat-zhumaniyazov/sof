@@ -1,3 +1,35 @@
-// Place all the styles related to the questions controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+div.question {
+  padding: 5px 20px;
+
+  .question-header {
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  p {
+    padding: 10px 0;
+  }
+
+  .question-controls {
+    border-top: 1px solid #e5e5e5;
+
+    ul {
+      padding-left: 0px;
+      li {
+        display: inline-block;
+        padding: 0 5px 0 0;
+      }
+    }
+  }
+}
+
+div.answers {
+  padding: 5px 20px;
+
+  div#new-answer-form {
+    padding-top: 20px;
+    margin-top: 30px;
+    border-top: 1px solid #e5e5e5;
+  }
+}
+
+div#edit-question-form-container { display: none; }

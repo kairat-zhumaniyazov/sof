@@ -23,6 +23,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
+gem 'bootstrap-sass'
 gem 'slim-rails'
 
 gem 'devise'
@@ -41,6 +42,7 @@ group :development, :test do
 
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'poltergeist'
 end
 
 group :test do
@@ -48,7 +50,6 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'database_cleaner'
-  gem 'poltergeist'
 end
 
 group :development do
@@ -60,5 +61,5 @@ group :development do
   gem 'spring-commands-rspec'
   gem 'guard-rspec', require: false
   gem 'guard-spring'
-  gem 'pry'
+  gem 'pry-rails'
 end
