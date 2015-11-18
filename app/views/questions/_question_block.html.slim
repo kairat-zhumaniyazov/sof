@@ -2,10 +2,7 @@
   h3= @question.title
 p= @question.body
 - if @question.attachments.any?
-  p Attachments:
-  p
-    - @question.attachments.each do |a|
-      p= link_to a.file.identifier, a.file.url
+  = render 'shared/attached_files', files: @question.attachments
 
 - if current_user && current_user.id == @question.user_id
   .question-controls
