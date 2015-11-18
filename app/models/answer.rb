@@ -5,6 +5,8 @@ class Answer < ActiveRecord::Base
 
   validates :body, :question_id, :user_id, presence: true
 
+  accepts_nested_attributes_for :attachments
+
   default_scope -> { order(best: :desc) }
 
   def make_best

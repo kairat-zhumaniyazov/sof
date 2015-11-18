@@ -21,6 +21,11 @@ RSpec.describe QuestionsController, type: :controller do
     it 'should have right question' do
       expect(assigns(:question)).to eq question
     end
+
+    it 'should have new attachment' do
+      expect(assigns(:answer).attachments.first).to be_a_new Attachment
+    end
+
     it 'should render :show template' do
       expect(response).to render_template :show
     end

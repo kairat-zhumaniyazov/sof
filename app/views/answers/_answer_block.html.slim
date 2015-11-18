@@ -1,5 +1,14 @@
 div id="answer-id-#{answer.id}"
   p.answer-body= answer.body
+
+  - if answer.attachments.any?
+    p Attachments
+    p
+      ul
+        - answer.attachments.each do |a|
+          li= link_to a.file.file.filename, a.file.url
+
+
   - if answer.best?
     p#best-answer Best answer
 
