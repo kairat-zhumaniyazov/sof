@@ -1,0 +1,11 @@
+= nested_form_for @question, remote: remote do |f|
+  p= f.label :title
+  p= f.text_field :title
+  p= f.label :body
+  p= f.text_area :body
+
+  p Attachments:
+  div
+    = render partial: 'shared/attachment_fields', locals: { f: f, attachments: :attachments }
+    
+  p= f.submit submit_text

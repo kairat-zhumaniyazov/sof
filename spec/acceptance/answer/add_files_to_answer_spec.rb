@@ -27,7 +27,7 @@ feature 'Add files to answer', %q{
   scenario 'User can attach multiple files for answer', js: true do
     fill_in 'Answer body', with: 'test text'
     all('.new_answer input[type="file"]')[0].set("#{Rails.root}/spec/rails_helper.rb")
-    find("a.add_fields").click
+    find("a.add_nested_fields").click
     all('.new_answer input[type="file"]')[1].set("#{Rails.root}/spec/spec_helper.rb")
     click_on 'Create'
 

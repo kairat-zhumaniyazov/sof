@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.build
     @answer.attachments.build
+    @question.attachments.build
   end
 
   def new
@@ -38,6 +39,7 @@ class QuestionsController < ApplicationController
 
   def update
     @question.update(question_params)
+    @question.attachments.build
   end
 
   private

@@ -1,0 +1,8 @@
+= f.fields_for attachments do |a|
+  - if a.object.new_record?
+    = a.label :file
+    = a.file_field :file
+  - else
+    = a.text_field :file, value: a.object.file.identifier
+  = a.link_to_remove 'remove file'
+= f.link_to_add 'add file', attachments

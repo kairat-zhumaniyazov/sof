@@ -11,9 +11,12 @@ div id="answer-id-#{answer.id}"
   - if current_user && current_user.id == answer.user_id
     p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
     .edit-answer-form
-      = form_for [@question, answer], remote: true do |f|
+      = nested_form_for [@question, answer], remote: true do |f|
         = f.label :body, 'Answer'
         = f.text_area :body
+
+        = render partial: 'shared/attachment_fields', locals: { f: f, attachments: :attachments }
+
         = f.submit 'Save'
 
     p= link_to 'Delete answer', [@question, answer], remote: true, method: :delete

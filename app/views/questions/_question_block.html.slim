@@ -14,9 +14,4 @@ p= @question.body
 
   div#edit-question-form-container
     div#validation-errors
-    = form_for @question, remote: true do |f|
-      p= f.label :title
-      p= f.text_field :title
-      p= f.label :body
-      p= f.text_area :body
-      p= f.submit 'Save'
+    = render partial: 'form', locals: { submit_text: 'Save', remote: true }

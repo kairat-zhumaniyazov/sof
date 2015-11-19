@@ -8,15 +8,12 @@ div.question
 
     - if user_signed_in?
       div#new-answer-form
-        = form_for [@question, @answer], remote: true do |f|
+        = nested_form_for [@question, @answer], remote: true do |f|
           p= f.label :body, 'Answer body'
           p= f.text_area :body
 
           p Attachments:
           p
-            = f.fields_for :attachments do |a|
-              = render 'attachment_fields', f: a
-            .links
-              = link_to_add_association 'add file', f, :attachments
+            = render partial: 'shared/attachment_fields', locals: { f: f, attachments: :attachments }
 
           p= f.submit 'Create Answer'
