@@ -1,5 +1,13 @@
 <% if @answer.valid? %>
-  $("div#answer-id-<%= @answer.id %>").html('<%= j render partial: 'answers/answer_block', locals: { answer: @answer } %>');
+  <% if remotipart_submitted? %>
+    $("div#answer-id-<%= @answer.id %>").html(
+      '<%= j "#{render partial: @answer, locals: { answer: @answer }}" %>'
+      );
+  <% else %>
+    $("div#answer-id-<%= @answer.id %>").html(
+      '<%= j render partial: @answer, locals: { answer: @answer } %>'
+    );
+  <% end %>
 <% else %>
   $('<%= j render 'answers/validation_errors' %>').insertBefore($('.edit-answer-form form'));
 <% end %>

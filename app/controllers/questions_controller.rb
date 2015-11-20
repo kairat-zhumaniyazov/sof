@@ -39,7 +39,6 @@ class QuestionsController < ApplicationController
 
   def update
     @question.update(question_params)
-    @question.attachments.build
   end
 
   private
