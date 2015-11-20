@@ -12,12 +12,10 @@ div id="answer-id-#{answer.id}"
     p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
     .edit-answer-form
       = nested_form_for [@question, answer], remote: true do |f|
-        = f.label :body, 'Answer'
-        = f.text_area :body
-
-        = render partial: 'shared/attachment_fields', locals: { f: f, attachments: :attachments }
-
-        = f.submit 'Save'
+        p= f.label :body, 'Answer'
+        p= f.text_area :body
+        p= render partial: 'shared/attachment_fields', locals: { f: f, attachments: :attachments }
+        p= f.submit 'Save'
 
     p= link_to 'Delete answer', [@question, answer], remote: true, method: :delete
 

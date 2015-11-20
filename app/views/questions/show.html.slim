@@ -8,12 +8,12 @@ div.question
 
     - if user_signed_in?
       div#new-answer-form
+        h3 New answer
         = nested_form_for [@question, @answer], remote: true do |f|
           p= f.label :body, 'Answer body'
           p= f.text_area :body
 
           p Attachments:
-          p
-            = render partial: 'shared/attachment_fields', locals: { f: f, attachments: :attachments }
+          p= render partial: 'shared/attachment_fields', locals: { f: f, attachments: :attachments }
 
           p= f.submit 'Create Answer'
