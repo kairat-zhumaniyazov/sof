@@ -1,6 +1,11 @@
 <% if @answer.valid? %>
-  $('div.answers div.answers-list').append('<%= j render partial: 'answers/answer_block', locals: { answer: @answer } %>');
-  $('form#new_answer textarea').val('');
+  <% if remotipart_submitted? %>
+    $('div.answers div.answers-list').append('<%= j "#{render partial: @answer, locals: { answer: @answer }}" %>');
+  <% else %>
+    $('div.answers div.answers-list').append('<%= j render partial: @answer, locals: { answer: @answer } %>');
+  <% end %>
+  $('form#new_answer p textarea').val('');
+  $('form#new_answer div input[type="file"]').val('');
 <% else %>
   $('<%= j render 'answers/validation_errors' %>').insertBefore($('#new-answer-form form'));
 <% end %>

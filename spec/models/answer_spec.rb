@@ -9,6 +9,9 @@ RSpec.describe Answer, type: :model do
 
   it { should belong_to(:question) }
   it { should belong_to(:user) }
+  it { should have_many(:attachments).dependent(:destroy) }
+
+  it { should accept_nested_attributes_for :attachments }
 
   describe '#best_answer' do
     let!(:answers) { create_list(:answer, 3, question: question, best: true) }

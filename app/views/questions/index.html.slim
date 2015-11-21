@@ -5,7 +5,7 @@ h3
 - if @questions.any?
   - @questions.each do |question|
     div
-      = question.title
+      = link_to question.title, question_path(question)
 - else
   div
     | Questions is empty

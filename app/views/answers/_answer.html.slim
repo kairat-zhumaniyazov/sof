@@ -1,5 +1,10 @@
 div id="answer-id-#{answer.id}"
   p.answer-body= answer.body
+
+  - if answer.attachments.any?
+    = render 'shared/attached_files', files: answer.attachments
+
+
   - if answer.best?
     p#best-answer Best answer
 
@@ -7,9 +12,13 @@ div id="answer-id-#{answer.id}"
     p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
     .edit-answer-form
       = form_for [@question, answer], remote: true do |f|
-        = f.label :body, 'Answer'
-        = f.text_area :body
-        = f.submit 'Save'
+        p= f.label :body, 'Answer'
+        p= f.text_area :body
+        p= f.fields_for :attachments do |a|
+          = render 'shared/attachment_fields', f: a
+        .links
+          = link_to_add_association 'add file', f, :attachments, partial: 'shared/attachment_fields'
+        p= f.submit 'Save'
 
     p= link_to 'Delete answer', [@question, answer], remote: true, method: :delete
 
