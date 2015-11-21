@@ -1,6 +1,10 @@
 class QuestionsController < ApplicationController
+  include VoteableController
+
   before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
   before_action :load_question, only: [:show, :destroy, :update]
+  before_action :voted_object, only: [:vote_plus, :vote_minus]
+
   def index
     @questions = Question.all
   end
@@ -49,5 +53,9 @@ class QuestionsController < ApplicationController
 
   def load_question
     @question = Question.find(params[:id])
+  end
+
+  def voted_object
+    @voted_to = Question.find(params[:id])
   end
 end
