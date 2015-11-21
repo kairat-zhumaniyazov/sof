@@ -13,3 +13,7 @@ $ ->
   $('.question').bind 'ajax:success', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
     $('p.votes-sum').text(response.votes_sum)
+
+  $('.answers .vote-plus, .answers .vote-minus').bind 'ajax:success', (e, data, status, xhr) ->
+    response = $.parseJSON(xhr.responseText)
+    $('#answer_' + response.voted_to_id + ' .votes p.votes-sum').text(response.votes_sum)

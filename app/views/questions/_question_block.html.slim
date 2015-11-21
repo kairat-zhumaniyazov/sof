@@ -5,17 +5,7 @@ p= @question.body
 - if @question.attachments.any?
   = render 'shared/attached_files', files: @question.attachments
 
-.votes.clearfix
-  .header
-    h5 Votes
-  - if current_user && current_user.id != @question.user_id
-    p= link_to '+', vote_plus_question_path(@question), remote: true, method: :post
-
-  p.votes-sum
-    = @question.votes_sum
-
-  - if current_user && current_user.id != @question.user_id
-    p= link_to '-', vote_minus_question_path(@question), remote: true, method: :post
+= render partial: 'shared/votes', locals: { voted_to: @question }
 
 - if current_user && current_user.id == @question.user_id
   .question-controls

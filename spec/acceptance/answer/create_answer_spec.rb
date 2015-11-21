@@ -15,7 +15,6 @@ feature 'Create Answer for Question', %q{
 
     fill_in 'Answer body', with: 'My Answer'
     click_on 'Create Answer'
-
     within 'div.answers' do
       expect(page).to have_content 'My Answer'
     end

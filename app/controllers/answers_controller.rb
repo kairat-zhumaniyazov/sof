@@ -1,7 +1,10 @@
 class AnswersController < ApplicationController
+  include VoteableController
+
   before_action :authenticate_user!, only: [:create, :destroy]
   before_action :get_question, only: [:create]
   before_action :get_answer, only: [:destroy, :update, :best_answer]
+  before_action :voted_object, only: [:vote_plus, :vote_minus]
 
   def create
     @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
@@ -33,5 +36,9 @@ class AnswersController < ApplicationController
 
   def get_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def voted_object
+    @voted_to = Answer.find(params[:id])
   end
 end

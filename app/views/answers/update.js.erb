@@ -1,10 +1,10 @@
 <% if @answer.valid? %>
   <% if remotipart_submitted? %>
-    $("div#answer-id-<%= @answer.id %>").html(
+    $("div#<%= dom_id @answer %>").html(
       '<%= j "#{render partial: @answer, locals: { answer: @answer }}" %>'
       );
   <% else %>
-    $("div#answer-id-<%= @answer.id %>").html(
+    $("div#<%= dom_id @answer %>").html(
       '<%= j render partial: @answer, locals: { answer: @answer } %>'
     );
   <% end %>

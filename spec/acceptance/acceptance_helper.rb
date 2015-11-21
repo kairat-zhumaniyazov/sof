@@ -2,6 +2,8 @@ require 'rails_helper'
 require 'capybara/poltergeist'
 
 RSpec.configure do |config|
+  include ActionView::RecordIdentifier
+
   config.use_transactional_fixtures = false
 
   Capybara.javascript_driver = :poltergeist

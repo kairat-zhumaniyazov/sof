@@ -2,4 +2,4 @@ $('p#best-answer').each(function(){
   $(this).remove();
 });
 
-$('div#answer-id-<%= @answer.id %> p.answer-body').after('<p id="best-answer">Best answer</p>');
+$('div#<%= dom_id @answer %> p.answer-body').after('<p id="best-answer">Best answer</p>');

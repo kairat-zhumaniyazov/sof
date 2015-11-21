@@ -133,4 +133,72 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'POST #vote_plus' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    let(:answer) { create(:answer, question: question, user: user) }
+    let(:another_answer) { create(:answer, question: question) }
+
+    before { sign_in user }
+    context 'not answer autor can vote for Answer' do
+      it 'should change Votes count' do
+        expect {
+          post :vote_plus, question_id: question, id: another_answer
+        }.to change(another_answer.votes, :count).by(1)
+      end
+
+      it 'should have votes sum' do
+        post :vote_plus, question_id: question, id: another_answer
+        expect(another_answer.votes_sum).to eq 1
+      end
+    end
+
+    context 'answer author can not vote for Answer' do
+      it 'should not change Votes count' do
+        expect {
+          post :vote_plus, question_id: question, id: answer
+        }.to change(Vote, :count)
+      end
+
+      it 'should have votes sum' do
+        post :vote_plus, question_id: question, id: answer
+        expect(another_answer.votes_sum).to eq 0
+      end
+    end
+  end
+
+  describe 'POST #vote_minus' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    let(:answer) { create(:answer, question: question, user: user) }
+    let(:another_answer) { create(:answer, question: question) }
+
+    before { sign_in user }
+    context 'not answer autor can vote for Answer' do
+      it 'should change Votes count' do
+        expect {
+          post :vote_minus, question_id: question, id: another_answer
+        }.to change(another_answer.votes, :count).by(1)
+      end
+
+      it 'should have votes sum' do
+        post :vote_minus, question_id: question, id: another_answer
+        expect(another_answer.votes_sum).to eq -1
+      end
+    end
+
+    context 'question author can not vote for Answer' do
+      it 'should not change Votes count' do
+        expect {
+          post :vote_minus, question_id: question, id: answer
+        }.to change(Vote, :count)
+      end
+
+      it 'should have votes sum' do
+        post :vote_minus, question_id: question, id: answer
+        expect(another_answer.votes_sum).to eq 0
+      end
+    end
+  end
 end
