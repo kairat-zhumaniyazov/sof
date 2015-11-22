@@ -22,6 +22,7 @@ feature 'Vote for the question', %q{
         click_on '+'
         within '.question .votes' do
           expect(page).to have_content '1'
+          expect(page).to have_content 'Re-vote?'
         end
       end
 
@@ -29,23 +30,19 @@ feature 'Vote for the question', %q{
         click_on '-'
         within '.question .votes' do
           expect(page).to have_content '-1'
+          expect(page).to have_content 'Re-vote?'
         end
       end
 
       describe 'only once' do
-        scenario 'PLUS 2 times', js: true do
-          click_on '+'
-          click_on '+'
-          within '.question .votes' do
-            expect(page).to have_content '1'
-          end
-        end
-
-        scenario 'MINUS 2 times', js: true do
-          click_on '-'
-          click_on '-'
-          within '.question .votes' do
-            expect(page).to have_content '-1'
+        describe 'when user voted before' do
+          let!(:vote) { create(:vote_for_question, voteable: question, user: user, value: 1) }
+          before { visit question_path question }
+          scenario 'see info about that' do
+            within '.question .votes' do
+              expect(page).to have_content '1'
+              expect(page).to have_content 'Re-vote?'
+            end
           end
         end
       end
@@ -57,6 +54,7 @@ feature 'Vote for the question', %q{
         within '.votes' do
           expect(page).to_not have_link '+'
           expect(page).to_not have_link '-'
+          expect(page).to_not have_content 'Re-vote?'
           expect(page).to have_content '0'
         end
       end
@@ -69,6 +67,7 @@ feature 'Vote for the question', %q{
       within '.votes' do
         expect(page).to_not have_link '+'
         expect(page).to_not have_link '-'
+        expect(page).to_not have_content 'Re-vote?'
         expect(page).to have_content '0'
       end
     end

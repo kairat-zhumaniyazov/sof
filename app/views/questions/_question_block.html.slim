@@ -5,7 +5,8 @@ p= @question.body
 - if @question.attachments.any?
   = render 'shared/attached_files', files: @question.attachments
 
-= render partial: 'shared/votes', locals: { voted_to: @question }
+.votes-container
+  = render partial: 'shared/votes', locals: { voted_to: @question }
 
 - if current_user && current_user.id == @question.user_id
   .question-controls

@@ -4,7 +4,8 @@
   - if answer.attachments.any?
     = render 'shared/attached_files', files: answer.attachments
 
-  = render partial: 'shared/votes', locals: { voted_to: answer }
+  .votes-container
+    = render partial: 'shared/votes', locals: { voted_to: answer }
 
   - if answer.best?
     p#best-answer Best answer

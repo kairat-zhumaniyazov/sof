@@ -25,6 +25,7 @@ feature 'Vote for the question', %q{
           within '.votes' do
             click_on '+'
             expect(page).to have_content '1'
+            expect(page).to have_content 'Re-vote?'
           end
         end
       end
@@ -35,30 +36,24 @@ feature 'Vote for the question', %q{
           within '.votes' do
             click_on '-'
             expect(page).to have_content '-1'
+            expect(page).to have_content 'Re-vote?'
           end
         end
       end
     end
 
     describe 'only once' do
-      scenario 'PLUS 2 times', js: true do
+      describe 'when user voted before' do
+        let!(:vote) { create(:vote, voteable: another_answer, user: user, value: 1) }
 
-        within "##{dom_id(another_answer)}" do
-          within '.votes' do
-            click_on '+'
-            click_on '+'
-            expect(page).to have_content '1'
-          end
-        end
-      end
+        before { visit question_path question }
 
-      scenario 'MINUS 2 times', js: true do
-
-        within "##{dom_id(another_answer)}" do
-          within '.votes' do
-            click_on '-'
-            click_on '-'
-            expect(page).to have_content '-1'
+        scenario 'see info about that' do
+          within "##{dom_id(another_answer)}" do
+            within '.votes' do
+              expect(page).to have_content '1'
+              expect(page).to have_content 'Re-vote?'
+            end
           end
         end
       end
