@@ -1,7 +1,8 @@
 FactoryGirl.define do
-  factory :vote do
-    user nil
-    value 1
+  factory :vote_for_question, class: 'Vote' do
+    user
+    association :voteable, factory: :question
+    value 0
   end
 
 end
