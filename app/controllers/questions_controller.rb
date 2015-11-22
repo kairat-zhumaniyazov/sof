@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
   before_action :load_question, only: [:show, :destroy, :update]
-  before_action :voted_object, only: [:vote_plus, :vote_minus]
+  before_action :vote_for, only: [:vote_plus, :vote_minus]
 
   def index
     @questions = Question.all
@@ -55,7 +55,7 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
   end
 
-  def voted_object
-    @voted_to = Question.find(params[:id])
+  def vote_for
+    @vote_for_obj = Question.find(params[:id])
   end
 end

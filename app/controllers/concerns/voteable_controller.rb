@@ -11,7 +11,12 @@ module VoteableController
   private
 
   def vote(value)
-    @voted_to.votes.create(user: current_user, value: value)
-    render json: { votes_sum: @voted_to.votes.sum(:value), voted_to: @voted_to.class.name, voted_to_id: @voted_to.id }
+    user_vote = @vote_for_obj.votes.find_by(user_id: current_user)
+    if current_user.id != @vote_for_obj.user_id && !user_vote
+      @vote_for_obj.votes.create(user: current_user, value: value)
+      render json: { votes_sum: @vote_for_obj.votes_sum, voted_to: @vote_for_obj.class.name, voted_to_id: @vote_for_obj.id }
+    else
+      render json: { status: :unprocessable_entity }
+    end
   end
 end

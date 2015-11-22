@@ -179,7 +179,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'should not change Votes count' do
         expect {
           post :vote_plus, id: question
-        }.to change(Vote, :count)
+        }.to_not change(Vote, :count)
       end
 
       it 'should have votes sum' do
@@ -212,7 +212,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'should not change Votes count' do
         expect {
           post :vote_minus, id: question
-        }.to change(Vote, :count)
+        }.to_not change(Vote, :count)
       end
 
       it 'should have votes sum' do

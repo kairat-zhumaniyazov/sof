@@ -40,6 +40,30 @@ feature 'Vote for the question', %q{
       end
     end
 
+    describe 'only once' do
+      scenario 'PLUS 2 times', js: true do
+
+        within "##{dom_id(another_answer)}" do
+          within '.votes' do
+            click_on '+'
+            click_on '+'
+            expect(page).to have_content '1'
+          end
+        end
+      end
+
+      scenario 'MINUS 2 times', js: true do
+
+        within "##{dom_id(another_answer)}" do
+          within '.votes' do
+            click_on '-'
+            click_on '-'
+            expect(page).to have_content '-1'
+          end
+        end
+      end
+    end
+
     describe 'can not vote' do
       scenario 'user is answers author' do
         visit question_path question

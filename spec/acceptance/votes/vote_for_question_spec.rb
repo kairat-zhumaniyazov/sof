@@ -20,19 +20,31 @@ feature 'Vote for the question', %q{
 
       scenario 'PLUS', js: true do
         click_on '+'
-
-        within '.question' do
-          within '.votes' do
-            expect(page).to have_content '1'
-          end
+        within '.question .votes' do
+          expect(page).to have_content '1'
         end
       end
 
       scenario 'MINUS', js: true do
         click_on '-'
+        within '.question .votes' do
+          expect(page).to have_content '-1'
+        end
+      end
 
-        within '.question' do
-          within '.votes' do
+      describe 'only once' do
+        scenario 'PLUS 2 times', js: true do
+          click_on '+'
+          click_on '+'
+          within '.question .votes' do
+            expect(page).to have_content '1'
+          end
+        end
+
+        scenario 'MINUS 2 times', js: true do
+          click_on '-'
+          click_on '-'
+          within '.question .votes' do
             expect(page).to have_content '-1'
           end
         end
