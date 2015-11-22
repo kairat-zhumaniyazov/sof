@@ -26,4 +26,12 @@ shared_examples_for 'voteable' do
       end
     end
   end
+
+  describe 'has a #re_vote' do
+    it 'does destroy vote for Voteable' do
+      vote = create(:vote, voteable: @voted_to, user: user, value: 1)
+      @voted_to.re_vote user
+      expect(@voted_to.user_is_voted? user).to be false
+    end
+  end
 end
