@@ -1,5 +1,10 @@
 module VoteableController
   extend ActiveSupport::Concern
+
+  included do
+    before_action :vote_for, only: [:vote_plus, :vote_minus]
+  end
+
   def vote_plus
     vote(1)
   end

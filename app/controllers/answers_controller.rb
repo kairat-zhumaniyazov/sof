@@ -4,7 +4,6 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
   before_action :get_question, only: [:create]
   before_action :get_answer, only: [:destroy, :update, :best_answer]
-  before_action :vote_for, only: [:vote_plus, :vote_minus]
 
   def create
     @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
