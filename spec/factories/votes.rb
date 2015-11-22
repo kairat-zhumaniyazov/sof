@@ -5,4 +5,9 @@ FactoryGirl.define do
     value 0
   end
 
+  factory :vote_for_answer, class: 'Vote' do
+    user
+    association :voteable, factory: :answer
+    value 0
+  end
 end

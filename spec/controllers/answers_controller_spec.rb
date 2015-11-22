@@ -152,6 +152,30 @@ RSpec.describe AnswersController, type: :controller do
         post :vote_plus, question_id: question, id: another_answer
         expect(another_answer.votes_sum).to eq 1
       end
+
+      context 'double vote' do
+        before { post :vote_plus, question_id: question, id: another_answer }
+        it 'should not change Votes count' do
+          expect {
+            post :vote_plus, question_id: question, id: another_answer
+          }.to_not change(another_answer.votes, :count)
+        end
+      end
+
+      context 're-vote' do
+        let!(:vote) { create(:vote_for_answer, user: user, voteable: another_answer, value: -1) }
+        it 'should not change Votes count' do
+          expect {
+            post :vote_plus, question_id: question, id: another_answer
+          }.to_not change(another_answer.votes, :count)
+        end
+
+        it 'should change vote.value' do
+          post :vote_plus, question_id: question, id: another_answer
+          vote.reload
+          expect(vote.value).to eq 1
+        end
+      end
     end
 
     context 'answer author can not vote for Answer' do
@@ -185,6 +209,30 @@ RSpec.describe AnswersController, type: :controller do
       it 'should have votes sum' do
         post :vote_minus, question_id: question, id: another_answer
         expect(another_answer.votes_sum).to eq -1
+      end
+
+      context 'double vote' do
+        before { post :vote_minus, question_id: question, id: another_answer }
+        it 'should not change Votes count' do
+          expect {
+            post :vote_minus, question_id: question, id: another_answer
+          }.to_not change(another_answer.votes, :count)
+        end
+      end
+
+      context 're-vote' do
+        let!(:vote) { create(:vote_for_answer, user: user, voteable: another_answer, value: 1) }
+        it 'should not change Votes count' do
+          expect {
+            post :vote_minus, question_id: question, id: another_answer
+          }.to_not change(another_answer.votes, :count)
+        end
+
+        it 'should change vote.value' do
+          post :vote_minus, question_id: question, id: another_answer
+          vote.reload
+          expect(vote.value).to eq -1
+        end
       end
     end
 

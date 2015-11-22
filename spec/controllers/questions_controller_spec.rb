@@ -173,6 +173,30 @@ RSpec.describe QuestionsController, type: :controller do
         post :vote_plus, id: another_question
         expect(another_question.votes_sum).to eq 1
       end
+
+      context 'double vote' do
+        before { post :vote_plus, id: another_question }
+        it 'should not change Votes count' do
+          expect {
+            post :vote_plus, id: another_question
+          }.to_not change(another_question.votes, :count)
+        end
+      end
+
+      context 're-vote' do
+        let!(:vote) { create(:vote_for_question, user: user, voteable: another_question, value: -1) }
+        it 'should not change Votes count' do
+          expect {
+            post :vote_plus, id: another_question
+          }.to_not change(another_question.votes, :count)
+        end
+
+        it 'should change vote.value' do
+          post :vote_plus, id: another_question
+          vote.reload
+          expect(vote.value).to eq 1
+        end
+      end
     end
 
     context 'question author can not vote for Question' do
@@ -205,6 +229,30 @@ RSpec.describe QuestionsController, type: :controller do
       it 'should have votes sum' do
         post :vote_minus, id: another_question
         expect(another_question.votes_sum).to eq -1
+      end
+
+      context 'double vote' do
+        before { post :vote_minus, id: another_question }
+        it 'should not change Votes count' do
+          expect {
+            post :vote_minus, id: another_question
+          }.to_not change(another_question.votes, :count)
+        end
+      end
+
+      context 're-vote' do
+        let!(:vote) { create(:vote_for_question, user: user, voteable: another_question, value: 1) }
+        it 'should not change Votes count' do
+          expect {
+            post :vote_minus, id: another_question
+          }.to_not change(another_question.votes, :count)
+        end
+
+        it 'should change vote.value' do
+          post :vote_minus, id: another_question
+          vote.reload
+          expect(vote.value).to eq -1
+        end
       end
     end
 
