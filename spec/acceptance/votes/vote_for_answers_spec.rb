@@ -42,15 +42,41 @@ feature 'Vote for the answer', %q{
 
     describe 'only once' do
       describe 'when user voted before' do
-        let!(:vote) { create(:vote, voteable: another_answer, user: user, value: 1) }
-
+        let!(:vote) { create(:vote_for_question, voteable: another_answer, user: user, value: 1) }
         before { visit question_path question }
+        scenario 'see info about that', js: true do
+          within "##{dom_id(another_answer)} .votes" do
+            expect(page).to_not have_link '+', href: vote_plus_question_answer_path(another_answer.question, another_answer)
+            expect(page).to_not have_link '-', href: vote_minus_question_answer_path(another_answer.question, another_answer)
+            expect(page).to have_content '1'
+            expect(page).to have_link 'Re-vote?'
+          end
+        end
+      end
 
-        scenario 'see info about that' do
+      describe 'with many other votes', js: true do
+        let!(:votes) { create_list(:vote, 15, voteable: another_answer, value: 1) }
+
+        scenario 'vote PLUS with others', js: true do
           within "##{dom_id(another_answer)}" do
             within '.votes' do
-              expect(page).to have_content '1'
-              expect(page).to have_content 'Re-vote?'
+              click_on '+'
+              expect(page).to_not have_link '+', href: vote_plus_question_answer_path(another_answer.question, another_answer)
+              expect(page).to_not have_link '-', href: vote_minus_question_answer_path(another_answer.question, another_answer)
+              expect(page).to have_content 16
+              expect(page).to have_link 'Re-vote?'
+            end
+          end
+        end
+
+        scenario 'vote MINUS with others', js: true do
+          within "##{dom_id(another_answer)}" do
+            within '.votes' do
+              click_on '-'
+              expect(page).to_not have_link '+', href: vote_plus_question_answer_path(another_answer.question, another_answer)
+              expect(page).to_not have_link '-', href: vote_minus_question_answer_path(another_answer.question, another_answer)
+              expect(page).to have_content 14
+              expect(page).to have_link 'Re-vote?'
             end
           end
         end
