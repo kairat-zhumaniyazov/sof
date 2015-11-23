@@ -22,6 +22,9 @@ module VoteableController
       voted_to_id: @vote_for_obj.id,
       _html: render_to_string(partial: 'shared/votes', locals: { voted_to: @vote_for_obj })
     }
+    else
+      render json: { status: :unprocessable_entity }
+    end
   end
 
   private
