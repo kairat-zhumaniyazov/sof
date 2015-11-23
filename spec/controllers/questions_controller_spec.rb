@@ -269,4 +269,20 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #re_vote' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    let!(:vote) { create(:vote, voteable: question, user: user, value: 1) }
+
+    before { sign_in user }
+
+    context 're-vote' do
+      it 'should destroy vote for user' do
+        expect {
+          post :re_vote, id: question
+        }.to change(Vote, :count).by(-1)
+      end
+    end
+  end
 end

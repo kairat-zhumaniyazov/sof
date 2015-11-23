@@ -53,8 +53,4 @@ class QuestionsController < ApplicationController
   def load_question
     @question = Question.find(params[:id])
   end
-
-  def vote_for
-    @vote_for_obj = Question.find(params[:id])
-  end
 end

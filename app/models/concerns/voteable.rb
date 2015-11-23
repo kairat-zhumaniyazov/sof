@@ -14,7 +14,12 @@ module Voteable
   end
 
   def re_vote user
-    votes.find_by(user: user).destroy
+    vote = votes.find_by(user: user)
+    if vote
+      vote.destroy
+      return true
+    end
+    false
   end
 
   def make_vote(value, user)

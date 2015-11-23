@@ -19,18 +19,18 @@ feature 'Vote for the question', %q{
     describe 'can vote' do
 
       scenario 'PLUS', js: true do
-        click_on '+'
         within '.question .votes' do
+          click_on '+'
           expect(page).to have_content '1'
-          expect(page).to have_content 'Re-vote?'
+          expect(page).to have_link 'Re-vote?'
         end
       end
 
       scenario 'MINUS', js: true do
-        click_on '-'
         within '.question .votes' do
+          click_on '-'
           expect(page).to have_content '-1'
-          expect(page).to have_content 'Re-vote?'
+          expect(page).to have_link 'Re-vote?'
         end
       end
 
@@ -41,8 +41,22 @@ feature 'Vote for the question', %q{
           scenario 'see info about that' do
             within '.question .votes' do
               expect(page).to have_content '1'
-              expect(page).to have_content 'Re-vote?'
+              expect(page).to have_link 'Re-vote?'
             end
+          end
+        end
+      end
+
+      describe 'can re-vote' do
+        let!(:vote) { create(:vote, voteable: question, user: user, value: 1) }
+        before { visit question_path question }
+
+        scenario 'when click re-vote link', js: true do
+          within '.question .votes' do
+            expect(page).to have_link 'Re-vote?'
+            click_on 'Re-vote'
+            expect(page).to have_link '+'
+            expect(page).to have_link '-'
           end
         end
       end

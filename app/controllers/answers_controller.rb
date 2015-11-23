@@ -36,8 +36,4 @@ class AnswersController < ApplicationController
   def get_answer
     @answer = Answer.find(params[:id])
   end
-
-  def vote_for
-    @vote_for_obj = Answer.find(params[:id])
-  end
 end

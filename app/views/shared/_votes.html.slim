@@ -6,7 +6,13 @@
   div.votes-links
     - if current_user
       - if voted_to.user_is_voted?(current_user)
-        p Re-vote?
+        p
+          - if voted_to.kind_of? Question
+            =  link_to 'Re-vote?', re_vote_question_path(voted_to), remote: true, method: :post, class: 're-vote'
+
+          - if voted_to.kind_of? Answer
+            =  link_to 'Re-vote?', re_vote_question_answer_path(voted_to.question, voted_to), remote: true, method: :post, class: 're-vote'
+
       - else
         - if current_user.id != voted_to.user_id
           p

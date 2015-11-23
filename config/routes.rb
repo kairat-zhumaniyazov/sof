@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     member do
       post 'vote_plus'
       post 'vote_minus'
+      post 're_vote'
     end
   end
 

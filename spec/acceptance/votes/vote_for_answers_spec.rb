@@ -1,9 +1,9 @@
 require_relative '../acceptance_helper'
 
-feature 'Vote for the question', %q{
-  In order to vote the question
+feature 'Vote for the answer', %q{
+  In order to vote the answer
   For authorized user
-  i want vote for the question
+  i want vote for the answer
 } do
 
   given(:user) { create(:user) }
@@ -20,7 +20,6 @@ feature 'Vote for the question', %q{
     describe 'can vote' do
 
       scenario 'PLUS', js: true do
-
         within "##{dom_id(another_answer)}" do
           within '.votes' do
             click_on '+'
@@ -31,7 +30,6 @@ feature 'Vote for the question', %q{
       end
 
       scenario 'MINUS', js: true do
-
         within "##{dom_id(another_answer)}" do
           within '.votes' do
             click_on '-'
@@ -54,6 +52,20 @@ feature 'Vote for the question', %q{
               expect(page).to have_content '1'
               expect(page).to have_content 'Re-vote?'
             end
+          end
+        end
+      end
+
+      describe 'can re-vote' do
+        let!(:vote) { create(:vote, voteable: another_answer, user: user, value: 1) }
+        before { visit question_path question }
+
+        scenario 'when click re-vote link', js: true do
+          within "##{dom_id(another_answer)} .votes" do
+            expect(page).to have_link 'Re-vote?'
+            click_on 'Re-vote'
+            expect(page).to have_link '+'
+            expect(page).to have_link '-'
           end
         end
       end
