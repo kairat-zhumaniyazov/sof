@@ -9,6 +9,8 @@ AllCops:
     - 'spec/**/*'
     - 'db/*.rb'
     - 'bin/**/*'
+    - 'public/uploads/**/*'
+
   RunRailsCops: true
   DisplayCopNames: true
   StyleGuideCopsOnly: true

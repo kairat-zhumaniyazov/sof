@@ -9,11 +9,11 @@ module Voteable
     votes.sum(:value)
   end
 
-  def user_is_voted? user
+  def user_is_voted?(user)
     votes.find_by(user: user) ? true : false
   end
 
-  def re_vote user
+  def re_vote(user)
     vote = votes.find_by(user: user)
     if vote
       vote.destroy
