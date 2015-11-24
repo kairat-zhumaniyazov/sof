@@ -18,3 +18,7 @@ $ ->
   $('.answers').on 'ajax:success', '.vote-plus, .vote-minus, .re-vote', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
     $('#answer_' + response.voted_to_id + ' .votes-container').html(response._html)
+
+  questionId = $('.answers').data('question-id')
+  PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
+    console.log(data)

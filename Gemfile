@@ -68,5 +68,4 @@ group :development do
   gem 'guard-rspec', require: false
   gem 'guard-spring'
   gem 'pry-rails'
-  gem 'puma'
 end
