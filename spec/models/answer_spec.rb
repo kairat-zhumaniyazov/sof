@@ -39,4 +39,8 @@ RSpec.describe Answer, type: :model do
       expect(question.answers.first).to eq best_answer
     end
   end
+
+  describe 'voteable' do
+    it_behaves_like 'voteable'
+  end
 end

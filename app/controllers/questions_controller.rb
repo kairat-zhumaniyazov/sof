@@ -1,6 +1,9 @@
 class QuestionsController < ApplicationController
+  include VoteableController
+
   before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
   before_action :load_question, only: [:show, :destroy, :update]
+
   def index
     @questions = Question.all
   end

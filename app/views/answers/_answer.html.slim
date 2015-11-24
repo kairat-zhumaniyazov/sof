@@ -1,9 +1,11 @@
-div id="answer-id-#{answer.id}"
+
   p.answer-body= answer.body
 
   - if answer.attachments.any?
     = render 'shared/attached_files', files: answer.attachments
 
+  .votes-container
+    = render partial: 'shared/votes', locals: { voted_to: answer }
 
   - if answer.best?
     p#best-answer Best answer

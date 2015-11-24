@@ -1,8 +1,16 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  resources :questions do
-    resources :answers do
+  concern :voteable do
+    member do
+      post 'vote_plus'
+      post 'vote_minus'
+      post 're_vote'
+    end
+  end
+
+  resources :questions, concerns: :voteable do
+    resources :answers, concerns: :voteable do
       post 'best_answer', on: :member
     end
   end

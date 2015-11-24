@@ -26,11 +26,11 @@ feature 'Choose best answer', %q{
     scenario 'choose best answer', js: true do
       find(:link, "best-answer-link-#{answers.last.id}").click
 
-      within(".answers #answer-id-#{answers.first.id}") do
+      within("##{dom_id answers.first}") do
         expect(page).to_not have_selector('p#best-answer')
       end
 
-      within(".answers #answer-id-#{answers.last.id}") do
+      within("##{dom_id answers.last}") do
         expect(page).to have_selector('p#best-answer')
       end
     end
