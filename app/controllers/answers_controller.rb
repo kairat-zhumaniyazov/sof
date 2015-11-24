@@ -7,16 +7,6 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
-    # respond_to do |format|
-    #   if @answer.valid?
-    #     format.js do
-    #       PrivatePub.publish_to "/questions/#{@question.id}/answers", answer: @answer.to_json
-    #       render nothing: true
-    #     end
-    #   else
-    #     format.js
-    #   end
-    # end
   end
 
   def destroy

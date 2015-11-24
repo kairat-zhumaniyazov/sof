@@ -19,6 +19,9 @@ $ ->
     response = $.parseJSON(xhr.responseText)
     $('#answer_' + response.voted_to_id + ' .votes-container').html(response._html)
 
+  PrivatePub.subscribe '/questions', (data, channel) ->
+    $('.questions-container').append(data['question'])
+
   questionId = $('.answers').data('question-id')
   PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
     console.log(data)

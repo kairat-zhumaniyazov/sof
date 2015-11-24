@@ -3,9 +3,11 @@ p= link_to 'Ask question', new_question_path
 h3
   | Questions list
 - if @questions.any?
-  - @questions.each do |question|
-    div
-      = link_to question.title, question_path(question)
+  .questions-container
+    - @questions.each do |question|
+      = render partial: 'question', locals: { question: question }
 - else
   div
     | Questions is empty
+
+= subscribe_to '/questions'
