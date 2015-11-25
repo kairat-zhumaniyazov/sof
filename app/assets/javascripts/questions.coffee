@@ -24,4 +24,16 @@ $ ->
 
   questionId = $('.answers').data('question-id')
   PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
-    console.log(data)
+    a = $.parseJSON(data.answer)
+    console.log(a)
+    if a.user_id != gon.current_user_id
+      if a.event == 'new_answer'
+        url = "/questions/" + questionId + "/answers/" + a.id
+        $.ajax
+          type: 'GET',
+          url: url,
+          dataType: 'html',
+          success: (data, textStatus) ->
+            $('div.answers div.answers-list').append(data)
+          error: (data) ->
+            console.log(data.status, data.responseText)

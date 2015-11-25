@@ -113,6 +113,11 @@ GEM
     formatador (0.2.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    gon (6.0.1)
+      actionpack (>= 3.0)
+      json
+      multi_json
+      request_store (>= 1.0)
     guard (2.13.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, <= 4.0)
@@ -210,6 +215,7 @@ GEM
       ffi (>= 0.5.0)
     rdoc (4.2.0)
     remotipart (1.2.1)
+    request_store (1.2.1)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     rspec (3.3.0)
@@ -273,8 +279,6 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.1)
-    turbolinks (2.5.3)
-      coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.2)
@@ -306,6 +310,7 @@ DEPENDENCIES
   database_cleaner
   devise
   factory_girl_rails
+  gon
   guard-rspec
   guard-spring
   jbuilder (~> 2.0)
@@ -325,7 +330,6 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   thin
-  turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
 

@@ -2,5 +2,4 @@ h2 Answers
 
 - @question.answers.each do |answer|
   - if answer.id
-    div id="#{dom_id answer}"
-      = render partial: answer, locals: { answer: answer }
+    = render partial: answer, locals: { answer: answer }
