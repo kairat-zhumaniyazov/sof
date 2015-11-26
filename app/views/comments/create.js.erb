@@ -1,0 +1,13 @@
+<% if @comment.valid? %>
+  <% if remotipart_submitted? %>
+    $('.comments-list').append(
+      '<%= j "#{render partial: @comment, locals: { comment: @comment }}" %>'
+      );
+  <% else %>
+    $('.comments-list').append(
+      '<%= j render partial: @comment, locals: { comment: @comment} %>'
+    );
+  <% end %>
+<% else %>
+  $('<%= j render 'answers/validation_errors' %>').insertBefore($('#new-answer-form form'));
+<% end %>

@@ -1,0 +1,14 @@
+.comments-container
+  .comments-list
+    - commentable.comments.each do |comment|
+      = render partial: comment, comment: comment
+
+  - if current_user
+    .comments-form
+      = link_to 'Add comment'
+
+      = form_for [commentable, comment], remote: true do |f|
+        = f.hidden_field :commentable, value: commentable.class.name
+        = f.label :body
+        = f.text_field :body
+        = f.submit 'Create comment'

@@ -15,7 +15,10 @@ class AnswersController < ApplicationController
       format.js do
         if @answer.valid?
           PrivatePub.publish_to "/questions/#{@question.id}/answers",
-                                answer:( @answer.attributes.merge('event': 'new_answer')).to_json
+                                event: {
+                                  type: 'new_answer',
+                                  id: @answer.id
+                                }.to_json
         end
       end
     end

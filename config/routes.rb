@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'comments/create'
+
   devise_for :users
 
   concern :voteable do
@@ -9,8 +11,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: :voteable do
-    resources :answers, concerns: :voteable do
+  concern :commentable do
+    resources :comments, only: [:create, :show]
+  end
+
+  resources :questions, concerns: [:voteable, :commentable] do
+    resources :answers, concerns: [:voteable, :commentable] do
       post 'best_answer', on: :member
     end
   end

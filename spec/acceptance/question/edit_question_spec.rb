@@ -22,10 +22,11 @@ feature 'Edit Question', %q{
 
     scenario 'can edit question', js: true do
       click_on 'Edit'
-      fill_in 'Title', with: 'Edited title'
-      fill_in 'Body', with: 'Edited body'
-      click_on 'Save'
-
+      within '#edit-question-form-container' do
+        fill_in 'Title', with: 'Edited title'
+        fill_in 'Body', with: 'Edited body'
+        click_on 'Save'
+      end
       expect(page).to_not have_content question.title
       expect(page).to_not have_content question.body
 
