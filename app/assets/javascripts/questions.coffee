@@ -31,14 +31,19 @@ $ ->
         if a.commentable_type == 'Question'
           url = "/questions/" + questionId + "/comments/" + a.id
         if a.commentable_type == 'Answer'
-          url = "/qusetions/" + qusetionId + "/answers/" + commentable_id + '/comments/' + a.id
+          url = "/questions/" + questionId + "/answers/" + a.commentable_id + '/comments/' + a.id
         $.ajax
           type: 'GET',
           url: url,
           dataType: 'html',
           success: (data, textStatus) ->
             console.log(data)
-            $('.question .comments-list').append(data)
+            if a.commentable_type == 'Question'
+              $('.question .comments-list').append(data)
+
+            if a.commentable_type == 'Answer'
+              $('#answer_' + a.commentable_id + ' .comments-list').append(data)
+
           error: (data) ->
             console.log(data.status, data.responseText)
 

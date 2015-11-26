@@ -31,3 +31,5 @@ div id="#{dom_id answer}"
                  method: :post,
                  class: 'best-answer-link',
                  id: "best-answer-link-#{answer.id}"
+
+  = render partial: 'comments/form', locals: { commentable: answer, comment: answer.comments.build }
