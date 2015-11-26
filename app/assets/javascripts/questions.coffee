@@ -25,7 +25,6 @@ $ ->
   questionId = $('.answers').data('question-id')
   PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
     a = $.parseJSON(data.event)
-    console.log(a)
     if a.user_id != gon.current_user_id
       if a.type == 'new_comment'
         if a.commentable_type == 'Question'
@@ -37,7 +36,6 @@ $ ->
           url: url,
           dataType: 'html',
           success: (data, textStatus) ->
-            console.log(data)
             if a.commentable_type == 'Question'
               $('.question .comments-list').append(data)
 

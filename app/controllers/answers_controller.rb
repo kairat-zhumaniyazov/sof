@@ -17,7 +17,8 @@ class AnswersController < ApplicationController
           PrivatePub.publish_to "/questions/#{@question.id}/answers",
                                 event: {
                                   type: 'new_answer',
-                                  id: @answer.id
+                                  id: @answer.id,
+                                  user_id: current_user.id
                                 }.to_json
         end
       end
