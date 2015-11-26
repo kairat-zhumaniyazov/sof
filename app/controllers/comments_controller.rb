@@ -23,7 +23,6 @@ class CommentsController < ApplicationController
                                 }.to_json
         end
       end
-    else
     end
   end
 
@@ -47,7 +46,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  def get_publish_channel commentable
+  def get_publish_channel(commentable)
     case commentable
     when Question
       "/questions/#{commentable.id}/answers"
