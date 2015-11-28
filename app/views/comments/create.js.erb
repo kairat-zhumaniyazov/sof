@@ -5,12 +5,14 @@
       $('.question .comments-list').append(
         '<%= j "#{render partial: @comment, locals: { comment: @comment }}" %>'
         );
+        $('.question input#comment_body').val('');
     <% end %>
 
     <% if @commentable.is_a? Answer %>
       $('#<%= dom_id @commentable %> .comments-list').append(
         '<%= j "#{render partial: @comment, locals: { comment: @comment }}" %>'
         );
+        $('#<%= dom_id @commentable %> input#comment_body').val('');
     <% end %>
 
   <% else %>
@@ -19,12 +21,14 @@
       $('.question .comments-list').append(
         '<%= j render partial: @comment, locals: { comment: @comment} %>'
       );
+      $('.question input#comment_body').val('');
     <% end %>
 
     <% if @commentable.is_a? Answer %>
       $('#<%= dom_id @commentable %> .comments-list').append(
         '<%= j render partial: @comment, locals: { comment: @comment} %>'
       );
+      $('#<%= dom_id @commentable %> input#comment_body').val('');
     <% end %>
 
   <% end %>

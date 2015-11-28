@@ -32,4 +32,4 @@ div id="#{dom_id answer}"
                  class: 'best-answer-link',
                  id: "best-answer-link-#{answer.id}"
 
-  = render partial: 'comments/form', locals: { commentable: answer, comment: answer.comments.build }
+  = render partial: 'comments/list', locals: { commentable: answer, comment: answer.comments.build }
