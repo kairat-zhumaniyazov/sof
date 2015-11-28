@@ -1,12 +1,32 @@
 <% if @comment.valid? %>
   <% if remotipart_submitted? %>
-    $('.comments-list').append(
-      '<%= j "#{render partial: @comment, locals: { comment: @comment }}" %>'
-      );
+
+    <% if @commentable.is_a? Question %>
+      $('.question .comments-list').append(
+        '<%= j "#{render partial: @comment, locals: { comment: @comment }}" %>'
+        );
+    <% end %>
+
+    <% if @commentable.is_a? Answer %>
+      $('#<%= dom_id @commentable %> .comments-list').append(
+        '<%= j "#{render partial: @comment, locals: { comment: @comment }}" %>'
+        );
+    <% end %>
+
   <% else %>
-    $('.comments-list').append(
-      '<%= j render partial: @comment, locals: { comment: @comment} %>'
-    );
+
+    <% if @commentable.is_a? Question %>
+      $('.question .comments-list').append(
+        '<%= j render partial: @comment, locals: { comment: @comment} %>'
+      );
+    <% end %>
+
+    <% if @commentable.is_a? Answer %>
+      $('#<%= dom_id @commentable %> .comments-list').append(
+        '<%= j render partial: @comment, locals: { comment: @comment} %>'
+      );
+    <% end %>
+
   <% end %>
 <% else %>
   $('<%= j render 'answers/validation_errors' %>').insertBefore($('#new-answer-form form'));

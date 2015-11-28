@@ -14,13 +14,13 @@ class CommentsController < ApplicationController
       respond_to do |format|
         format.js do
           PrivatePub.publish_to get_publish_channel(@commentable),
-                                event: {
+                                post: (
+                                  @comment.attributes.merge(
                                   type: 'new_comment',
-                                  id: @comment.id,
-                                  user_id: current_user.id,
                                   commentable_type: @commentable.class.name,
-                                  commentable_id: @commentable.id
-                                }.to_json
+                                  commentable_id: @commentable.id,
+                                  _html: render_to_string(partial:'comment', locals: {comment: @comment})
+                                  )).to_json
         end
       end
     end

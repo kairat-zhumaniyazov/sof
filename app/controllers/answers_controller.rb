@@ -14,12 +14,11 @@ class AnswersController < ApplicationController
     respond_to do |format|
       format.js do
         if @answer.valid?
+          attr = @answer.attributes
           PrivatePub.publish_to "/questions/#{@question.id}/answers",
-                                event: {
-                                  type: 'new_answer',
-                                  id: @answer.id,
-                                  user_id: current_user.id
-                                }.to_json
+                                post:
+                                  {type: 'new_answer',
+                                  _html: render_to_string(partial:'answer', locals: {answer: @answer})}.to_json
         end
       end
     end

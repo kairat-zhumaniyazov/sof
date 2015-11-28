@@ -24,34 +24,13 @@ $ ->
 
   questionId = $('.answers').data('question-id')
   PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
-    a = $.parseJSON(data.event)
+    a = $.parseJSON(data.post)
     if a.user_id != gon.current_user_id
       if a.type == 'new_comment'
         if a.commentable_type == 'Question'
-          url = "/questions/" + questionId + "/comments/" + a.id
+          $('.question .comments-list').append(a._html)
         if a.commentable_type == 'Answer'
-          url = "/questions/" + questionId + "/answers/" + a.commentable_id + '/comments/' + a.id
-        $.ajax
-          type: 'GET',
-          url: url,
-          dataType: 'html',
-          success: (data, textStatus) ->
-            if a.commentable_type == 'Question'
-              $('.question .comments-list').append(data)
-
-            if a.commentable_type == 'Answer'
-              $('#answer_' + a.commentable_id + ' .comments-list').append(data)
-
-          error: (data) ->
-            console.log(data.status, data.responseText)
+          $('#answer_' + a.commentable_id + ' .comments-list').append(a._html)
 
       if a.type == 'new_answer'
-        url = "/questions/" + questionId + "/answers/" + a.id
-        $.ajax
-          type: 'GET',
-          url: url,
-          dataType: 'html',
-          success: (data, textStatus) ->
-            $('div.answers div.answers-list').append(data)
-          error: (data) ->
-            console.log(data.status, data.responseText)
+        $('div.answers div.answers-list').append(a._html)
