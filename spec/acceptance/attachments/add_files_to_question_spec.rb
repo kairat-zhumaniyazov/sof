@@ -13,9 +13,10 @@ feature 'Add files to question', %q{
     visit new_question_path
   end
 
-  scenario 'User can attach files for question' do
+  scenario 'User can attach files for question', js: true do
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'test text'
+    click_on 'add file'
     attach_file('File', "#{Rails.root}/spec/rails_helper.rb")
     click_on 'Create'
 
@@ -27,6 +28,7 @@ feature 'Add files to question', %q{
   scenario 'User can attach multiple files for question', js: true do
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'test text'
+    click_on 'add file'
     all('.new_question input[type="file"]')[0].set("#{Rails.root}/spec/rails_helper.rb")
     find("a.add_fields").click
     all('.new_question input[type="file"]')[1].set("#{Rails.root}/spec/spec_helper.rb")

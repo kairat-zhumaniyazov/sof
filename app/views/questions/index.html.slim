@@ -5,7 +5,8 @@ h3
 - if @questions.any?
   .questions-container
     - @questions.each do |question|
-      = render partial: 'question', locals: { question: question }
+      = render question, question: question
+
 - else
   div
     | Questions is empty

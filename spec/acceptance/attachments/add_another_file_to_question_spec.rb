@@ -18,8 +18,12 @@ feature 'Add new files to answer', %q{
   scenario 'User can attach new files for question', js: true do
     within '.question' do
       click_on 'Edit'
-      attach_file('File', "#{Rails.root}/spec/spec_helper.rb")
-      click_on 'Save'
+      within '#edit-question-form-container' do
+        fill_in 'Body', with: 'Edited question'
+        click_on 'add file'
+        attach_file('File', "#{Rails.root}/spec/spec_helper.rb")
+        click_on 'Save'
+      end
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
     end
