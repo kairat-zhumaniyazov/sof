@@ -18,3 +18,19 @@ $ ->
   $('.answers').on 'ajax:success', '.vote-plus, .vote-minus, .re-vote', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
     $('#answer_' + response.voted_to_id + ' .votes-container').html(response._html)
+
+  PrivatePub.subscribe '/questions', (data, channel) ->
+    $('.questions-container').append(data['question'])
+
+  questionId = $('.answers').data('question-id')
+  PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
+    a = $.parseJSON(data.post)
+    if a.user_id != gon.current_user_id
+      if a.type == 'new_comment'
+        if a.commentable_type == 'Question'
+          $('.question .comments-list').append(a._html)
+        if a.commentable_type == 'Answer'
+          $('#answer_' + a.commentable_id + ' .comments-list').append(a._html)
+
+      if a.type == 'new_answer'
+        $('div.answers div.answers-list').append(a._html)

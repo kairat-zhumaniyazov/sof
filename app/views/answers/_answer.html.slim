@@ -1,4 +1,4 @@
-
+div id="#{dom_id answer}"
   p.answer-body= answer.body
 
   - if answer.attachments.any?
@@ -31,3 +31,5 @@
                  method: :post,
                  class: 'best-answer-link',
                  id: "best-answer-link-#{answer.id}"
+
+  = render partial: 'comments/list', locals: { commentable: answer, comment: answer.comments.build }

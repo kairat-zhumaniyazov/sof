@@ -2,7 +2,7 @@ div.question
   = render 'question_block'
 
 -if @question.answers.any?
-  .answers
+  .answers data={question_id: "#{@question.id}"}
     .answers-list
       = render 'answers'
 
@@ -20,3 +20,5 @@ div.question
             = link_to_add_association 'add file', f, :attachments, partial: 'shared/attachment_fields'
 
           p= f.submit 'Create Answer'
+
+= subscribe_to "/questions/#{@question.id}/answers"

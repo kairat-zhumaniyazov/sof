@@ -12,6 +12,8 @@ class QuestionsController < ApplicationController
     @answer = @question.answers.build
     @answer.attachments.build
     @question.attachments.build
+
+    gon.current_user_id = current_user.id if current_user
   end
 
   def new
@@ -24,6 +26,8 @@ class QuestionsController < ApplicationController
     @question.user = current_user
     if @question.save
       flash[:notice] = 'Your question successfully created.'
+      PrivatePub.publish_to "/questions",
+        question: render_to_string(partial: 'question', locals: { question: @question })
       redirect_to question_path @question
     else
       render :new

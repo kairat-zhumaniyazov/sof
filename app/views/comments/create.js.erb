@@ -1,0 +1,37 @@
+<% if @comment.valid? %>
+  <% if remotipart_submitted? %>
+
+    <% if @commentable.is_a? Question %>
+      $('.question .comments-list').append(
+        '<%= j "#{render partial: @comment, locals: { comment: @comment }}" %>'
+        );
+        $('.question input#comment_body').val('');
+    <% end %>
+
+    <% if @commentable.is_a? Answer %>
+      $('#<%= dom_id @commentable %> .comments-list').append(
+        '<%= j "#{render partial: @comment, locals: { comment: @comment }}" %>'
+        );
+        $('#<%= dom_id @commentable %> input#comment_body').val('');
+    <% end %>
+
+  <% else %>
+
+    <% if @commentable.is_a? Question %>
+      $('.question .comments-list').append(
+        '<%= j render partial: @comment, locals: { comment: @comment} %>'
+      );
+      $('.question input#comment_body').val('');
+    <% end %>
+
+    <% if @commentable.is_a? Answer %>
+      $('#<%= dom_id @commentable %> .comments-list').append(
+        '<%= j render partial: @comment, locals: { comment: @comment} %>'
+      );
+      $('#<%= dom_id @commentable %> input#comment_body').val('');
+    <% end %>
+
+  <% end %>
+<% else %>
+  $('<%= j render 'answers/validation_errors' %>').insertBefore($('#new-answer-form form'));
+<% end %>

@@ -19,3 +19,5 @@ p= @question.body
   div#edit-question-form-container
     div#validation-errors
     = render partial: 'form', locals: { submit_text: 'Save', remote: true }
+
+= render 'comments/list', commentable: @question, comment: @question.comments.build

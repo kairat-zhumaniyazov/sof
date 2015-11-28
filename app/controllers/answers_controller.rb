@@ -2,11 +2,26 @@ class AnswersController < ApplicationController
   include VoteableController
 
   before_action :authenticate_user!, only: [:create, :destroy]
-  before_action :get_question, only: [:create]
-  before_action :get_answer, only: [:destroy, :update, :best_answer]
+  before_action :get_question, only: [:create, :show]
+  before_action :get_answer, only: [:destroy, :update, :best_answer, :show]
+
+  def show
+    render partial: @answer, locals: { answer: @answer }
+  end
 
   def create
     @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
+    respond_to do |format|
+      format.js do
+        if @answer.valid?
+          attr = @answer.attributes
+          PrivatePub.publish_to "/questions/#{@question.id}/answers",
+                                post:
+                                  {type: 'new_answer',
+                                  _html: render_to_string(partial:'answer', locals: {answer: @answer})}.to_json
+        end
+      end
+    end
   end
 
   def destroy
