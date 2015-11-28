@@ -69,6 +69,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     let(:answer) { create(:answer, user: user, question: question) }
+    before { sign_in user }
     it 'should be right question' do
       patch :update, question_id: question, id: answer, answer: { body: 'updated body' }, format: :js
       expect(assigns(:question)).to eq question

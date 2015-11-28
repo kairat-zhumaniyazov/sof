@@ -1,41 +1,28 @@
 class AnswersController < ApplicationController
   include VoteableController
 
-  before_action :authenticate_user!, only: [:create, :destroy]
-  before_action :get_question, only: [:create, :show]
+  before_action :authenticate_user!
+  before_action :get_question, only: [:create, :update, :best_answer]
   before_action :get_answer, only: [:destroy, :update, :best_answer, :show]
+  after_action  :publish_new_answer, only: :create
 
-  def show
-    render partial: @answer, locals: { answer: @answer }
-  end
+  respond_to :js, only: [:create, :destroy, :update, :best_answer]
 
   def create
-    @answer = @question.answers.create(answer_params.merge(user_id: current_user.id))
-    respond_to do |format|
-      format.js do
-        if @answer.valid?
-          attr = @answer.attributes
-          PrivatePub.publish_to "/questions/#{@question.id}/answers",
-                                post:
-                                  {type: 'new_answer',
-                                  _html: render_to_string(partial:'answer', locals: {answer: @answer})}.to_json
-        end
-      end
-    end
+    respond_with(@answer = @question.answers.create(answer_params.merge(user_id: current_user.id)))
   end
 
   def destroy
-    @answer.destroy if @answer.user_id == current_user.id
+    respond_with(@answer.destroy)
   end
 
   def update
-    @question = @answer.question
     @answer.update(answer_params)
+    respond_with @answer
   end
 
   def best_answer
-    @question = @answer.question
-    @answer.make_best if @question.user_id == current_user.id
+    respond_with @answer.make_best if current_user.id == @question.user_id
   end
 
   private
@@ -50,5 +37,13 @@ class AnswersController < ApplicationController
 
   def get_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def publish_new_answer
+    if @answer.valid?
+      PrivatePub.publish_to "/questions/#{@question.id}/answers",
+                    post: { type: 'new_answer',
+                            _html: render_to_string(partial:'answer', locals: {answer: @answer})}.to_json
+    end
   end
 end
