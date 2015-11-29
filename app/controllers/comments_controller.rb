@@ -1,29 +1,12 @@
 class CommentsController < ApplicationController
-  before_action :authenticate_user!, only: [:create]
-  before_action :load_commentable, only: [:create]
+  before_action :authenticate_user!, only: :create
+  before_action :load_commentable, only: :create
+  after_action  :publish_new_comment, only: :create
 
-  def show
-    @comment = Comment.find(params[:id])
-    render partial: 'comment', locals: { comment: @comment }, layout: false
-  end
+  respond_to :js, only: :create
 
   def create
-    @comment = @commentable.comments.build(comment_params)
-    @comment.user_id = current_user.id
-    if @comment.save
-      respond_to do |format|
-        format.js do
-          PrivatePub.publish_to get_publish_channel(@commentable),
-                                post: (
-                                  @comment.attributes.merge(
-                                  type: 'new_comment',
-                                  commentable_type: @commentable.class.name,
-                                  commentable_id: @commentable.id,
-                                  _html: render_to_string(partial:'comment', locals: {comment: @comment})
-                                  )).to_json
-        end
-      end
-    end
+    respond_with(@comment = @commentable.comments.create(comment_params.merge(user_id: current_user.id)))
   end
 
   private
@@ -58,5 +41,18 @@ class CommentsController < ApplicationController
 
   def load_commentable
     @commentable = get_commentable_class.find(get_commentable_id)
+  end
+
+  def publish_new_comment
+    if @comment.valid?
+      PrivatePub.publish_to get_publish_channel(@commentable),
+                            post: (
+                              @comment.attributes.merge(
+                              type: 'new_comment',
+                              commentable_type: @commentable.class.name,
+                              commentable_id: @commentable.id,
+                              _html: render_to_string(partial:'comment', locals: {comment: @comment})
+                              )).to_json
+    end
   end
 end

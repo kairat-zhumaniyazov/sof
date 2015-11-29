@@ -14,7 +14,7 @@ div.question
           p= f.text_area :body
 
           p Attachments:
-          = f.fields_for :attachments do |a|
+          = f.fields_for :attachments, @answer.attachments.build do |a|
             = render 'shared/attachment_fields', f: a
           .links
             = link_to_add_association 'add file', f, :attachments, partial: 'shared/attachment_fields'
