@@ -9,7 +9,7 @@ feature 'Authorization by Facebook', %q{
   before { visit new_user_session_path }
 
   scenario 'User can authorize by Facebook' do
-    mock_auth_hash
+    mock_auth_hash(:facebook)
     click_on 'Sign in with Facebook'
 
     expect(page).to have_content 'Successfully authenticated from Facebook account.'

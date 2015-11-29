@@ -36,6 +36,7 @@ gem 'gon'
 gem 'responders'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-vkontakte'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
