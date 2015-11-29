@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'comments/create'
 
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
 
   concern :voteable do
     member do
