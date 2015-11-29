@@ -3,6 +3,9 @@ require 'capybara/poltergeist'
 
 RSpec.configure do |config|
   include ActionView::RecordIdentifier
+  config.include OmniauthMacros
+
+  OmniAuth.config.test_mode = true 
 
   config.use_transactional_fixtures = false
 
