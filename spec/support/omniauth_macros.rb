@@ -4,8 +4,9 @@ module OmniauthMacros
       provider: provider.to_s,
       uid: '123123123',
       info: {
-        email: 'mock_user@test.com'
-      }
+        email: provider != :twitter ? 'mock_user@test.com' : nil
+      },
+      extra: {}
     })
   end
 end

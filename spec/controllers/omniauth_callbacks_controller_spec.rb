@@ -106,4 +106,37 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
       end
     end
   end
+
+  describe '#twitter' do
+    before do
+      request.env['omniauth.auth'] = mock_auth_hash :twitter
+    end
+
+    context 'user not have auth and not registered' do
+      it 'should redirect' do
+        get :twitter
+        expect(response).to redirect_to email_required_path
+      end
+
+      it 'should not to change User count' do
+        expect {
+          get :twitter
+        }.to_not change(User, :count)
+      end
+    end
+
+    context 'User have auth and registered' do
+      it 'should return a right User' do
+        user.authorizations.create(provider: request.env['omniauth.auth'].provider, uid: request.env['omniauth.auth'].uid)
+        get :twitter
+        expect(assigns(:user)).to eq user
+      end
+
+      it 'should not to change User count' do
+        expect {
+          get :twitter
+        }.to_not change(User, :count)
+      end
+    end
+  end
 end

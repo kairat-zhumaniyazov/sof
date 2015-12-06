@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   get 'comments/create'
 
-  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: 'registrations' }
+  devise_scope :user do
+    get 'email_required', to: 'registrations#email_required'
+    post 'create_with_email', to: 'registrations#create_with_email'
+  end
 
   concern :voteable do
     member do

@@ -8,19 +8,24 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, omniauth_providers: [:facebook, :vkontakte]
+         :omniauthable, omniauth_providers: [:facebook, :vkontakte, :twitter]
+
+  accepts_nested_attributes_for :authorizations, reject_if: :all_blank, allow_destroy: true
 
   def self.find_for_oauth(auth)
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
 
-    email = auth.info[:email]
-    user = User.where(email: email).first
-    unless user
-      password = Devise.friendly_token[0, 20]
-      user = User.create!(email: email, password: password, password_confirmation: password)
+    if email = auth.info.email
+      user = User.where(email: email).first
+      unless user
+        password = Devise.friendly_token[0, 20]
+        user = User.create!(email: email, password: password, password_confirmation: password)
+      end
+      user.authorizations.create(provider: auth.provider, uid: auth.uid)
+      user
+    else
+      nil
     end
-    user.authorizations.create(provider: auth.provider, uid: auth.uid)
-    user
   end
 end

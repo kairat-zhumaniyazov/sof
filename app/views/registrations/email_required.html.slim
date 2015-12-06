@@ -1,0 +1,16 @@
+p For registration you need to add your valid email.
+
+- if @user.errors.any?
+  ul
+    - @user.errors.full_messages.each do |msg|
+      li= msg
+
+= form_for @user, url: create_with_email_path do |f|
+  = f.label :email
+  = f.text_field :email
+
+  = f.fields_for :authorization, @user.authorizations.build do |auth|
+    = auth.text_field :provider, value: session['devise.oauth_data']['provider']
+    = auth.hidden_field :uid, value: session['devise.oauth_data']['uid']
+
+  = f.submit 'Add'
