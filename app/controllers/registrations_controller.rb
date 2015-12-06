@@ -10,8 +10,7 @@ class RegistrationsController < Devise::RegistrationsController
       flash[:notice] = 'Email already registered in system. For binding you must verify your email address.'
       redirect_to new_user_session_path
     else
-      password = Devise.friendly_token[0, 20]
-      @user = User.create(email: user_params[:email], password: password, password_confirmation: password)
+      @user = User.create_with_psw(user_params[:email])
       if @user.persisted?
         @user.authorizations.create!(user_params[:authorization])
         flash[:notice] = 'Congratulations! Email successfully registered. You must verify your email address'

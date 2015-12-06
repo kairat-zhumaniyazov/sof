@@ -8,7 +8,6 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def twitter
-    # render json: request.env['omniauth.auth']
     find_and_login(:twitter)
   end
 

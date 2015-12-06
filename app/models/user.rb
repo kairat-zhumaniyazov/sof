@@ -28,4 +28,9 @@ class User < ActiveRecord::Base
       nil
     end
   end
+
+  def self.create_with_psw(email)
+    password = Devise.friendly_token[0, 20]
+    User.create(email: email, password: password, password_confirmation: password)
+  end
 end

@@ -74,13 +74,29 @@ RSpec.describe User do
           end
         end
       end
+
+      context 'twitter' do
+        let(:auth) { OmniAuth::AuthHash.new(provider: 'twitter', uid: '123123123', info: { email: nil })}
+        context 'user dont not exist' do
+          it 'should return nil' do
+            expect(User.find_for_oauth(auth)).to be nil
+          end
+        end
+
+        context 'user exist' do
+          let(:user) { create(:user) }
+          let!(:authorization) { user.authorizations.create(provider: auth.provider, uid: auth.uid) }
+          it 'should return user object' do
+            expect(User.find_for_oauth(auth)).to eq user
+          end
+        end
+      end
     end
 
-    context 'for twitter' do
-      context 'user does not exist' do
-        let(:auth) { OmniAuth::AuthHash.new(provider: 'twitter', uid: '123123123')}
-
-
+    context '.create_with_psw' do
+      let(:email) { { email: 'test@test.com' } }
+      it 'should create new user with random psw' do
+        expect(User.create_with_psw(email)).to be_a_new User
       end
     end
   end
