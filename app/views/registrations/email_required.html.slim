@@ -10,7 +10,7 @@ p For registration you need to add your valid email.
   = f.text_field :email
 
   = f.fields_for :authorization, @user.authorizations.build do |auth|
-    = auth.text_field :provider, value: session['devise.oauth_data']['provider']
+    = auth.hidden_field :provider, value: session['devise.oauth_data']['provider']
     = auth.hidden_field :uid, value: session['devise.oauth_data']['uid']
 
   = f.submit 'Add'
