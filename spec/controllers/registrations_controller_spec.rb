@@ -56,6 +56,11 @@ RSpec.describe RegistrationsController, type: :controller do
             post :create_with_email, user: { email: user.email }
           }.to change(user.authorizations, :count).by(1)
         end
+
+        it 'should redirect to login path' do
+          post :create_with_email, user: { email: user.email }
+          expect(response).to redirect_to new_user_session_path
+        end
       end
     end
 
