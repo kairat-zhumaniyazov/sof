@@ -17,7 +17,7 @@ RSpec.describe RegistrationsController, type: :controller do
   describe '#create_with_email' do
     context 'with valid email' do
       context 'when not registered' do
-        let(:user_params) { attributes_for(:user, authorization: attributes_for(:auth_twitter)) }
+        let(:user_params) { attributes_for(:user) }
 
         it 'should create new User' do
           expect {
@@ -47,20 +47,20 @@ RSpec.describe RegistrationsController, type: :controller do
         let(:params) { user.attributes.merge(authorization: attributes_for(:auth_twitter)) }
         it 'should not create new user' do
           expect {
-            post :create_with_email, user: params
+            post :create_with_email, user: { email: user.email }
           }.to_not change(User, :count)
         end
 
         it 'should create new user authorization' do
           expect {
-            post :create_with_email, user: params
+            post :create_with_email, user: { email: user.email }
           }.to change(user.authorizations, :count).by(1)
         end
       end
     end
 
     context 'with invalid email' do
-      let(:user_params) { { email: 'qwerty', authorizations_attributes: [provider: 'twitter', uid: '123123'] } }
+      let(:user_params) { { email: 'qwerty' } }
 
       it 'should render email_required' do
         post :create_with_email, user: user_params
