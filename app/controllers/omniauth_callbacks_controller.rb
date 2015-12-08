@@ -19,8 +19,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect @user, event: :authentication
       set_flash_message(:notice, :success, kind: "#{provider}".capitalize) if is_navigational_format?
     else
-      #render partial: 'omniauth_callbacks/email_confirm'
-      session["devise.oauth_data"] = request.env['omniauth.auth'].except('extra')
+      session['devise.oauth_data'] = request.env['omniauth.auth'].except('extra')
       redirect_to email_required_path
     end
   end

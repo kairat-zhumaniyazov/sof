@@ -6,8 +6,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def create_with_email
-    @user = User.find_by(email: user_params[:email])
-    if @user
+    if @user = User.find_by(email: user_params[:email])
       flash[:notice] = 'Email already registered in system. For binding you must verify your email address.'
       redirect_to new_user_session_path
     else
@@ -29,7 +28,8 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create_auth_for_user
     if @user.persisted?
-      @user.authorizations.create!(provider: session['devise.oauth_data']['provider'], uid: session['devise.oauth_data']['uid'] )
+      @user.authorizations.create!(provider: session['devise.oauth_data']['provider'],
+                                   uid: session['devise.oauth_data']['uid'] )
     end
   end
 end

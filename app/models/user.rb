@@ -13,7 +13,6 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :authorizations, reject_if: :all_blank, allow_destroy: true
 
   def confirm!
-    #welcome_email
     super
   end
 

@@ -48,8 +48,8 @@ class QuestionsController < ApplicationController
 
   def publish_new_question
     if @question.valid?
-      PrivatePub.publish_to "/questions",
-        question: render_to_string(partial: 'question', locals: { question: @question })
+      PrivatePub.publish_to '/questions',
+                            question: render_to_string(partial: 'question', locals: { question: @question })
     end
   end
 
