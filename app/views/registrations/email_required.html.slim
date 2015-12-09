@@ -1,0 +1,11 @@
+p For registration you need to add your valid email.
+
+- if @user.errors.any?
+  ul
+    - @user.errors.full_messages.each do |msg|
+      li= msg
+
+= form_for @user, url: create_with_email_path do |f|
+  = f.label :email
+  = f.text_field :email
+  = f.submit 'Add'

@@ -4,6 +4,8 @@ require 'capybara/poltergeist'
 RSpec.configure do |config|
   include ActionView::RecordIdentifier
 
+  OmniAuth.config.test_mode = true
+
   config.use_transactional_fixtures = false
 
   Capybara.javascript_driver = :poltergeist

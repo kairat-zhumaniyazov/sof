@@ -42,8 +42,8 @@ class AnswersController < ApplicationController
   def publish_new_answer
     if @answer.valid?
       PrivatePub.publish_to "/questions/#{@question.id}/answers",
-                    post: { type: 'new_answer',
-                            _html: render_to_string(partial:'answer', locals: {answer: @answer})}.to_json
+                            post: { type: 'new_answer',
+                                    _html: render_to_string(partial: 'answer', locals: { answer: @answer }) }.to_json
     end
   end
 end

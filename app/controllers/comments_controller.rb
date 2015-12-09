@@ -51,7 +51,7 @@ class CommentsController < ApplicationController
                               type: 'new_comment',
                               commentable_type: @commentable.class.name,
                               commentable_id: @commentable.id,
-                              _html: render_to_string(partial:'comment', locals: {comment: @comment})
+                              _html: render_to_string(partial: 'comment', locals: { comment: @comment })
                               )).to_json
     end
   end
