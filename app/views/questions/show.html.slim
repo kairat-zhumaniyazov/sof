@@ -6,7 +6,7 @@ div.question
     .answers-list
       = render 'answers'
 
-    - if user_signed_in?
+    - if can?(:create, Answer)
       div#new-answer-form
         h3 New answer
         = form_for [@question, @answer], remote: true do |f|

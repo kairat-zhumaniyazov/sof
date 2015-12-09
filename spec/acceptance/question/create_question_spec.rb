@@ -33,9 +33,7 @@ feature 'Create Question', %q{
   end
 
   scenario 'Non-authenticated user can not create question' do
-    visit questions_path
-    click_on 'Ask question'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    visit root_path
+    expect(page).to_not have_link 'Ask question'
   end
 end

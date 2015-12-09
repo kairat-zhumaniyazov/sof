@@ -4,4 +4,5 @@
     = f.file_field :file
   - else
     = f.text_field :file, value: f.object.file.identifier
-= link_to_remove_association 'remove file', f
+- if can?(:manage, Attachment)
+  = link_to_remove_association 'remove file', f
