@@ -8,6 +8,8 @@ class AnswersController < ApplicationController
 
   respond_to :js, only: [:create, :destroy, :update, :best_answer]
 
+  authorize_resource
+
   def create
     respond_with(@answer = @question.answers.create(answer_params.merge(user_id: current_user.id)))
   end
@@ -22,7 +24,7 @@ class AnswersController < ApplicationController
   end
 
   def best_answer
-    respond_with @answer.make_best if current_user.id == @question.user_id
+    respond_with @answer.make_best
   end
 
   private

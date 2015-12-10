@@ -10,7 +10,7 @@ div id="#{dom_id answer}"
   - if answer.best?
     p#best-answer Best answer
 
-  - if current_user && current_user.id == answer.user_id
+  - if can?(:manage, answer)
     p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
     .edit-answer-form
       = form_for [@question, answer], remote: true do |f|
@@ -24,7 +24,7 @@ div id="#{dom_id answer}"
 
     p= link_to 'Delete answer', [@question, answer], remote: true, method: :delete
 
-  - if current_user && current_user.id == @question.user_id
+  - if can?(:best_answer, answer)
     p
       = link_to 'Best answer', best_answer_question_answer_path(@question, answer),
                  remote: true,
