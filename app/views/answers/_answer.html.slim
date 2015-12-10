@@ -24,7 +24,7 @@ div id="#{dom_id answer}"
 
     p= link_to 'Delete answer', [@question, answer], remote: true, method: :delete
 
-  - if can?(:make_best, @question)
+  - if can?(:best_answer, answer)
     p
       = link_to 'Best answer', best_answer_question_answer_path(@question, answer),
                  remote: true,
