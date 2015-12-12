@@ -31,5 +31,8 @@ class Ability
     cannot :vote, [Question, Answer], user: user
 
     can :best_answer, Answer, question: { user_id: user.id }
+
+    can :me, user, id: user.id
+    can :profiles, User, user: user
   end
 end
