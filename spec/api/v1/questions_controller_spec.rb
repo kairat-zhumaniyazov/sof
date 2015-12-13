@@ -102,14 +102,8 @@ describe Api::V1::QuestionsController, type: :controller do
       end
 
       context 'question have attachments' do
-        %w(id file).each do |attr|
-          it "question attachment should have #{attr}" do
-            expect(response.body).to be_json_eql(attachment.send(attr.to_sym).to_json).at_path("question/attachments/0/#{attr}")
-          end
-        end
-
         it 'question attachment should have url for attachment' do
-          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path('question/attachments/0/file/file/url')
+          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path('question/attachments/0/file')
         end
       end
     end
