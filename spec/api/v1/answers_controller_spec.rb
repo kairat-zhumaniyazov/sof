@@ -91,4 +91,45 @@ describe Api::V1::AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'POST #create' do
+    context 'unauthorized' do
+      it 'should returns 401 status if there is no access_token' do
+        post :create, question_id: question, format: :json
+        expect(response.status).to eq 401
+      end
+
+      it 'should returns 401 status if access_token is invalid' do
+        post :create, question_id: question, format: :json, access_token: '123456'
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'authorized' do
+      context 'with valid params' do
+        it 'should have success status' do
+          post :create, question_id: question, answer: attributes_for(:answer), format: :json, access_token: access_token.token
+          expect(response).to have_http_status(:created)
+        end
+
+        it 'should create new answer for question' do
+          expect {
+            post :create, question_id: question, answer: attributes_for(:answer), format: :json, access_token: access_token.token
+          }.to change(question.answers, :count).by(1)
+        end
+      end
+
+      context 'with invalid params' do
+        it 'should have status 422' do
+          post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :json, access_token: access_token.token
+          expect(response.status).to eq 422
+        end
+        it 'should create new question for user' do
+          expect {
+            post :create, question_id: question, answer: attributes_for(:invalid_answer), format: :json, access_token: access_token.token
+          }.to_not change(Answer, :count)
+        end
+      end
+    end
+  end
 end
