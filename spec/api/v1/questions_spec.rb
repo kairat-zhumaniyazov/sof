@@ -88,7 +88,7 @@ describe Api::V1::QuestionsController, type: :controller do
 
       context 'question have answers' do
         %w(id body created_at updated_at question_id).each do |attr|
-          it "answer should have #{attr}" do
+          it "question answer should have #{attr}" do
             expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("question/answers/0/#{attr}")
           end
         end
@@ -96,7 +96,7 @@ describe Api::V1::QuestionsController, type: :controller do
 
       context 'question have commnets' do
         %w(id body user_id commentable_id commentable_type created_at updated_at).each do |attr|
-          it "answer should have #{attr}" do
+          it "question comment should have #{attr}" do
             expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("question/comments/0/#{attr}")
           end
         end
@@ -104,12 +104,12 @@ describe Api::V1::QuestionsController, type: :controller do
 
       context 'question have attachments' do
         %w(id file).each do |attr|
-          it "answer should have #{attr}" do
+          it "question attachment should have #{attr}" do
             expect(response.body).to be_json_eql(attachment.send(attr.to_sym).to_json).at_path("question/attachments/0/#{attr}")
           end
         end
 
-        it 'should have url for attachment' do
+        it 'question attachment should have url for attachment' do
           expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path('question/attachments/0/file/file/url')
         end
       end
