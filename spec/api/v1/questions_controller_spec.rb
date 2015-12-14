@@ -1,18 +1,18 @@
 require 'rails_helper'
 
-describe Api::V1::QuestionsController, type: :controller do
+describe Api::V1::QuestionsController do
   let(:me) { create(:user, admin: true) }
   let(:access_token) { create(:access_token, resource_owner_id: me.id) }
 
   describe 'GET /index' do
     context 'unauthorized' do
       it 'should returns 401 status if there is no access_token' do
-        get :index, format: :json
+        get '/api/v1/questions', format: :json
         expect(response.status).to eq 401
       end
 
       it 'should returns 401 status if access_token is invalid' do
-        get :index, format: :json, access_token: '123456'
+        get '/api/v1/questions', format: :json, access_token: '123456'
         expect(response.status).to eq 401
       end
     end
@@ -22,7 +22,7 @@ describe Api::V1::QuestionsController, type: :controller do
       let(:question) { questions.first }
       let!(:answer) { create(:answer, question: question) }
 
-      before { get :index, format: :json, access_token: access_token.token }
+      before { get '/api/v1/questions', format: :json, access_token: access_token.token }
 
       it 'should returns status 200' do
         expect(response).to be_success
@@ -64,18 +64,18 @@ describe Api::V1::QuestionsController, type: :controller do
 
     context 'unauthorized' do
       it 'should returns 401 status if there is no access_token' do
-        get :show, id: question.id, format: :json
+        get "/api/v1/questions/#{question.id}", format: :json
         expect(response.status).to eq 401
       end
 
       it 'should returns 401 status if access_token is invalid' do
-        get :show, id: question.id, format: :json, access_token: '123456'
+        get "/api/v1/questions/#{question.id}", format: :json, access_token: '123456'
         expect(response.status).to eq 401
       end
     end
 
     context 'authorized' do
-      before { get :show, id: question, format: :json, access_token: access_token.token }
+      before { get "/api/v1/questions/#{question.id}", format: :json, access_token: access_token.token }
 
       it 'should returns status 200' do
         expect(response).to be_success
@@ -112,12 +112,12 @@ describe Api::V1::QuestionsController, type: :controller do
   describe 'POST #create' do
     context 'unauthorized' do
       it 'should returns 401 status if there is no access_token' do
-        post :create, format: :json
+        post '/api/v1/questions', format: :json
         expect(response.status).to eq 401
       end
 
       it 'should returns 401 status if access_token is invalid' do
-        post :create, format: :json, access_token: '123456'
+        post '/api/v1/questions', format: :json, access_token: '123456'
         expect(response.status).to eq 401
       end
     end
@@ -125,25 +125,25 @@ describe Api::V1::QuestionsController, type: :controller do
     context 'authorized' do
       context 'with valid params' do
         it 'should be success status' do
-          post :create, question: attributes_for(:question), format: :json, access_token: access_token.token
+          post '/api/v1/questions', question: attributes_for(:question), format: :json, access_token: access_token.token
           expect(response).to have_http_status(:created)
         end
 
         it 'should create new question for user' do
           expect {
-            post :create, question: attributes_for(:question), format: :json, access_token: access_token.token
+            post '/api/v1/questions', question: attributes_for(:question), format: :json, access_token: access_token.token
           }.to change(me.questions, :count).by(1)
         end
       end
 
       context 'with invalid params' do
         it 'should have status 422' do
-          post :create, question: attributes_for(:invalid_question), format: :json, access_token: access_token.token
+          post '/api/v1/questions', question: attributes_for(:invalid_question), format: :json, access_token: access_token.token
           expect(response.status).to eq 422
         end
         it 'should create new question for user' do
           expect {
-            post :create, question: attributes_for(:invalid_question), format: :json, access_token: access_token.token
+            post '/api/v1/questions', question: attributes_for(:invalid_question), format: :json, access_token: access_token.token
           }.to_not change(Question, :count)
         end
       end
