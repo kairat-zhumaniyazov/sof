@@ -1,14 +1,14 @@
 class Api::V1::AnswersController < Api::V1::BaseController
   authorize_resource  Answer
 
-  before_action :load_question, only: [:index, :show, :create]
+  before_action :load_question, only: [:index, :create]
 
   def index
     respond_with @question.answers, each_serializer: AnswersListSerializer
   end
 
   def show
-    respond_with @question.answers.where(id: params[:id]).first
+    respond_with Answer.find(params[:id])
   end
 
   def create
