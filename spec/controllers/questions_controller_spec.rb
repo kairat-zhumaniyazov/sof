@@ -42,21 +42,18 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe "POST :create" do
     sign_in_user
-
+    subject { post :create, question: attributes_for(:question) }
     context "with valid params" do
-      it "should create new question" do
-        expect {
-          post :create, question: attributes_for(:question)
-        }.to change(@user.questions, :count).by(1)
+      it 'should create new question for User' do
+        expect { subject }.to change(@user.questions, :count).by(1)
       end
       it 'should redirect to question show' do
-        post :create, question: attributes_for(:question)
+        subject
         expect(response).to redirect_to question_path assigns(:question)
       end
-      it 'should have right question owner' do
-        expect{
-          post :create, question: attributes_for(:question)
-        }.to change(@user.questions, :count).by(1)
+
+      it_behaves_like 'Publishable' do
+        let(:channel) { '/questions' }
       end
     end
 

@@ -7,25 +7,31 @@ RSpec.describe AnswersController, type: :controller do
   describe "POST :create" do
     sign_in_user
 
-    it 'should be right question' do
-      post :create, question_id: question, answer: attributes_for(:answer), format: :js
-      expect(assigns(:question)).to eq question
-    end
-
     context "with valid params" do
-      it 'should create new answer' do
+      subject { post :create, question_id: question, answer: attributes_for(:answer), format: :js }
+
+      it 'should be right question' do
+        post :create, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'should create new answer for question' do
         expect {
-          post :create, question_id: question, answer: attributes_for(:answer), format: :js
+          subject
         }.to change(question.answers, :count).by(1)
       end
       it 'should render :create template' do
-        post :create, question_id: question, answer: attributes_for(:answer), format: :js
+        subject
         expect(response).to render_template :create
       end
       it 'should have right answer owner' do
         expect {
-          post :create, question_id: question, answer: attributes_for(:answer), format: :js
+          subject
         }.to change(@user.answers, :count).by(1)
+      end
+
+      it_behaves_like 'Publishable' do
+        let(:channel) { "/questions/#{question.id}/answers" }
       end
     end
 
