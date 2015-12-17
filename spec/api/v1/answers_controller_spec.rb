@@ -14,9 +14,7 @@ describe Api::V1::AnswersController do
 
       before { get "/api/v1/questions/#{question.id}/answers", question_id: question, format: :json, access_token: access_token.token }
 
-      it 'should returns status 200' do
-        expect(response).to be_success
-      end
+      it_behaves_like 'API :get request successfully responsible'
 
       it 'should return list of questions' do
         expect(response.body).to have_json_size(3).at_path('answers')
@@ -44,9 +42,7 @@ describe Api::V1::AnswersController do
     context 'authorized' do
       before { get "/api/v1/questions/#{question.id}/answers/#{answer.id}", format: :json, access_token: access_token.token }
 
-      it 'should returns status 200' do
-        expect(response).to be_success
-      end
+      it_behaves_like 'API :get request successfully responsible'
 
       %w(id body question_id created_at updated_at).each do |attr|
         it "answer should have #{attr}" do

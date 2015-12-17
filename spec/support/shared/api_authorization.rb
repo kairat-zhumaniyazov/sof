@@ -11,3 +11,9 @@ shared_examples_for 'API Authenticable' do
     end
   end
 end
+
+shared_examples_for 'API :get request successfully responsible' do
+  it 'should returns status 200' do
+    expect(response).to be_success
+  end
+end

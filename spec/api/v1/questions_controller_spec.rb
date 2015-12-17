@@ -14,9 +14,7 @@ describe Api::V1::QuestionsController do
 
       before { get '/api/v1/questions', format: :json, access_token: access_token.token }
 
-      it 'should returns status 200' do
-        expect(response).to be_success
-      end
+      it_behaves_like 'API :get request successfully responsible'
 
       it 'should return list of questions' do
         expect(response.body).to have_json_size(2).at_path('questions')
@@ -61,9 +59,7 @@ describe Api::V1::QuestionsController do
     context 'authorized' do
       before { get "/api/v1/questions/#{question.id}", format: :json, access_token: access_token.token }
 
-      it 'should returns status 200' do
-        expect(response).to be_success
-      end
+      it_behaves_like 'API :get request successfully responsible'
 
       it 'should return question object' do
         expect(response.body).to be_json_eql(question.to_json).at_path('question').excluding('answers', 'attachments', 'comments')

@@ -10,9 +10,7 @@ describe Api::V1::ProfilesController do
 
       before { get '/api/v1/profiles/me', format: :json, access_token: access_token.token }
 
-      it 'should returns 200' do
-        expect(response).to be_success
-      end
+      it_behaves_like 'API :get request successfully responsible'
 
       %w(id email created_at updated_at admin).each do |attr|
         it "should contains #{attr}" do
@@ -42,9 +40,7 @@ describe Api::V1::ProfilesController do
 
       before { get '/api/v1/profiles', format: :json, access_token: access_token.token }
 
-      it 'should returns 200' do
-        expect(response).to be_success
-      end
+      it_behaves_like 'API :get request successfully responsible'
 
       it 'should return other users list' do
         expect(response.body).to be_json_eql(user_list.to_json).at_path('profiles')
