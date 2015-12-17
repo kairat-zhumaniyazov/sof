@@ -11,11 +11,6 @@ RSpec.describe Question, type: :model do
 
   it { should accept_nested_attributes_for :attachments }
 
-  describe 'voteable' do
-    it_behaves_like 'voteable'
-  end
-
-  describe 'commentable' do
-    it_behaves_like 'commentable'
-  end
+  it_behaves_like 'voteable'
+  it_behaves_like 'commentable'
 end

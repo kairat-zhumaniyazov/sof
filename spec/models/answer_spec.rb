@@ -40,11 +40,6 @@ RSpec.describe Answer, type: :model do
     end
   end
 
-  describe 'voteable' do
-    it_behaves_like 'voteable'
-  end
-
-  describe 'commentable' do
-    it_behaves_like 'commentable'
-  end
+  it_behaves_like 'voteable'
+  it_behaves_like 'commentable'
 end
