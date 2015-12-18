@@ -17,27 +17,25 @@ RSpec.describe RegistrationsController, type: :controller do
   describe '#create_with_email' do
     context 'with valid email' do
       context 'when not registered' do
+        subject { post :create_with_email, user: user_params }
+
         let(:user_params) { attributes_for(:user) }
 
         it 'should create new User' do
-          expect {
-            post :create_with_email, user: user_params
-          }.to change(User, :count).by(1)
+          expect { subject }.to change(User, :count).by(1)
         end
 
         it 'should create new authorization' do
-          expect {
-            post :create_with_email, user: user_params
-          }.to change(Authorization, :count).by(1)
+          expect { subject }.to change(Authorization, :count).by(1)
         end
 
         it 'User authorization should not be nil' do
-          post :create_with_email, user: user_params
+          subject
           expect(assigns(:user).authorizations.first).to_not be nil
         end
 
         it 'should redirect to login path' do
-          post :create_with_email, user: user_params
+          subject
           expect(response).to redirect_to new_user_session_path
         end
       end
@@ -45,20 +43,18 @@ RSpec.describe RegistrationsController, type: :controller do
       context 'when already registered' do
         let!(:user) { create(:user) }
         let(:params) { user.attributes.merge(authorization: attributes_for(:auth_twitter)) }
+        subject { post :create_with_email, user: { email: user.email } }
+
         it 'should not create new user' do
-          expect {
-            post :create_with_email, user: { email: user.email }
-          }.to_not change(User, :count)
+          expect { subject }.to_not change(User, :count)
         end
 
         it 'should create new user authorization' do
-          expect {
-            post :create_with_email, user: { email: user.email }
-          }.to change(user.authorizations, :count).by(1)
+          expect { subject }.to change(user.authorizations, :count).by(1)
         end
 
         it 'should redirect to login path' do
-          post :create_with_email, user: { email: user.email }
+          subject
           expect(response).to redirect_to new_user_session_path
         end
       end
