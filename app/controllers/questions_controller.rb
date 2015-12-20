@@ -39,13 +39,11 @@ class QuestionsController < ApplicationController
   end
 
   def subscribe
-    @question.subscriptions.create!(user: current_user)
-    respond_with @question
+    respond_with @question.subscribe(current_user)
   end
 
   def unsubscribe
-    @question.subscriptions.where(user_id: current_user).first.destroy
-    respond_with @question
+    respond_with @question.unsubscribe(current_user)
   end
 
   private

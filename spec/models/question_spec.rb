@@ -21,4 +21,40 @@ RSpec.describe Question, type: :model do
 
     it { should eq yesterdays_questions }
   end
+
+  describe '#subscribe' do
+    let(:user) { create(:user) }
+    let!(:question) { create(:question) }
+
+    context 'not subscribed user' do
+      it 'should create subscription' do
+        expect { question.subscribe(user) }.to change(question.followers, :count).by(1)
+      end
+    end
+
+    context 'already subscribed user' do
+      before { question.followers << user }
+      it 'should not create Subscription' do
+        expect { question.subscribe(user) }.to_not change(Subscription, :count)
+      end
+    end
+  end
+
+  describe '#unsubscribe' do
+    let(:user) { create(:user) }
+    let!(:question) { create(:question) }
+
+    context 'already subscribed user' do
+      before { question.followers << user }
+      it 'should destroy subscription' do
+        expect { question.unsubscribe(user) }.to change(question.followers, :count).by(-1)
+      end
+    end
+
+    context 'non subscribed user' do
+      it 'should not change subscription count' do
+        expect { question.unsubscribe(user) }.to_not change(Subscription, :count)
+      end
+    end
+  end
 end

@@ -14,9 +14,17 @@ class Question < ActiveRecord::Base
 
   after_create :subscribe_author
 
+  def subscribe(user)
+    followers << user if !followers.include? user
+  end
+
+  def unsubscribe(user)
+    subscriptions.where(user_id: user).first.destroy if followers.include? user
+  end
+
   private
 
   def subscribe_author
-    followers << user if user
+    followers << user
   end
 end
