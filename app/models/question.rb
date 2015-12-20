@@ -4,6 +4,8 @@ class Question < ActiveRecord::Base
   include Commentable
 
   has_many :answers, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
+  has_many :followers, through: :subscriptions, source: :user
   belongs_to :user
 
   validates :title, :body, :user_id, presence: true
