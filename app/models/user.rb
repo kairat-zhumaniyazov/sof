@@ -38,12 +38,6 @@ class User < ActiveRecord::Base
     User.create(email: email, password: password, password_confirmation: password)
   end
 
-  def self.send_daily_digest
-    find_each.each do |user|
-      DailyMailer.digest(user).deliver_later
-    end
-  end
-
   private
 
   def welcome_email
