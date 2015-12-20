@@ -265,4 +265,46 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #subscribe' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    subject { post :subscribe, id: question, format: :js }
+    before { sign_in user }
+
+    it 'should be right question' do
+      subject
+      expect(assigns(:question)).to eq question
+    end
+
+    it 'should create new subscribe' do
+      expect { subject }.to change(question.followers, :count).by(1)
+    end
+
+    it 'should render :subscribe template' do
+      subject
+      expect(response).to render_template :subscribe
+    end
+  end
+
+  describe 'POST #unsubscribe' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question, followers: [user]) }
+    subject { post :unsubscribe, id: question, format: :js }
+    before { sign_in user }
+
+    it 'should have right question' do
+      subject
+      expect(assigns(:question)).to eq question
+    end
+
+    it 'should destroy subscribe' do
+      expect { subject }.to change(question.followers, :count).by(-1)
+    end
+
+    it 'should render :unsubscribe template' do
+      subject
+      expect(response).to render_template :unsubscribe
+    end
+  end
 end

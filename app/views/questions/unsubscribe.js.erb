@@ -1,0 +1,3 @@
+$('p.notice').text('<%= j flash[:notice] %>');
+
+$('.question .subscribe-controls').html('<%= j link_to 'Subscribe', subscribe_question_path(@question), method: :post, remote: true %>');

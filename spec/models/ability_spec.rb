@@ -53,5 +53,11 @@ RSpec.describe Ability do
 
     it { should be_able_to :me, user, id: user }
     it { should be_able_to :profiles, User, user: user }
+
+    it { should be_able_to :subscribe, create(:question), user: user }
+    it { should_not be_able_to :subscribe, create(:question, followers: [user]), user: user }
+
+    it { should be_able_to :unsubscribe, create(:question, followers: [user]), user: user }
+    it { should_not be_able_to :unsubscribe, create(:question), user: user }
   end
 end

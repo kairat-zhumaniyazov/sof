@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: [:voteable, :commentable] do
+    post 'subscribe', on: :member
+    post 'unsubscribe', on: :member
+
     resources :answers, concerns: [:voteable, :commentable] do
       post 'best_answer', on: :member
     end

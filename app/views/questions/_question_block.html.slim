@@ -8,6 +8,13 @@ p= @question.body
 .votes-container
   = render partial: 'shared/votes', locals: { voted_to: @question }
 
+- if current_user
+  .subscribe-controls
+    - if @question.followers.include? current_user
+        = link_to 'Unsubscribe', unsubscribe_question_path(@question), method: :post, remote: true
+    - else
+      = link_to 'Subscribe', subscribe_question_path(@question), method: :post, remote: true
+
 - if can?(:manage, @question)
   .question-controls
     ul.clear
