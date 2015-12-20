@@ -47,6 +47,6 @@ class User < ActiveRecord::Base
   private
 
   def welcome_email
-    UserMailer.email_confirmation(self).deliver
+    UserMailer.email_confirmation(self).deliver_later
   end
 end
