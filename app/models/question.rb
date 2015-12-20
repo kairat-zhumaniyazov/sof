@@ -10,7 +10,7 @@ class Question < ActiveRecord::Base
 
   validates :title, :body, :user_id, presence: true
 
-  scope :created_yesterday, -> { where(created_at: Date.yesterday..Date.today) }
+  scope :created_yesterday, -> { where(created_at: Date.yesterday.beginning_of_day..Date.yesterday.end_of_day) }
 
   after_create :subscribe_author
 
