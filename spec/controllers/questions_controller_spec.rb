@@ -44,19 +44,20 @@ RSpec.describe QuestionsController, type: :controller do
     sign_in_user
 
     context "with valid params" do
+      subject { post :create, question: attributes_for(:question) }
+
       it "should create new question" do
-        expect {
-          post :create, question: attributes_for(:question)
-        }.to change(@user.questions, :count).by(1)
+        expect { subject }.to change(@user.questions, :count).by(1)
       end
       it 'should redirect to question show' do
-        post :create, question: attributes_for(:question)
+        subject
         expect(response).to redirect_to question_path assigns(:question)
       end
       it 'should have right question owner' do
-        expect{
-          post :create, question: attributes_for(:question)
-        }.to change(@user.questions, :count).by(1)
+        expect{ subject }.to change(@user.questions, :count).by(1)
+      end
+      it 'should add user to subscribers' do
+        expect { subject }.to change(@user.subscribes, :count).by(1)
       end
     end
 

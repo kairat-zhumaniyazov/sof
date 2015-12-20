@@ -1,9 +1,8 @@
 class SubscribersMailer < ApplicationMailer
-  def new_answer_notification(answer)
+  def new_answer_notification(user, question)
     @greeting = "Hi"
-    @question = answer.question
-    @answer = answer
+    @question = question
 
-    mail to: @question.user.email
+    mail to: user.email
   end
 end

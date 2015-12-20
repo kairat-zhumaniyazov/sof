@@ -22,6 +22,6 @@ class Answer < ActiveRecord::Base
   private
 
   def new_answer_notification
-    SubscribersMailer.new_answer_notification(self).deliver_later
+    SubscribersNotificationJob.perform_later(self.question)
   end
 end

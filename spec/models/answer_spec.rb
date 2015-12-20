@@ -46,7 +46,7 @@ RSpec.describe Answer, type: :model do
     let(:question) { create(:question, user: user) }
 
     it 'when create should send email' do
-      expect(SubscribersMailer).to receive(:new_answer_notification).with(kind_of(Answer)).and_call_original
+      expect(SubscribersNotificationJob).to receive(:perform_later).with(question)
       Answer.create!(attributes_for(:answer).merge(question: question, user: create(:user)))
     end
   end

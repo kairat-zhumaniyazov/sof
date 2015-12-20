@@ -11,4 +11,12 @@ class Question < ActiveRecord::Base
   validates :title, :body, :user_id, presence: true
 
   scope :created_yesterday, -> { where(created_at: Date.yesterday..Date.today) }
+
+  after_create :subscribe_author
+
+  private
+
+  def subscribe_author
+    followers << user if user
+  end
 end
