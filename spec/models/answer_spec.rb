@@ -10,6 +10,10 @@ RSpec.describe Answer, type: :model do
   it { should belong_to(:question) }
   it { should belong_to(:user) }
 
+  it_behaves_like 'voteable'
+  it_behaves_like 'commentable'
+  it_behaves_like 'Attachable'
+
   describe '#best_answer' do
     let!(:answers) { create_list(:answer, 3, question: question, best: true) }
     let(:best_answer) { create(:answer, question: question, best: false) }
@@ -37,7 +41,13 @@ RSpec.describe Answer, type: :model do
     end
   end
 
-  it_behaves_like 'voteable'
-  it_behaves_like 'commentable'
-  it_behaves_like 'Attachable'
+  describe 'email notification for new answer' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+
+    it 'when create should send email' do
+      expect(SubscribersMailer).to receive(:new_answer_notification).with(kind_of(Answer)).and_call_original
+      Answer.create!(attributes_for(:answer).merge(question: question, user: create(:user)))
+    end
+  end
 end
