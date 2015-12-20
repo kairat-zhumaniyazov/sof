@@ -1,0 +1,11 @@
+DailyMailer#digest
+
+= @greeting
+
+- @questions.any?
+  - @questions.each do |question|
+    .question
+      h3
+        = link_to question.title, question_url(question)
+      p
+        = question.body.truncate(50)
