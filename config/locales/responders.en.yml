@@ -15,3 +15,7 @@ en:
         notice: 'Your question successfully created.'
       destroy:
         notice: 'Your question deleted.'
+      subscribe:
+        notice: 'You successfuly subscribed to question'
+      unsubscribe:
+        notice: 'You successfuly unsubscribed from question'

@@ -2,12 +2,12 @@ class QuestionsController < ApplicationController
   include VoteableController
 
   before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
-  before_action :load_question, only: [:show, :destroy, :update]
+  before_action :load_question, only: [:show, :destroy, :update, :subscribe, :unsubscribe]
   before_action :build_answer, only: :show
   after_action  :publish_new_question, only: :create
 
   respond_to :html
-  respond_to :js, only: :update
+  respond_to :js, only: [:update, :subscribe, :unsubscribe]
 
   authorize_resource
 
@@ -36,6 +36,14 @@ class QuestionsController < ApplicationController
   def update
     @question.update(question_params)
     respond_with @question
+  end
+
+  def subscribe
+    respond_with @question.subscribe(current_user)
+  end
+
+  def unsubscribe
+    respond_with @question.unsubscribe(current_user)
   end
 
   private

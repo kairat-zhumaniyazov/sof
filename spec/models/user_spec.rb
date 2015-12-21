@@ -8,6 +8,8 @@ RSpec.describe User do
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:votes).dependent(:destroy) }
   it { should have_many(:authorizations).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
+  it { should have_many(:subscribes).through(:subscriptions).source(:question) }
 
   it { should accept_nested_attributes_for :authorizations }
 
@@ -92,12 +94,12 @@ RSpec.describe User do
         end
       end
     end
+  end
 
-    context '.create_with_psw' do
-      let(:email) { { email: 'test@test.com' } }
-      it 'should create new user with random psw' do
-        expect(User.create_with_psw(email)).to be_a_new User
-      end
+  describe '.create_with_psw' do
+    let(:email) { { email: 'test@test.com' } }
+    it 'should create new user with random psw' do
+      expect(User.create_with_psw(email)).to be_a_new User
     end
   end
 end
