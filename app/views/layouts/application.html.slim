@@ -8,6 +8,8 @@ html
     = javascript_include_tag 'application'
     = csrf_meta_tags
   body
+    .search
+      = render partial: 'sphinx/form'
     p.notice
       = notice
     p.alert
