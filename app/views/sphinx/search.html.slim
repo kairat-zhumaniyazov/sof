@@ -7,6 +7,8 @@
       = render 'answers', result: result
     - when Comment
       = render 'comments', result: result
+    - when User
+      = render 'users', result: result
 - else
   h4
     | Nothing to found

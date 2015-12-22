@@ -12,7 +12,7 @@ feature 'Search Answer', %q{
   given!(:q_without_matched_answer) { create(:question) }
   given!(:nswer_without_matched_body) { create(:answer, body: 'blah-blah-blah', question: q_without_matched_answer)}
 
-  scenario 'Searching in Questions', js: true do
+  scenario 'Searching in Answers', js: true do
     build_index
     visit root_path
     fill_in 'search_query_q', with: 'Find me'
