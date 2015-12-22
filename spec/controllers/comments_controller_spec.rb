@@ -22,7 +22,7 @@ RSpec.describe CommentsController, type: :controller do
     end
 
     context 'Comments for Answer' do
-      subject { post :create, answer_id: answer, comment: attributes_for(:comment, commentable: 'Answer'), format: :js }
+      subject { post :create, question_id: question, answer_id: answer, comment: attributes_for(:comment, commentable: 'Answer'), format: :js }
 
       it 'should be right Answer' do
         subject
@@ -43,7 +43,7 @@ RSpec.describe CommentsController, type: :controller do
 
       it 'should not create comment for answer' do
         expect {
-          post :create, answer_id: answer, comment: attributes_for(:invalid_comment, commentable: 'Answer'), format: :js
+          post :create, question_id: question, answer_id: answer, comment: attributes_for(:invalid_comment, commentable: 'Answer'), format: :js
         }.to_not change(Comment, :count)
       end
     end
