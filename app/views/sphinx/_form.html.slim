@@ -1,3 +1,6 @@
-= form_tag '/search', method: :get do
-  = text_field_tag 'search_query[q]'
-  = submit_tag 'Search'
+| Search:
+= form_for SearchQuery.new, url: '/search', method: :get do |f|
+  = f.text_field :q
+  | in:
+  = f.collection_select :index, SearchQuery::INDICES, :itself, :pluralize, include_blank: 'Everywhere'
+  = f.submit 'Search'

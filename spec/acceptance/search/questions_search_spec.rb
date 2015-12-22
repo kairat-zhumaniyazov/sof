@@ -16,6 +16,7 @@ feature 'Search Question', %q{
     build_index
     visit root_path
     fill_in 'search_query_q', with: 'Find me'
+    select 'questions', from: 'search_query_index'
     click_on 'Search'
 
     expect(current_path).to eq search_path

@@ -1,14 +1,19 @@
 class SphinxController < ApplicationController
-  #authorize_resource SphinxController
+  before_action :get_indexed_class, only: :search
 
   def search
     authorize! :read, @results
-    respond_with @results = ThinkingSphinx.search(search_params[:q])
+    respond_with @results = @index.search(search_params[:q])
   end
 
   private
 
+  def get_indexed_class
+    param_index = search_params[:index]
+    @index = SearchQuery::INDICES.include?(param_index) ? Kernel.const_get(param_index.capitalize) : ThinkingSphinx
+  end
+
   def search_params
-    params.require(:search_query).permit(:q)
+    params.require(:search_query).permit(:q, :index)
   end
 end

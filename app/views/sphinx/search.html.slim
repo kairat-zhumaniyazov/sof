@@ -1,4 +1,10 @@
 - if @results.any?
   - @results.each do |result|
-    div
-      = link_to result.title, question_path(result)
+    - case result
+    - when Question
+      = render 'questions', result: result
+    - when Answer
+      = render 'answers', result: result
+- else
+  h4
+    | Nothing to found
