@@ -5,6 +5,8 @@
       = render 'questions', result: result
     - when Answer
       = render 'answers', result: result
+    - when Comment
+      = render 'comments', result: result
 - else
   h4
     | Nothing to found

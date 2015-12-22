@@ -1,0 +1,11 @@
+h4 Comments
+div
+  - if result.commentable.is_a? Question
+    = link_to result.commentable.title, question_path(result.commentable)
+    p
+      =  result.body.truncate(100)
+
+  - if result.commentable.is_a? Answer
+    = link_to result.commentable.question.title, question_path(result.commentable.question)
+    p
+      =  result.body.truncate(100)
