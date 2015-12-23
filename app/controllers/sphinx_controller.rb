@@ -10,7 +10,7 @@ class SphinxController < ApplicationController
 
   def get_indexed_class
     param_index = search_params[:index]
-    @index = SearchQuery::INDICES.include?(param_index) ? Kernel.const_get(param_index.capitalize) : ThinkingSphinx
+    @index = SearchQuery::INDICES.include?(param_index) ? param_index.capitalize.safe_constantize : ThinkingSphinx
   end
 
   def search_params
