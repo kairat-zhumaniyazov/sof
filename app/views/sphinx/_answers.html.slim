@@ -1,0 +1,5 @@
+h4 Answers
+div
+  = link_to result.question.title, question_path(result.question)
+  p
+    =  result.body.truncate(100)

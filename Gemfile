@@ -45,6 +45,9 @@ gem 'oj'
 gem 'oj_mimic_json'
 gem 'sidekiq'
 gem 'whenever'
+gem 'mysql2'
+gem 'thinking-sphinx'
+gem 'active_attr'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

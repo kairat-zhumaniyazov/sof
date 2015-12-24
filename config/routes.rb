@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
   use_doorkeeper
-  get 'comments/create'
 
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: 'registrations' }
   devise_scope :user do
     get 'email_required', to: 'registrations#email_required'
     post 'create_with_email', to: 'registrations#create_with_email'
   end
+
+  root 'questions#index'
+  get 'search', to: 'sphinx#search'
 
   concern :voteable do
     member do
@@ -41,7 +43,6 @@ Rails.application.routes.draw do
     end
   end
 
-  root 'questions#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

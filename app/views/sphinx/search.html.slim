@@ -1,0 +1,14 @@
+- if @results.any?
+  - @results.each do |result|
+    - case result
+    - when Question
+      = render 'questions', result: result
+    - when Answer
+      = render 'answers', result: result
+    - when Comment
+      = render 'comments', result: result
+    - when User
+      = render 'users', result: result
+- else
+  h4
+    | Nothing to found
