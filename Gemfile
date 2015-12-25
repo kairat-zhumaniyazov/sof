@@ -48,6 +48,8 @@ gem 'whenever'
 gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'active_attr'
+gem 'dotenv'
+gem 'dotenv-deployment', require: 'dotenv/deployment'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -86,4 +88,9 @@ group :development do
   gem 'guard-spring'
   gem 'pry-rails'
   gem 'letter_opener'
+
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
 end
