@@ -107,8 +107,8 @@ GEM
     doorkeeper (3.0.1)
       railties (>= 3.2)
     dotenv (1.0.2)
-    dotenv-deployment (0.3.0)
-      dotenv (~> 1.0)
+    dotenv-rails (1.0.2)
+      dotenv (= 1.0.2)
     em-http-request (1.1.2)
       addressable (>= 2.3.4)
       cookiejar
@@ -415,7 +415,7 @@ DEPENDENCIES
   devise
   doorkeeper
   dotenv
-  dotenv-deployment
+  dotenv-rails
   factory_girl_rails
   gon
   guard-rspec

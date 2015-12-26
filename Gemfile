@@ -49,7 +49,7 @@ gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'active_attr'
 gem 'dotenv'
-gem 'dotenv-deployment', require: 'dotenv/deployment'
+gem 'dotenv-rails', groups: [:development, :test]
 gem 'therubyracer', platforms: :ruby
 
 # Use ActiveModel has_secure_password
