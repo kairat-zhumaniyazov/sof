@@ -78,4 +78,8 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.default_url_options = { host: '185.118.65.25' }
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.sendmail_settings = { location: '/usr/sbin/exim4', arguments: '-i' }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
 end
