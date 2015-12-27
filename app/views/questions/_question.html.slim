@@ -13,4 +13,4 @@ div class = "question question#{question.id}"
     h4
       = link_to question.title, question_path(question)
     p
-      | created at: 0:13 27.12.2015
+      = "created at: #{question.created_at.strftime('%d %b %Y %R')}"
