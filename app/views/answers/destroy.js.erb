@@ -1,4 +1,4 @@
 <% if @answer.destroyed? %>
-  $('p.notice').text('Your answer deleted.');
+  $('.flash-msgs').append('<div class="alert alert-success" role="alert">Your answer deleted.</div>')
   $('div#<%= dom_id @answer %>').remove();
 <% end %>

@@ -49,11 +49,12 @@ html
                   = link_to 'Sign up', new_user_registration_path
             .row
               .actions-menu
+              - if can?(:create, Question)
                 = link_to 'Ask question', new_question_path, class: 'btn btn-info'
 
     .section
       .container
-        .row
+        .row.flash-msgs
           - if notice
             .alert.alert-success role='alert'
               = notice
