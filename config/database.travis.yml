@@ -1,0 +1,4 @@
+test:
+  adapter: postgresql
+  database: sof_test
+  username: postgres
