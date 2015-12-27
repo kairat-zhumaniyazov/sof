@@ -80,7 +80,9 @@ group :development do
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'guard-rspec', require: false
-  gem 'guard-spring'
+  gem 'guard-spring', require: false
+  gem 'guard-bundler', require: false
+  gem 'guard-rails', require: false
   gem 'pry-rails'
   gem 'letter_opener'
 
