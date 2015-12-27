@@ -69,6 +69,7 @@ group :test do
   gem 'launchy'
   gem 'database_cleaner'
   gem 'json_spec'
+  gem 'fuubar'
 end
 
 group :development do
