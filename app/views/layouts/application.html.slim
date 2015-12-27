@@ -8,22 +8,59 @@ html
     = javascript_include_tag 'application'
     = csrf_meta_tags
   body
-    .search
-      = render partial: 'sphinx/form'
-    p.notice
-      = notice
-    p.alert
-      = alert
+    .navbar.navbar-default.navbar-static-top
+      .container
+        .navbar-header
+          button.navbar-toggle data-target="#navbar-ex-collapse" data-toggle="collapse" type="button"
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+        #navbar-ex-collapse.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li
+              = link_to 'Home', root_path
+            li
+              = link_to 'Questions', questions_path
+
+          .search-form
+            = form_for SearchQuery.new, url: '/search', method: :get, html: { class: 'form-inline' } do |f|
+              .form-group
+                label Search in:
+                = f.collection_select :index, SearchQuery::INDICES, :itself, :pluralize, { include_blank: 'Everywhere' }, class: 'form-control search-location-select'
+              .form-group
+                = f.text_field :q, class: 'search-query form-control'
+              .form-group
+                = f.submit 'Search', class: 'btn'
+
+    .section
+      .container
+        .row
+          .col-md-6
+            h1 StackOverflow clone
+          .col-md-6
+            .row
+              .sign-info
+                - if user_signed_in?
+                  = link_to 'Sign out', destroy_user_session_path, method: :delete
+                - else
+                  = link_to 'Sign in', new_user_session_path
+                  span or
+                  = link_to 'Sign up', new_user_registration_path
+            .row
+              .actions-menu
+                = link_to 'Ask question', new_question_path, class: 'btn btn-info'
+
+    .section
+      .container
+        .row
+          - if notice
+            .alert.alert-success role='alert'
+              = notice
+          - if alert
+            .alert.alert-warning role='alert'
+              = alert
+
     .container
-      .row
-        div
-          - if user_signed_in?
-            li
-              = link_to 'Sign out', destroy_user_session_path, method: :delete
-          - else
-            li
-              = link_to 'Sign in', new_user_session_path
-            li
-              = link_to 'Sign up', new_user_registration_path
       .row
         = yield

@@ -1,15 +1,20 @@
 - if can?(:create, Question)
   p= link_to 'Ask question', new_question_path
 
-h3
-  | Questions list
-- if @questions.any?
-  .questions-container
-    - @questions.each do |question|
-      = render question, question: question
 
-- else
-  div
-    | Questions is empty
+.section
+  .container
+    .row
+      .col-md-12
+        h3 Questions list
+    .row
+      .col-md-12
+        - if @questions.any?
+          .questions-container
+            - @questions.each do |question|
+              = render question, question: question
+        - else
+          div
+            | Questions is empty
 
 = subscribe_to '/questions'

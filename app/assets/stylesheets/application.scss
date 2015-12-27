@@ -1,6 +1,9 @@
 @import "bootstrap-sprockets";
+@import "bootswatch/spacelab/variables";
 @import "bootstrap";
+@import "bootswatch/spacelab/bootswatch";
 
+@import "layout";
 @import "answers";
 @import "questions";
 @import "comments";

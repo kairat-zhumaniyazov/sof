@@ -1,2 +1,16 @@
-div class = "question#{question.id}"
-  = link_to question.title, question_path(question)
+div class = "question question#{question.id}"
+  .votes
+    .count
+      = question.votes_sum
+    div
+      | votes
+  .answers
+    .count
+      = question.answers.count
+    div
+      | answers
+  .summary
+    h4
+      = link_to question.title, question_path(question)
+    p
+      | created at: 0:13 27.12.2015

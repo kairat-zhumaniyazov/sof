@@ -41,3 +41,27 @@ div.answers {
 }
 
 div#edit-question-form-container { display: none; }
+
+
+.question {
+  padding: 10px;
+  border-bottom: 1px solid #eaebec;
+  &::after {
+    clear: both;
+    content: '.';
+    height: 0px;
+    display: block;
+  }
+  .votes, .answers {
+    width: 80px;
+    float: left;
+    text-align: center;
+    padding: 15px 5px;
+    margin-top: 5px;
+  }
+  .summary {
+    float: left;
+    margin-left: 0px;
+    padding: 5px 20px;
+  }
+}

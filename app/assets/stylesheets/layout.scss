@@ -1,0 +1,28 @@
+.sign-info {
+  float: right;
+  padding: 20px;
+  font-size: 16px;
+  margin-top: 10px;
+
+  span {
+    margin: 0px 5px;
+  }
+}
+
+.actions-menu {
+  float: right;
+  padding: 20px;
+}
+
+.search-form {
+  float: right;
+  padding: 5px;
+
+  label {
+    margin-right: 10px;
+  }
+
+  .btn {
+    border: 1px solid #CCC;
+  }
+}
