@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/kairat-zhumaniyazov/sof.svg?branch=master)](https://travis-ci.org/kairat-zhumaniyazov/sof)
+{<img src="https://travis-ci.org/kairat-zhumaniyazov/sof.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/kairat-zhumaniyazov/sof]
 
 == README
 
