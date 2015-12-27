@@ -32,7 +32,7 @@ before_script:
   # Формируем структуру базы
   - bundle exec rake db:setup
   # Запускаем PrivatePub
-  - 'bundle exec rackup -s thin -E production private_pub.ru &'
+  - 'bundle exec rackup private_pub.ru -s thin -E production &'
   # Ждем, пока PrivatePub проинициализируется
   - sleep 3
 
