@@ -5,11 +5,11 @@ RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question, user: user) }
 
   describe 'GET :index' do
-    let(:questions) { create_list(:question, 2, user: user) }
+    let(:questions) { create_list(:question, 5, user: user) }
     before { get :index }
 
     it 'should have questions array' do
-      expect(assigns(:questions)).to eq questions
+      expect(assigns(:questions)).to eq questions.reverse
     end
     it 'should render :index template' do
       expect(response).to render_template :index
