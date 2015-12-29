@@ -1,17 +1,17 @@
-- cache @question
-  div.question
-    = render 'question_block'
+div.question
+  = render 'question_block'
 
-  -if @question.answers.any?
-    .answers data={question_id: "#{@question.id}"}
-      .answers-list
-        h2 Answers
-        - @question.answers.each do |answer|
-          - if answer.id
-            - cache answer do
-              = render partial: answer, locals: { answer: answer }
+-if @question.answers.any?
+  .answers data={question_id: "#{@question.id}"}
+    .answers-list
+      h2 Answers
+      - @question.answers.each do |answer|
+        - if answer.id
+          - cache answer do
+            = render partial: answer, locals: { answer: answer }
 
-      - if can?(:create, Answer)
+    - if can?(:create, Answer)
+      - cache [@question, :new_answer_form]
         div#new-answer-form
           h3 New answer
           = form_for [@question, @answer], remote: true do |f|
