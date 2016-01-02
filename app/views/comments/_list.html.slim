@@ -4,7 +4,6 @@
       h4 Comments
       - commentable.comments.each do |comment|
         - if comment.id
-          - cache comment
-            = render partial: comment, comment: comment
+          = render partial: comment, comment: comment
 
   = render partial: 'comments/form', locals: { commentable: commentable, comment: comment }

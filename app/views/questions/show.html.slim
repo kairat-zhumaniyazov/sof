@@ -7,8 +7,7 @@ div.question
       h2 Answers
       - @question.answers.each do |answer|
         - if answer.id
-          - cache answer do
-            = render partial: answer, locals: { answer: answer }
+          = render partial: answer, locals: { answer: answer }
 
     - if can?(:create, Answer)
       - cache [@question, :new_answer_form]
