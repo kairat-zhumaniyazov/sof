@@ -9,7 +9,7 @@ describe Api::V1::QuestionsController do
 
     context 'authorized' do
       let!(:questions) { create_list(:question, 2) }
-      let(:question) { questions.first }
+      let(:question) { questions.last }
       let!(:answer) { create(:answer, question: question) }
 
       before { get '/api/v1/questions', format: :json, access_token: access_token.token }

@@ -4,21 +4,25 @@ div.question
 -if @question.answers.any?
   .answers data={question_id: "#{@question.id}"}
     .answers-list
-      = render 'answers'
+      h2 Answers
+      - @question.answers.each do |answer|
+        - if answer.id
+          = render partial: answer, locals: { answer: answer }
 
     - if can?(:create, Answer)
-      div#new-answer-form
-        h3 New answer
-        = form_for [@question, @answer], remote: true do |f|
-          p= f.label :body, 'Answer body'
-          p= f.text_area :body
+      - cache [@question, :new_answer_form]
+        div#new-answer-form
+          h3 New answer
+          = form_for [@question, @answer], remote: true do |f|
+            p= f.label :body, 'Answer body'
+            p= f.text_area :body
 
-          p Attachments:
-          = f.fields_for :attachments, @answer.attachments.build do |a|
-            = render 'shared/attachment_fields', f: a
-          .links
-            = link_to_add_association 'add file', f, :attachments, partial: 'shared/attachment_fields'
+            p Attachments:
+            = f.fields_for :attachments, @answer.attachments.build do |a|
+              = render 'shared/attachment_fields', f: a
+            .links
+              = link_to_add_association 'add file', f, :attachments, partial: 'shared/attachment_fields'
 
-          p= f.submit 'Create Answer'
+            p= f.submit 'Create Answer'
 
 = subscribe_to "/questions/#{@question.id}/answers"

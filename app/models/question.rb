@@ -11,6 +11,7 @@ class Question < ActiveRecord::Base
   validates :title, :body, :user_id, presence: true
 
   scope :created_yesterday, -> { where(created_at: Date.yesterday.beginning_of_day..Date.yesterday.end_of_day) }
+  default_scope -> { order(created_at: :desc) }
 
   after_create :subscribe_author
 
