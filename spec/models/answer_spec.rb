@@ -14,21 +14,33 @@ RSpec.describe Answer, type: :model do
   it_behaves_like 'commentable'
   it_behaves_like 'Attachable'
 
-  describe '#best_answer' do
+  describe '#make_best' do
+    let(:user) { create(:user) }
     let!(:answers) { create_list(:answer, 3, question: question, best: true) }
-    let(:best_answer) { create(:answer, question: question, best: false) }
+    let!(:best_answer) { create(:answer, question: question, best: false, user: user) }
 
     it 'should change :best' do
       best_answer.make_best
       best_answer.reload
       expect(best_answer.best).to be true
     end
+
     it 'should change other answer :best attr' do
       best_answer.make_best
       answers.each do |answer|
         answer.reload
         expect(answer.best).to_not be true
       end
+    end
+
+    it 'should add reputation for best answers author' do
+      expect(Reputation).to receive(:add).with(3).once
+      best_answer.make_best
+    end
+
+    it 'should have right user best answers user reputattion' do
+      best_answer.make_best
+      expect(user.reputations.sum(:value)).to eq 4
     end
   end
 
@@ -48,6 +60,71 @@ RSpec.describe Answer, type: :model do
     it 'when create should send email' do
       expect(SubscribersNotificationJob).to receive(:perform_later).with(question)
       Answer.create!(attributes_for(:answer).merge(question: question, user: create(:user)))
+    end
+  end
+
+  describe 'calculate_reputation' do
+    let(:user) { create(:user) }
+    let(:another_user) { create(:user) }
+
+    context 'for another users question' do
+      let(:question) { create(:question, user: another_user) }
+      subject { Answer.create!(attributes_for(:answer).merge(question: question, user: user)) }
+
+      context 'when first answer' do
+        it 'should add reputation 2 times' do
+          expect(Reputation).to receive(:add).with(1).twice
+          subject
+        end
+
+        it 'should have right repitation value' do
+          expect { subject }.to change{user.reputations.sum(:value)}.to(2)
+        end
+      end
+
+      context 'when NOT first answer' do
+        let!(:first_answer) { create(:answer, question: question) }
+
+        it 'should add reputation once' do
+          expect(Reputation).to receive(:add).with(1).once
+          subject
+        end
+
+        it 'should have right reputation value' do
+          expect { subject }.to change{user.reputations.sum(:value)}.to(1)
+        end
+      end
+    end
+
+    context 'for own question' do
+      let(:question) { create(:question, user: user) }
+      subject { Answer.create!(attributes_for(:answer).merge(question: question, user: user)) }
+
+      context 'when first answer' do
+        it 'should add reputation 3 times' do
+          expect(Reputation).to receive(:add).with(1).twice
+          expect(Reputation).to receive(:add).with(2).once
+          subject
+        end
+
+        it 'should have right repitation value' do
+          expect { subject }.to change{user.reputations.sum(:value)}.to(4)
+        end
+      end
+
+      context 'when NOT first answer' do
+        let!(:first_answer) { create(:answer, question: question) }
+
+        it 'should add reputation 2 times' do
+          expect(Reputation).to receive(:add).with(1).once
+          expect(Reputation).to receive(:add).with(2).once
+          subject
+        end
+
+        it 'should have right repitation value' do
+          expect { subject }.to change{user.reputations.sum(:value)}.to(3)
+        end
+      end
     end
   end
 end
