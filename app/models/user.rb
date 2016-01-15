@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :authorizations, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :subscribes, through: :subscriptions, source: :question
+  has_many :reputations, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

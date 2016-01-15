@@ -10,6 +10,7 @@ RSpec.describe User do
   it { should have_many(:authorizations).dependent(:destroy) }
   it { should have_many(:subscriptions).dependent(:destroy) }
   it { should have_many(:subscribes).through(:subscriptions).source(:question) }
+  it { should have_many(:reputations).dependent(:destroy) }
 
   it { should accept_nested_attributes_for :authorizations }
 
