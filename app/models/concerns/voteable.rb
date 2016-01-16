@@ -24,6 +24,14 @@ module Voteable
 
   def make_vote(value, user)
     user_vote = votes.create_with(user: user).find_or_create_by(user: user)
-    user_vote.update(value: value) if user_vote.value != value
+    if user_vote.value != value
+      user_vote.update(value: value)
+    end
+
+    if self.is_a? Answer
+      self.user.reputations.add(value > 0 ? Reputation::FOR_VOTE_PLUS_TO_ANSWER : Reputation::FOR_VOTE_MINUS_TO_ANSWER)
+    elsif self.is_a? Question
+      self.user.reputations.add(value > 0 ? Reputation::FOR_VOTE_PLUS_TO_QUESTION : Reputation::FOR_VOTE_MINUS_TO_QUESTION)
+    end
   end
 end

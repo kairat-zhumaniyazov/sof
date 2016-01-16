@@ -57,4 +57,36 @@ RSpec.describe Question, type: :model do
       end
     end
   end
+
+  describe 'calculate_reputation' do
+    context 'when vote for question' do
+      let(:user) { create(:user) }
+      let!(:author) { create(:user) }
+      let!(:question) { create(:question, user: author) }
+
+      context 'voting PLUS' do
+        subject { question.make_vote(1, user) }
+
+        it 'should change reputation for answer author' do
+          expect { subject }.to change{author.reputations.sum(:value)}.by(2)
+        end
+
+        it 'should create only one reputations row' do
+          expect { subject }.to change(Reputation, :count).by(1)
+        end
+      end
+
+      context 'voting MINUS' do
+        subject { question.make_vote(-1, user) }
+
+        it 'should change reputation for answer author' do
+          expect { subject }.to change{author.reputations.sum(:value)}.by(-2)
+        end
+
+        it 'should create only one reputations row' do
+          expect { subject }.to change(Reputation, :count).by(1)
+        end
+      end
+    end
+  end
 end
