@@ -33,14 +33,15 @@ RSpec.describe Answer, type: :model do
       end
     end
 
-    it 'should add reputation for best answers author' do
-      expect(Reputation).to receive(:add).with(3).once
-      best_answer.make_best
-    end
+    context 'best answers user reputation' do
+      it 'should add reputation' do
+        expect(ReputationCalculator).to receive(:calculate).with(best_answer.user, :best_answer).once
+        best_answer.make_best
+      end
 
-    it 'should have right user best answers user reputattion' do
-      best_answer.make_best
-      expect(user.reputations.sum(:value)).to eq 4
+      it 'should have right reputation value' do
+        expect { best_answer.make_best }.to change{best_answer.user.reputation}.by(3)
+      end
     end
   end
 
@@ -73,12 +74,13 @@ RSpec.describe Answer, type: :model do
 
       context 'when first answer' do
         it 'should add reputation 2 times' do
-          expect(Reputation).to receive(:add).with(1).twice
+          expect(ReputationCalculator).to receive(:calculate).with(user, :new_answer).once
+          expect(ReputationCalculator).to receive(:calculate).with(user, :first_answer_to_question).once
           subject
         end
 
         it 'should have right repitation value' do
-          expect { subject }.to change{user.reputations.sum(:value)}.to(2)
+          expect { subject }.to change{user.reputation}.by(2)
         end
       end
 
@@ -86,12 +88,12 @@ RSpec.describe Answer, type: :model do
         let!(:first_answer) { create(:answer, question: question) }
 
         it 'should add reputation once' do
-          expect(Reputation).to receive(:add).with(1).once
+          expect(ReputationCalculator).to receive(:calculate).with(user, :new_answer).once
           subject
         end
 
         it 'should have right reputation value' do
-          expect { subject }.to change{user.reputations.sum(:value)}.to(1)
+          expect { subject }.to change{user.reputation}.to(1)
         end
       end
     end
@@ -102,13 +104,14 @@ RSpec.describe Answer, type: :model do
 
       context 'when first answer' do
         it 'should add reputation 3 times' do
-          expect(Reputation).to receive(:add).with(1).twice
-          expect(Reputation).to receive(:add).with(2).once
+          expect(ReputationCalculator).to receive(:calculate).with(user, :new_answer).once
+          expect(ReputationCalculator).to receive(:calculate).with(user, :first_answer_to_question).once
+          expect(ReputationCalculator).to receive(:calculate).with(user, :answer_for_own_question).once
           subject
         end
 
-        it 'should have right repitation value' do
-          expect { subject }.to change{user.reputations.sum(:value)}.to(4)
+        it 'should have right reputation value' do
+          expect { subject }.to change{user.reputation}.to(4)
         end
       end
 
@@ -116,13 +119,13 @@ RSpec.describe Answer, type: :model do
         let!(:first_answer) { create(:answer, question: question) }
 
         it 'should add reputation 2 times' do
-          expect(Reputation).to receive(:add).with(1).once
-          expect(Reputation).to receive(:add).with(2).once
+          expect(ReputationCalculator).to receive(:calculate).with(user, :new_answer).once
+          expect(ReputationCalculator).to receive(:calculate).with(user, :answer_for_own_question).once
           subject
         end
 
         it 'should have right repitation value' do
-          expect { subject }.to change{user.reputations.sum(:value)}.to(3)
+          expect { subject }.to change{user.reputation}.to(3)
         end
       end
     end
@@ -135,24 +138,26 @@ RSpec.describe Answer, type: :model do
       context 'voting PLUS' do
         subject { answer.make_vote(1, user) }
 
-        it 'should change reputation for answer author' do
-          expect { subject }.to change{author.reputations.sum(:value)}.by(1)
+        it 'should add reputation 1 times' do
+          expect(ReputationCalculator).to receive(:calculate).with(author, :vote_plus_to_answer).once
+          subject
         end
 
-        it 'should create only one reputations row' do
-          expect { subject }.to change(Reputation, :count).by(1)
+        it 'should change reputation for answer author' do
+          expect { subject }.to change{author.reputation}.by(1)
         end
       end
 
       context 'voting MINUS' do
         subject { answer.make_vote(-1, user) }
 
-        it 'should change reputation for answer author' do
-          expect { subject }.to change{author.reputations.sum(:value)}.by(-1)
+        it 'should add reputation 1 times' do
+          expect(ReputationCalculator).to receive(:calculate).with(author, :vote_minus_to_answer).once
+          subject
         end
 
-        it 'should create only one reputations row' do
-          expect { subject }.to change(Reputation, :count).by(1)
+        it 'should change reputation for answer author' do
+          expect { subject }.to change{author.reputation}.by(-1)
         end
       end
     end

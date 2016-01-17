@@ -29,7 +29,7 @@ module Voteable
     end
 
     if self.is_a? Answer
-      self.user.reputations.add(value > 0 ? Reputation::FOR_VOTE_PLUS_TO_ANSWER : Reputation::FOR_VOTE_MINUS_TO_ANSWER)
+      ReputationCalculator.calculate(self.user, value > 0 ? :vote_plus_to_answer : :vote_minus_to_answer)
     elsif self.is_a? Question
       self.user.reputations.add(value > 0 ? Reputation::FOR_VOTE_PLUS_TO_QUESTION : Reputation::FOR_VOTE_MINUS_TO_QUESTION)
     end

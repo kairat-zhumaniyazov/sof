@@ -12,12 +12,12 @@ class Answer < ActiveRecord::Base
 
   after_create :new_answer_notification
   after_create :calculate_reputation
+  after_update :best_answer_reputation_calculate
 
   def make_best
     ActiveRecord::Base.transaction do
       question.answers.update_all(best: false)
       update!(best: true)
-      user.reputations.add(Reputation::FOR_THE_BEST_ANSWER)
     end
   end
 
@@ -28,14 +28,20 @@ class Answer < ActiveRecord::Base
   end
 
   def calculate_reputation
-    user.reputations.add(Reputation::FOR_NEW_ANSWER_TO_ANOTHER_QUESTION)
+    ReputationCalculator.calculate(user, :new_answer)
 
     if question.answers.count == 1
-      user.reputations.add(Reputation::FOR_FIRST_ANSWER_TO_QUESTION)
+      ReputationCalculator.calculate(user, :first_answer_to_question)
     end
 
     if question.user.id == user.id
-      user.reputations.add(Reputation::FOR_ANSWER_TO_OWN_QUESTION)
+      ReputationCalculator.calculate(user, :answer_for_own_question)
+    end
+  end
+
+  def best_answer_reputation_calculate
+    if best_changed?
+      ReputationCalculator.calculate(self.user, :best_answer) if best
     end
   end
 end
