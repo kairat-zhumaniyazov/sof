@@ -13,6 +13,10 @@ class ReputationCalculator
       value = 1
     when :vote_minus_to_answer
       value = -1
+    when :vote_plus_to_question
+      value = 2
+    when :vote_minus_to_question
+      value = -2
     else
       value = 0
     end

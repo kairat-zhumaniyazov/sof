@@ -67,24 +67,26 @@ RSpec.describe Question, type: :model do
       context 'voting PLUS' do
         subject { question.make_vote(1, user) }
 
-        it 'should change reputation for answer author' do
-          expect { subject }.to change{author.reputations.sum(:value)}.by(2)
+        it 'should add reputation 1 times' do
+          expect(ReputationCalculator).to receive(:calculate).with(author, :vote_plus_to_question).once
+          subject
         end
 
-        it 'should create only one reputations row' do
-          expect { subject }.to change(Reputation, :count).by(1)
+        it 'should change reputation for answer author' do
+          expect { subject }.to change{author.reputation}.by(2)
         end
       end
 
       context 'voting MINUS' do
         subject { question.make_vote(-1, user) }
 
-        it 'should change reputation for answer author' do
-          expect { subject }.to change{author.reputations.sum(:value)}.by(-2)
+        it 'should add reputation 1 times' do
+          expect(ReputationCalculator).to receive(:calculate).with(author, :vote_minus_to_question).once
+          subject
         end
 
-        it 'should create only one reputations row' do
-          expect { subject }.to change(Reputation, :count).by(1)
+        it 'should change reputation for answer author' do
+          expect { subject }.to change{author.reputation}.by(-2)
         end
       end
     end
