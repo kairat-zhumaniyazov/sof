@@ -1,4 +1,7 @@
 class ReputationCalculator
+
+  @@mutex = Mutex.new
+
   def self.calculate(action, object, user, *args)
     self.send(action, object, user, *args)
   end
@@ -32,6 +35,8 @@ class ReputationCalculator
   end
 
   def self.update_reputation(user, value)
-    user.update_attribute(:reputation, user.reputation + value)
+    @@mutex.synchronize do
+      user.update_attribute(:reputation, user.reputation + value)
+    end
   end
 end
