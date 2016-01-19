@@ -22,7 +22,9 @@ class ReputationCalculator
   end
 
   def self.vote(object, user, *args)
-    return false unless value = args[0][:value].to_i
+    value = args[0][:value].to_i
+    return false if !value || value == 0
+
     if object.is_a? Answer
       update_reputation(object.user, value > 0 ? 1 : -1)
     elsif object.is_a? Question
