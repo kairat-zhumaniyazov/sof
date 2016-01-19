@@ -68,7 +68,7 @@ RSpec.describe Question, type: :model do
         subject { question.make_vote(1, user) }
 
         it 'should add reputation 1 times' do
-          expect(ReputationCalculator).to receive(:calculate).with(author, :vote_plus_to_question).once
+          expect(ReputationCalculator).to receive(:calculate).with(:vote, question, user, value: 1).once
           subject
         end
 
@@ -81,7 +81,7 @@ RSpec.describe Question, type: :model do
         subject { question.make_vote(-1, user) }
 
         it 'should add reputation 1 times' do
-          expect(ReputationCalculator).to receive(:calculate).with(author, :vote_minus_to_question).once
+          expect(ReputationCalculator).to receive(:calculate).with(:vote, question, user, value: -1).once
           subject
         end
 
