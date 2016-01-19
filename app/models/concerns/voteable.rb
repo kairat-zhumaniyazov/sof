@@ -28,10 +28,6 @@ module Voteable
       user_vote.update(value: value)
     end
 
-    if self.is_a? Answer
-      ReputationCalculator.calculate(self.user, value > 0 ? :vote_plus_to_answer : :vote_minus_to_answer)
-    elsif self.is_a? Question
-      ReputationCalculator.calculate(self.user, value > 0 ? :vote_plus_to_question : :vote_minus_to_question)
-    end
+    ReputationCalculator.calculate(:vote, self, user, value: value)
   end
 end

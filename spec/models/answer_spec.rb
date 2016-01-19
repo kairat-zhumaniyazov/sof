@@ -35,7 +35,7 @@ RSpec.describe Answer, type: :model do
 
     context 'best answers user reputation' do
       it 'should add reputation' do
-        expect(ReputationCalculator).to receive(:calculate).with(best_answer.user, :best_answer).once
+        expect(ReputationCalculator).to receive(:calculate).with(:best_answer, best_answer, best_answer.user).once
         best_answer.make_best
       end
 
@@ -74,8 +74,7 @@ RSpec.describe Answer, type: :model do
 
       context 'when first answer' do
         it 'should add reputation 2 times' do
-          expect(ReputationCalculator).to receive(:calculate).with(user, :new_answer).once
-          expect(ReputationCalculator).to receive(:calculate).with(user, :first_answer_to_question).once
+          expect(ReputationCalculator).to receive(:calculate).with(:new_answer, Answer, user).once
           subject
         end
 
@@ -88,7 +87,7 @@ RSpec.describe Answer, type: :model do
         let!(:first_answer) { create(:answer, question: question) }
 
         it 'should add reputation once' do
-          expect(ReputationCalculator).to receive(:calculate).with(user, :new_answer).once
+          expect(ReputationCalculator).to receive(:calculate).with(:new_answer, Answer, user).once
           subject
         end
 
@@ -104,9 +103,7 @@ RSpec.describe Answer, type: :model do
 
       context 'when first answer' do
         it 'should add reputation 3 times' do
-          expect(ReputationCalculator).to receive(:calculate).with(user, :new_answer).once
-          expect(ReputationCalculator).to receive(:calculate).with(user, :first_answer_to_question).once
-          expect(ReputationCalculator).to receive(:calculate).with(user, :answer_for_own_question).once
+          expect(ReputationCalculator).to receive(:calculate).with(:new_answer, Answer, user).once
           subject
         end
 
@@ -119,8 +116,7 @@ RSpec.describe Answer, type: :model do
         let!(:first_answer) { create(:answer, question: question) }
 
         it 'should add reputation 2 times' do
-          expect(ReputationCalculator).to receive(:calculate).with(user, :new_answer).once
-          expect(ReputationCalculator).to receive(:calculate).with(user, :answer_for_own_question).once
+          expect(ReputationCalculator).to receive(:calculate).with(:new_answer, Answer, user).once
           subject
         end
 
@@ -139,7 +135,7 @@ RSpec.describe Answer, type: :model do
         subject { answer.make_vote(1, user) }
 
         it 'should add reputation 1 times' do
-          expect(ReputationCalculator).to receive(:calculate).with(author, :vote_plus_to_answer).once
+          expect(ReputationCalculator).to receive(:calculate).with(:vote, answer, user, value: 1).once
           subject
         end
 
@@ -152,7 +148,7 @@ RSpec.describe Answer, type: :model do
         subject { answer.make_vote(-1, user) }
 
         it 'should add reputation 1 times' do
-          expect(ReputationCalculator).to receive(:calculate).with(author, :vote_minus_to_answer).once
+          expect(ReputationCalculator).to receive(:calculate).with(:vote, answer, user, value: -1).once
           subject
         end
 

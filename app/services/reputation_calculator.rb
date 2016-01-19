@@ -1,26 +1,35 @@
 class ReputationCalculator
-  def self.calculate(user, action)
-    case action
-    when :new_answer
-      value = 1
-    when :first_answer_to_question
-      value = 1
-    when :answer_for_own_question
-      value = 2
-    when :best_answer
-      value = 3
-    when :vote_plus_to_answer
-      value = 1
-    when :vote_minus_to_answer
-      value = -1
-    when :vote_plus_to_question
-      value = 2
-    when :vote_minus_to_question
-      value = -2
-    else
-      value = 0
+  def self.calculate(action, object, user, *args)
+    self.send(action, object, user, *args)
+  end
+
+  private
+
+  def self.new_answer(answer, user)
+    return unless answer
+    update(user, 1)
+
+    if answer.question.answers.count == 1
+      update(user, 1)
     end
 
-    user.update_attribute(:reputation, user.reputation + value) if value != 0
+    if answer.question.user.id == user.id
+      update(user, 2)
+    end
+  end
+
+  def self.vote(object, user, *args)
+    return false unless value = args[0][:value].to_i
+    if object.is_a? Answer
+      update(object.user, value > 0 ? 1 : -1)
+    end
+  end
+
+  def self.best_answer(answer, user)
+    update(user, 3)
+  end
+
+  def self.update(user, value)
+    user.update_attribute(:reputation, user.reputation + value)
   end
 end

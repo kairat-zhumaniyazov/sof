@@ -28,20 +28,12 @@ class Answer < ActiveRecord::Base
   end
 
   def calculate_reputation
-    ReputationCalculator.calculate(user, :new_answer)
-
-    if question.answers.count == 1
-      ReputationCalculator.calculate(user, :first_answer_to_question)
-    end
-
-    if question.user.id == user.id
-      ReputationCalculator.calculate(user, :answer_for_own_question)
-    end
+    ReputationCalculator.calculate(:new_answer, self, self.user)
   end
 
   def best_answer_reputation_calculate
     if best_changed?
-      ReputationCalculator.calculate(self.user, :best_answer) if best
+      ReputationCalculator.calculate(:best_answer, self, self.user) if best
     end
   end
 end
