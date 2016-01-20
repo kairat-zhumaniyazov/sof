@@ -1,4 +1,5 @@
 {<img src="https://travis-ci.org/kairat-zhumaniyazov/sof.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/kairat-zhumaniyazov/sof]
+{<img src="https://codeclimate.com/github/kairat-zhumaniyazov/sof/badges/gpa.svg" />}[https://codeclimate.com/github/kairat-zhumaniyazov/sof]
 
 == README
 
