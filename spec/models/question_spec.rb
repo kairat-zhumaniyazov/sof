@@ -57,4 +57,38 @@ RSpec.describe Question, type: :model do
       end
     end
   end
+
+  describe 'calculate_reputation' do
+    context 'when vote for question' do
+      let(:user) { create(:user) }
+      let!(:author) { create(:user) }
+      let!(:question) { create(:question, user: author) }
+
+      context 'voting PLUS' do
+        subject { question.make_vote(1, user) }
+
+        it 'should add reputation 1 times' do
+          expect(ReputationCalculator).to receive(:calculate).with(:vote, question, user, value: 1).once
+          subject
+        end
+
+        it 'should change reputation for answer author' do
+          expect { subject }.to change{author.reputation}.by(2)
+        end
+      end
+
+      context 'voting MINUS' do
+        subject { question.make_vote(-1, user) }
+
+        it 'should add reputation 1 times' do
+          expect(ReputationCalculator).to receive(:calculate).with(:vote, question, user, value: -1).once
+          subject
+        end
+
+        it 'should change reputation for answer author' do
+          expect { subject }.to change{author.reputation}.by(-2)
+        end
+      end
+    end
+  end
 end

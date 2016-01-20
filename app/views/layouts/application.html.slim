@@ -42,6 +42,9 @@ html
             .row
               .sign-info
                 - if user_signed_in?
+                  div
+                    p= "Hi, #{current_user.email}"
+                    p= "Your reputation is: #{current_user.reputation}"
                   = link_to 'Sign out', destroy_user_session_path, method: :delete
                 - else
                   = link_to 'Sign in', new_user_session_path

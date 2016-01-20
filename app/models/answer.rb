@@ -11,6 +11,8 @@ class Answer < ActiveRecord::Base
   default_scope -> { order(best: :desc).order(created_at: :asc) }
 
   after_create :new_answer_notification
+  after_create :calculate_reputation
+  after_update :best_answer_reputation_calculate
 
   def make_best
     ActiveRecord::Base.transaction do
@@ -23,5 +25,15 @@ class Answer < ActiveRecord::Base
 
   def new_answer_notification
     SubscribersNotificationJob.perform_later(self.question)
+  end
+
+  def calculate_reputation
+    ReputationCalculator.calculate(:new_answer, self, self.user)
+  end
+
+  def best_answer_reputation_calculate
+    if best_changed?
+      ReputationCalculator.calculate(:best_answer, self, self.user) if best
+    end
   end
 end
