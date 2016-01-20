@@ -11,7 +11,8 @@ AllCops:
     - 'bin/**/*'
     - 'public/uploads/**/*'
 
-  RunRailsCops: true
+  Rails:
+    Enabled: true
   DisplayCopNames: true
   StyleGuideCopsOnly: true
 

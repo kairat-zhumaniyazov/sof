@@ -26,7 +26,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create_auth_and_redirect_for(user)
     user.authorizations.create!(provider: session['devise.oauth_data']['provider'],
-                                uid: session['devise.oauth_data']['uid'] )
+                                uid: session['devise.oauth_data']['uid'])
     redirect_to new_user_session_path
   end
 end

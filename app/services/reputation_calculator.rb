@@ -1,6 +1,6 @@
 class ReputationCalculator
   def self.calculate(action, object, user, *args)
-    self.send(action, object, user, *args)
+    send(action, object, user, *args)
   end
 
   private
@@ -9,16 +9,12 @@ class ReputationCalculator
     return unless answer
     update_reputation(user, 1)
 
-    if answer.question.answers.count == 1
-      update_reputation(user, 1)
-    end
+    update_reputation(user, 1) if answer.question.answers.count == 1
 
-    if answer.question.user.id == user.id
-      update_reputation(user, 2)
-    end
+    update_reputation(user, 2) if answer.question.user.id == user.id
   end
 
-  def self.vote(object, user, *args)
+  def self.vote(object, _user, *args)
     value = args[0][:value].to_i
     return false if !value || value == 0
 
@@ -29,7 +25,7 @@ class ReputationCalculator
     end
   end
 
-  def self.best_answer(answer, user)
+  def self.best_answer(_answer, user)
     update_reputation(user, 3)
   end
 

@@ -16,12 +16,12 @@ module VoteableController
   def re_vote
     if res = @vote_for_obj.re_vote(current_user)
       render json: {
-      success: res,
-      votes_sum: @vote_for_obj.votes_sum,
-      voted_to: @vote_for_obj.class.name,
-      voted_to_id: @vote_for_obj.id,
-      _html: render_to_string(partial: 'shared/votes', locals: { voted_to: @vote_for_obj })
-    }
+        success: res,
+        votes_sum: @vote_for_obj.votes_sum,
+        voted_to: @vote_for_obj.class.name,
+        voted_to_id: @vote_for_obj.id,
+        _html: render_to_string(partial: 'shared/votes', locals: { voted_to: @vote_for_obj })
+      }
     else
       render json: { status: :unprocessable_entity }
     end

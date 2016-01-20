@@ -16,7 +16,7 @@ class Question < ActiveRecord::Base
   after_create :subscribe_author
 
   def subscribe(user)
-    followers << user if !followers.include? user
+    followers << user unless followers.include? user
   end
 
   def unsubscribe(user)

@@ -26,7 +26,9 @@ class User < ActiveRecord::Base
       user = User.where(email: email).first
       unless user
         password = Devise.friendly_token[0, 20]
-        user = User.create!(email: email, password: password, password_confirmation: password, confirmed_at: Time.now)
+        user = User.create!(email: email, password: password,
+                            password_confirmation: password,
+                            confirmed_at: Time.zone.now)
       end
       user.authorizations.create(provider: auth.provider, uid: auth.uid)
       user

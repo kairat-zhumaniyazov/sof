@@ -24,16 +24,14 @@ class Answer < ActiveRecord::Base
   private
 
   def new_answer_notification
-    SubscribersNotificationJob.perform_later(self.question)
+    SubscribersNotificationJob.perform_later(question)
   end
 
   def calculate_reputation
-    ReputationCalculator.calculate(:new_answer, self, self.user)
+    ReputationCalculator.calculate(:new_answer, self, user)
   end
 
   def best_answer_reputation_calculate
-    if best_changed?
-      ReputationCalculator.calculate(:best_answer, self, self.user) if best
-    end
+    ReputationCalculator.calculate(:best_answer, self, user) if best_changed? && best
   end
 end

@@ -48,13 +48,15 @@ class CommentsController < ApplicationController
   def publish_new_comment
     if @comment.valid?
       PrivatePub.publish_to get_publish_channel(@commentable),
-                            post: (
-                              @comment.attributes.merge(
-                              type: 'new_comment',
-                              commentable_type: @commentable.class.name,
-                              commentable_id: @commentable.id,
-                              _html: render_to_string(partial: 'comment', locals: { comment: @comment })
-                              )).to_json
+        post: (
+          @comment.attributes.merge(
+            type: 'new_comment',
+            commentable_type: @commentable.class.name,
+            commentable_id: @commentable.id,
+            _html: render_to_string(
+              partial: 'comment', locals: { comment: @comment }
+            )
+          )).to_json
     end
   end
 end
