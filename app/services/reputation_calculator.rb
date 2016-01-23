@@ -3,8 +3,6 @@ class ReputationCalculator
     send(action, object, user, *args)
   end
 
-  private
-
   def self.new_answer(answer, user)
     return unless answer
     update_reputation(user, 1)
@@ -14,6 +12,7 @@ class ReputationCalculator
     update_reputation(user, 2) if answer.question.user.id == user.id
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
   def self.vote(object, _user, *args)
     value = args[0][:value].to_i
     return false if !value || value == 0
