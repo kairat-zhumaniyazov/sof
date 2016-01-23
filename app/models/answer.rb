@@ -8,7 +8,7 @@ class Answer < ActiveRecord::Base
 
   validates :body, :question_id, :user_id, presence: true
 
-  default_scope -> { order(best: :desc).order(created_at: :asc) }
+  default_scope { order(best: :desc).order(created_at: :asc) }
 
   after_create :new_answer_notification
   after_create :calculate_reputation
