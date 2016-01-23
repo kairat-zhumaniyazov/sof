@@ -1,5 +1,5 @@
 class SphinxController < ApplicationController
-  before_action :get_indexed_class, only: :search
+  before_action :indexed_class, only: :search
 
   def search
     authorize! :read, @results
@@ -8,9 +8,11 @@ class SphinxController < ApplicationController
 
   private
 
-  def get_indexed_class
+  # rubocop:disable Metrics/LineLength
+  def indexed_class
     param_index = search_params[:index]
-    @index = SearchQuery::INDICES.include?(param_index) ? param_index.capitalize.safe_constantize : ThinkingSphinx
+    @index =
+      SearchQuery::INDICES.include?(param_index) ? param_index.capitalize.safe_constantize : ThinkingSphinx
   end
 
   def search_params

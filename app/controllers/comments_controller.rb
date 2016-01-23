@@ -1,14 +1,15 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!, only: :create
   before_action :load_commentable, only: :create
-  after_action  :publish_new_comment, only: :create
+  after_action :publish_new_comment, only: :create
 
   respond_to :js, only: :create
 
   authorize_resource
 
   def create
-    respond_with(@comment = @commentable.comments.create(comment_params.merge(user_id: current_user.id)))
+    @comment = @commentable.comments.create(comment_params.merge(user_id: current_user.id))
+    respond_with(@comment)
   end
 
   private
@@ -17,11 +18,11 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:body)
   end
 
-  def get_commentable_class
+  def parse_commentable_class
     params[:comment][:commentable].classify.constantize
   end
 
-  def get_commentable_id
+  def parse_commentable_id
     case params[:comment][:commentable]
     when 'Question'
       params[:question_id]
@@ -42,19 +43,19 @@ class CommentsController < ApplicationController
   end
 
   def load_commentable
-    @commentable = get_commentable_class.find(get_commentable_id)
+    @commentable = parse_commentable_class.find(parse_commentable_id)
   end
 
   def publish_new_comment
-    if @comment.valid?
-      PrivatePub.publish_to get_publish_channel(@commentable),
-                            post: (
-                              @comment.attributes.merge(
+    return unless @comment.valid?
+    PrivatePub.publish_to get_publish_channel(@commentable),
+                          post: (
+                            @comment.attributes.merge(
                               type: 'new_comment',
                               commentable_type: @commentable.class.name,
                               commentable_id: @commentable.id,
-                              _html: render_to_string(partial: 'comment', locals: { comment: @comment })
-                              )).to_json
-    end
+                              _html: render_to_string(
+                                partial: 'comment', locals: { comment: @comment })
+                            )).to_json
   end
 end

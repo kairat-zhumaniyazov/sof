@@ -13,6 +13,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   private
 
+  # rubocop:disable Metrics/AbcSize, Metrics/LineLength
   def find_and_login(provider)
     @user = User.find_for_oauth(request.env['omniauth.auth'])
     if @user && @user.persisted?

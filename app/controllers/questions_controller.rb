@@ -4,7 +4,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
   before_action :load_question, only: [:show, :destroy, :update, :subscribe, :unsubscribe]
   before_action :build_answer, only: :show
-  after_action  :publish_new_question, only: :create
+  after_action :publish_new_question, only: :create
 
   respond_to :html
   respond_to :js, only: [:update, :subscribe, :unsubscribe]
@@ -57,10 +57,10 @@ class QuestionsController < ApplicationController
   end
 
   def publish_new_question
-    if @question.valid?
-      PrivatePub.publish_to '/questions',
-                            question: render_to_string(partial: 'question', locals: { question: @question })
-    end
+    return unless @question.valid?
+    PrivatePub.publish_to '/questions', question: render_to_string(
+      partial: 'question',
+      locals: { question: @question })
   end
 
   def build_answer

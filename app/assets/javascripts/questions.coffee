@@ -11,19 +11,24 @@ $ ->
     $('form#edit_answer_' + answer_id).show()
 
 
-  $('.question').on 'ajax:success', '.vote-plus, .vote-minus, .re-vote', (e, data, status, xhr) ->
+  $('.question').on 'ajax:success',
+  '.vote-plus, .vote-minus, .re-vote', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
     $('.question .votes-container').html(response._html)
 
-  $('.answers').on 'ajax:success', '.vote-plus, .vote-minus, .re-vote', (e, data, status, xhr) ->
+  $('.answers').on 'ajax:success',
+  '.vote-plus, .vote-minus, .re-vote', (e, data, status, xhr) ->
     response = $.parseJSON(xhr.responseText)
-    $('#answer_' + response.voted_to_id + ' .votes-container').html(response._html)
+    $('#answer_' + response.voted_to_id + ' .votes-container').
+    html(response._html)
 
   PrivatePub.subscribe '/questions', (data, channel) ->
     $('.questions-container').append(data['question'])
 
   questionId = $('.answers').data('question-id')
-  PrivatePub.subscribe "/questions/" + questionId + "/answers", (data, channel) ->
+
+  PrivatePub.subscribe "/questions/" +
+  questionId + "/answers", (data, channel) ->
     a = $.parseJSON(data.post)
     if a.user_id != gon.current_user_id
       if a.type == 'new_comment'

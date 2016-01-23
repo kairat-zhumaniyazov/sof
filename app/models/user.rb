@@ -19,28 +19,31 @@ class User < ActiveRecord::Base
   end
 
   def self.find_for_oauth(auth)
-    authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
+    authorization = Authorization.find_by(provider: auth.provider, uid: auth.uid.to_s)
     return authorization.user if authorization
 
     if email = auth.info.email
-      user = User.where(email: email).first
-      unless user
-        password = Devise.friendly_token[0, 20]
-        user = User.create!(email: email, password: password, password_confirmation: password, confirmed_at: Time.now)
-      end
+      user = load_or_create_user(email)
       user.authorizations.create(provider: auth.provider, uid: auth.uid)
       user
-    else
-      nil
     end
   end
 
   def self.create_with_psw(email)
     password = Devise.friendly_token[0, 20]
-    User.create(email: email, password: password, password_confirmation: password)
+    User.create(email: email,
+                password: password,
+                password_confirmation: password,
+                confirmed_at: Time.zone.now)
   end
 
   private
+
+  def self.load_or_create_user(email)
+    user = User.find_by(email: email)
+    user = create_with_psw(email) unless user
+    user
+  end
 
   def welcome_email
     UserMailer.email_confirmation(self).deliver_later

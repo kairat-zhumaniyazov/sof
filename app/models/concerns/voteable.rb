@@ -24,9 +24,7 @@ module Voteable
 
   def make_vote(value, user)
     user_vote = votes.create_with(user: user).find_or_create_by(user: user)
-    if user_vote.value != value
-      user_vote.update(value: value)
-    end
+    user_vote.update(value: value) if user_vote.value != value
 
     ReputationCalculator.calculate(:vote, self, user, value: value)
   end

@@ -2,9 +2,9 @@ class AnswersController < ApplicationController
   include VoteableController
 
   before_action :authenticate_user!
-  before_action :get_question, only: [:create, :update, :best_answer]
-  before_action :get_answer, only: [:destroy, :update, :best_answer, :show]
-  after_action  :publish_new_answer, only: :create
+  before_action :load_question, only: [:create, :update, :best_answer]
+  before_action :load_answer, only: [:destroy, :update, :best_answer, :show]
+  after_action :publish_new_answer, only: :create
 
   respond_to :js, only: [:create, :destroy, :update, :best_answer]
 
@@ -33,19 +33,20 @@ class AnswersController < ApplicationController
     params.require(:answer).permit(:body, attachments_attributes: [:file, :id, :_destroy])
   end
 
-  def get_question
+  def load_question
     @question = Question.find(params[:question_id])
   end
 
-  def get_answer
+  def load_answer
     @answer = Answer.find(params[:id])
   end
 
   def publish_new_answer
-    if @answer.valid?
-      PrivatePub.publish_to "/questions/#{@question.id}/answers",
-                            post: { type: 'new_answer',
-                                    _html: render_to_string(partial: 'answer', locals: { answer: @answer }) }.to_json
-    end
+    return unless @answer.valid?
+    PrivatePub.publish_to "/questions/#{@question.id}/answers",
+                          post: { type: 'new_answer',
+                                  _html: render_to_string(
+                                    partial: 'answer',
+                                    locals: { answer: @answer }) }.to_json
   end
 end
