@@ -18,6 +18,11 @@ engines:
     enabled: true
   rubocop:
     enabled: true
+    checks:
+      Rubocop/Style/Documentation:
+        enabled: false
+      Rubocop/Lint/AssignmentInCondition:
+        enabled: false
 ratings:
   paths:
   - Gemfile.lock

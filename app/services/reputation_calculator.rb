@@ -18,9 +18,10 @@ class ReputationCalculator
     value = args[0][:value].to_i
     return false if !value || value == 0
 
-    if object.is_a? Answer
+    case object
+    when Answer
       update_reputation(object.user, value > 0 ? 1 : -1)
-    elsif object.is_a? Question
+    when Question
       update_reputation(object.user, value > 0 ? 2 : -2)
     end
   end

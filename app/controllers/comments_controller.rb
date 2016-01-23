@@ -17,11 +17,11 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:body)
   end
 
-  def get_commentable_class
+  def parse_commentable_class
     params[:comment][:commentable].classify.constantize
   end
 
-  def get_commentable_id
+  def parse_commentable_id
     case params[:comment][:commentable]
     when 'Question'
       params[:question_id]
@@ -42,7 +42,7 @@ class CommentsController < ApplicationController
   end
 
   def load_commentable
-    @commentable = get_commentable_class.find(get_commentable_id)
+    @commentable = parse_commentable_class.find(parse_commentable_id)
   end
 
   def publish_new_comment
