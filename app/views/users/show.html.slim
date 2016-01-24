@@ -1,0 +1,27 @@
+div
+  div
+    h2
+      = @user.nickname
+    h4
+      = @user.email
+  div
+    - if can?(:edit, @user)
+      = link_to 'Edit profile', edit_user_path(@user)
+
+h3
+  | Last 5 questions
+
+div.profile-questions
+  - @last_questions.any?
+    - @last_questions.each do |question|
+      div id="#{dom_id question}"
+        h4= link_to question.title, question_path(question)
+
+h3
+  | Last 5 answers
+
+div.profile-answers
+  - @last_answers.any?
+    - @last_answers.each do |answer|
+      div id="#{dom_id answer}"
+        h4= link_to answer.question.title, question_path(answer.question)

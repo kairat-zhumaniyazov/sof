@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     get 'email_required', to: 'registrations#email_required'
     post 'create_with_email', to: 'registrations#create_with_email'
+    resources :users
   end
 
   root 'questions#index'
