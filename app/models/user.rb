@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   has_many :subscriptions, dependent: :destroy
   has_many :subscribes, through: :subscriptions, source: :question
 
+  mount_uploader :avatar, AvatarUploader
+
   validates :nickname, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9.\-_]+\z/ }
 
   # Include default devise modules. Others available are:
