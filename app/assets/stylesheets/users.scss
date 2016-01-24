@@ -1,3 +1,53 @@
-// Place all the styles related to the Users controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+div.profile-info {
+  padding: 20px;
+  background-color: #d4d4d4;
+  margin-top: 30px;
+
+  div.avatar {
+    float: left;
+
+    img.avatar {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  div.dummy-avatar {
+    width: 100px;
+    height: 100px;
+    background-color: #aaa8a9;
+
+    p {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      vertical-align: middle;
+      display: table-cell;
+      padding: 10px;
+    }
+  }
+
+  div.profile-data {
+    float: left;
+    padding-left: 30px;
+
+    h2 {
+      margin-top: 10px;
+    }
+  }
+
+  div.profile-controls {
+    float: right;
+  }
+
+  &::after {
+    clear: both;
+    content: '.';
+    height: 0px;
+    display: block;
+  }
+}
+
+div.last-activity {
+  padding: 30px;
+}

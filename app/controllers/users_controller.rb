@@ -6,8 +6,4 @@ class UsersController < ApplicationController
     @last_questions = @user.questions.limit(5)
     @last_answers = @user.answers.limit(5)
   end
-
-  def edit
-    #code
-  end
 end

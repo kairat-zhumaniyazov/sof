@@ -28,6 +28,7 @@ gem 'bootswatch-rails'
 gem 'slim-rails'
 
 gem 'devise'
+gem 'rmagick', require: false
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'

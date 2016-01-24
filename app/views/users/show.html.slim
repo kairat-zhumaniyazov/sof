@@ -1,27 +1,36 @@
-div
-  div
+div.profile-info
+  div.avatar
+    - if @user.avatar.url
+      = image_tag @user.avatar, class: 'avatar'
+    - else
+      .dummy-avatar
+        p No avatar
+
+  div.profile-data
     h2
       = @user.nickname
     h4
-      = @user.email
-  div
+      = "email: #{@user.email}"
+
+  div.profile-controls
     - if can?(:edit, @user)
-      = link_to 'Edit profile', edit_user_path(@user)
+      = link_to 'Edit profile', edit_user_registration_path, class: 'btn btn-info'
 
-h3
-  | Last 5 questions
+div.last-activity
+  h3
+    | Last 5 questions
 
-div.profile-questions
-  - @last_questions.any?
-    - @last_questions.each do |question|
-      div id="#{dom_id question}"
-        h4= link_to question.title, question_path(question)
+  div.profile-questions
+    - @last_questions.any?
+      - @last_questions.each do |question|
+        div id="#{dom_id question}"
+          h4= link_to question.title, question_path(question)
 
-h3
-  | Last 5 answers
+  h3
+    | Last 5 answers
 
-div.profile-answers
-  - @last_answers.any?
-    - @last_answers.each do |answer|
-      div id="#{dom_id answer}"
-        h4= link_to answer.question.title, question_path(answer.question)
+  div.profile-answers
+    - @last_answers.any?
+      - @last_answers.each do |answer|
+        div id="#{dom_id answer}"
+          h4= link_to answer.question.title, question_path(answer.question)
