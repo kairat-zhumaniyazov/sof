@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe User do
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
+  it { should validate_presence_of :nickname }
 
   it { should have_many(:questions).dependent(:destroy) }
   it { should have_many(:answers).dependent(:destroy) }
@@ -97,9 +98,12 @@ RSpec.describe User do
   end
 
   describe '.create_with_psw' do
-    let(:email) { { email: 'test@test.com' } }
     it 'should create new user with random psw' do
-      expect(User.create_with_psw(email)).to be_a_new User
+      expect(User.create_with_psw('test@test.com', 'test_nickname')).to be_a User
+    end
+
+    it 'should not create new user with random psw' do
+      expect(User.create_with_psw('test@test.com', '')).to be nil
     end
   end
 end

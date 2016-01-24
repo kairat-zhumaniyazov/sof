@@ -9,8 +9,8 @@ class RegistrationsController < Devise::RegistrationsController
         'Email already registered in system. For binding you must verify your email address.'
       create_auth_and_redirect_for @user
     else
-      @user = User.create_with_psw(user_params[:email])
-      if @user.persisted?
+      @user = User.create_with_psw(user_params[:email], user_params[:nickname])
+      if @user
         flash[:notice] =
           'Congratulations! Email successfully registered. You must verify your email address'
         create_auth_and_redirect_for @user
@@ -23,7 +23,7 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def user_params
-    params.require(:user).permit(:email)
+    params.require(:user).permit(:email, :nickname)
   end
 
   def create_auth_and_redirect_for(user)

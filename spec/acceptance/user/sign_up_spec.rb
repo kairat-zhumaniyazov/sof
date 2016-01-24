@@ -11,6 +11,7 @@ feature 'User sign up', %q{
   scenario 'Registration with valid attributes' do
     visit new_user_registration_path
     fill_in 'Email', with: user_params[:email]
+    fill_in 'Nickname', with: user_params[:nickname]
     fill_in 'Password', with: user_params[:password]
     fill_in 'Password confirmation', with: user_params[:password]
     click_button 'Sign up'
@@ -25,7 +26,7 @@ feature 'User sign up', %q{
     fill_in 'Password confirmation', with: ''
     click_button 'Sign up'
 
-    expect(page).to have_content '2 errors prohibited this user from being saved'
+    expect(page).to have_content '4 errors prohibited this user from being saved'
     expect(current_path).to eq user_registration_path
   end
 

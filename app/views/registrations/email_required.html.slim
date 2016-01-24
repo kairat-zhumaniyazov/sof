@@ -6,6 +6,14 @@ p For registration you need to add your valid email.
       li= msg
 
 = form_for @user, url: create_with_email_path do |f|
-  = f.label :email
-  = f.text_field :email
-  = f.submit 'Add'
+
+  .field
+    = f.label :email
+    = f.email_field :email
+
+  .field
+    = f.label :nickname
+    = f.text_field :nickname
+
+  .actions
+    = f.submit 'Add'
