@@ -1,17 +1,16 @@
-- cache collection_cache_key_for :question do
-  .section
-    .container
-      .row
-        .col-md-12
-          h3 Questions list123
-      .row
-        .col-md-12
-          - if @questions.any?
-            .questions-container
-              - @questions.each do |question|
-                = render question, question: question
-          - else
-            div
-              | Questions is empty
+.section
+  .container
+    .row
+      .col-md-12
+        h3 Questions list
+    .row
+      .col-md-12
+        - if @questions.any?
+          .questions-container
+            - @questions.each do |question|
+              = render question, question: question
+        - else
+          div
+            | Questions is empty
 
 = subscribe_to '/questions'

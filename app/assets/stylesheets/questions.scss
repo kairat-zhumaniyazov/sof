@@ -45,7 +45,7 @@ div#edit-question-form-container { display: none; }
 
 .question {
   padding: 10px;
-  border-bottom: 1px solid #eaebec;
+  border-bottom: 1px solid #c4c4c4;
   &::after {
     clear: both;
     content: '.';
@@ -63,5 +63,25 @@ div#edit-question-form-container { display: none; }
     float: left;
     margin-left: 0px;
     padding: 5px 20px;
+  }
+
+  .author-info {
+    float: right;
+    width: 200px;
+    margin-top: 10px;
+    margin-right: 30px;
+
+    .avatar-thumb {
+      float: left;
+    }
+
+    .author-info-text {
+      float: left;
+      margin-left: 10px;
+
+      p {
+        padding-top: 0px;
+      }
+    }
   }
 }

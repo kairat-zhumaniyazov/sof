@@ -12,7 +12,7 @@ class QuestionsController < ApplicationController
   authorize_resource
 
   def index
-    respond_with(@questions = Question.all)
+    respond_with(@questions = Question.with_votes_sum_and_answers_count)
   end
 
   def show
