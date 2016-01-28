@@ -3,7 +3,10 @@
     = "#{time_ago_in_words(object.created_at)} ago"
 
   .user-avatar-32
-    = image_tag object.user.avatar.thumb
+    - if object.user.avatar.thumb.url
+      = image_tag object.user.avatar.thumb
+    - else
+      p.no-avatar-thumb No avatar
 
   .user-details
     = link_to object.user.nickname, user_path(object.user)
