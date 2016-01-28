@@ -4,6 +4,7 @@
   <% else %>
     $('div.question').html('<%= j render "question_block" %>');
   <% end %>
+  $('div#edit-question-form-container').hide();
 <% else %>
   $('div#edit-question-form-container #validation-errors').html('<%= j render "validation_errors" %>');
 <% end %>

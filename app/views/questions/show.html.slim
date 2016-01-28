@@ -1,28 +1,45 @@
-div.question
-  = render 'question_block'
+.question id="#{dom_id @question}"
+  .question-header
+    h3= @question.title
 
--if @question.answers.any?
-  .answers data={question_id: "#{@question.id}"}
-    .answers-list
-      h2 Answers
-      - @question.answers.each do |answer|
-        - if answer.id
-          = render partial: answer, locals: { answer: answer }
+    table.post
+      tbody
+        tr
+          td.vote-cell
+            .votes-container
+              = render partial: 'shared/votes', locals: { voted_to: @question }
+          td.post-cell
+            .post-content
+              .post-body
+                /- cache [@question, :body]
+                = @question.body
 
-    - if can?(:create, Answer)
-      - cache [@question, :new_answer_form]
-        div#new-answer-form
-          h3 New answer
-          = form_for [@question, @answer], remote: true do |f|
-            p= f.label :body, 'Answer body'
-            p= f.text_area :body
+                - if @question.attachments.any?
+                  /- cache_unless [@question, :attachments]
+                  = render 'shared/attached_files', files: @question.attachments
 
-            p Attachments:
-            = f.fields_for :attachments, @answer.attachments.build do |a|
-              = render 'shared/attachment_fields', f: a
-            .links
-              = link_to_add_association 'add file', f, :attachments, partial: 'shared/attachment_fields'
+              .post-footer
+                .post-controls
+                  = render 'questions/controls'
 
-            p= f.submit 'Create Answer'
+                = render 'shared/author_info', object: @question
+
+            #edit-question-form-container
+              div#validation-errors
+              = render partial: 'form', locals: { submit_text: 'Save', remote: true }
+
+
+        tr
+          td.vote-cell
+          td.post-cell
+            = render 'comments/list', commentable: @question, comment: @question.comments.build
+
+
+
+.answers data={question_id: "#{@question.id}"}
+  = render 'answers/answers_list'
+
+  - if can?(:create, Answer)
+    = render 'answers/new_answer_form', question: @question
 
 = subscribe_to "/questions/#{@question.id}/answers"

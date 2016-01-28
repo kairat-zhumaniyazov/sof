@@ -16,4 +16,4 @@
       p
         = "created at: #{question.created_at.strftime('%d %b %Y %R')}"
 
-    = render 'shared/author_info', user: question.user
+    = render 'shared/author_info', object: question

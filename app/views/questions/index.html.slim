@@ -6,7 +6,7 @@
     .row
       .col-md-12
         - if @questions.any?
-          .questions-container
+          .questions-list-container
             - @questions.each do |question|
               = render question, question: question
         - else

@@ -1,3 +1,9 @@
-- cache [comment, :body]
-  div id="#{dom_id comment}"
+//- cache [comment, :body]
+.comments-list-item id="#{dom_id comment}"
+  .comment-body
     = comment.body
+    '  –
+    = link_to(comment.user.nickname, user_path(comment.user), class: 'comment-user')
+    '
+    span.comment-crated-at
+      = "#{time_ago_in_words( comment.created_at)} ago"

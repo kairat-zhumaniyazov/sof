@@ -1,38 +1,38 @@
-div id="#{dom_id answer}"
-  - cache [answer, :body]
-    p.answer-body= answer.body
+div.question-answer id="#{dom_id answer}"
+  table.post
+    tbody
+      tr
+        td.vote-cell
+          .votes-container
+            = render partial: 'shared/votes', locals: { voted_to: answer }
+            - if answer.best?
+              p#best-answer Best answer
+        td.post-cell
+          .post-content
+            .post-body
+              = answer.body
 
-  - if answer.attachments.any?
-    - cache [answer, :attachments]
-      = render 'shared/attached_files', files: answer.attachments
+              - if answer.attachments.any?
+                //- cache [answer, :attachments]
+                = render 'shared/attached_files', files: answer.attachments
 
-  .votes-container
-    = render partial: 'shared/votes', locals: { voted_to: answer }
+            .post-footer
+              .post-controls
+                = render 'answers/controls', answer: answer
 
-  - if answer.best?
-    p#best-answer Best answer
+              = render 'shared/author_info', object: answer
 
-  - if can?(:manage, answer)
-    - cache [answer, :controls]
-      p= link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-      .edit-answer-form
-        = form_for [@question, answer], remote: true do |f|
-          p= f.label :body, 'Answer'
-          p= f.text_area :body
-          p= f.fields_for :attachments do |a|
-            = render 'shared/attachment_fields', f: a
-          .links
-            = link_to_add_association 'add file', f, :attachments, partial: 'shared/attachment_fields'
-          p= f.submit 'Save'
+          .edit-answer-form
+            = form_for [@question, answer], remote: true do |f|
+              p= f.label :body, 'Answer'
+              p= f.text_area :body
+              p= f.fields_for :attachments do |a|
+                = render 'shared/attachment_fields', f: a
+              .links
+                = link_to_add_association 'add file', f, :attachments, partial: 'shared/attachment_fields'
+              p= f.submit 'Save'
 
-      p= link_to 'Delete answer', [@question, answer], remote: true, method: :delete
-
-  - if can?(:best_answer, answer)
-    p
-      = link_to 'Best answer', best_answer_question_answer_path(@question, answer),
-                 remote: true,
-                 method: :post,
-                 class: 'best-answer-link',
-                 id: "best-answer-link-#{answer.id}"
-
-  = render partial: 'comments/list', locals: { commentable: answer, comment: answer.comments.build }
+    tr
+      td.vote-cell
+      td.post-cell
+        = render partial: 'comments/list', locals: { commentable: answer, comment: answer.comments.build }

@@ -34,7 +34,7 @@ feature 'Edit Answer for Question', %q{
 
       expect(page).to_not have_content answer.body
       expect(page).to have_content 'edited answer'
-      expect(page).to have_selector 'textarea'
+      expect(page).to_not have_selector 'textarea'
     end
 
     scenario 'with invalid attr should see errors', js: true do

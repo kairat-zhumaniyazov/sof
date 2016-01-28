@@ -1,0 +1,6 @@
+- if @question.answers.any?
+  .answers-list
+    h2 Answers
+    - @question.answers.each do |answer|
+      - if answer.id
+        = render partial: answer, locals: { answer: answer }

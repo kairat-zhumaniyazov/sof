@@ -1,28 +1,36 @@
-.votes.clearfix
-  h5 Votes
-  p.votes-sum
-    = voted_to.votes_sum
-
-  div.votes-links
-    - if can?(:vote, voted_to)
-      - if voted_to.user_is_voted?(current_user)
+div.votes-links
+  - if can?(:vote, voted_to)
+    - if voted_to.user_is_voted?(current_user)
+      .votes-sum
         p
-          - if voted_to.kind_of? Question
-            =  link_to 'Re-vote?', re_vote_question_path(voted_to), remote: true, method: :post, class: 're-vote'
+          = voted_to.votes_sum
+      p
+        - if voted_to.kind_of? Question
+          =  link_to 'Re-vote?', re_vote_question_path(voted_to), remote: true, method: :post, class: 're-vote'
 
-          - if voted_to.kind_of? Answer
-            =  link_to 'Re-vote?', re_vote_question_answer_path(voted_to.question, voted_to), remote: true, method: :post, class: 're-vote'
+        - if voted_to.kind_of? Answer
+          =  link_to 'Re-vote?', re_vote_question_answer_path(voted_to.question, voted_to), remote: true, method: :post, class: 're-vote'
 
-      - else
+    - else
+
+      .votes-link.vote-plus
+        - if voted_to.kind_of? Question
+          = link_to '+', vote_plus_question_path(voted_to), remote: true, method: :post, class: 'vote-plus'
+        - if voted_to.kind_of? Answer
+          = link_to('+', vote_plus_question_answer_path(voted_to.question, voted_to),
+                    remote: true, method: :post, class: 'vote-plus')
+      .votes-sum
         p
-          - if voted_to.kind_of? Question
-            = link_to '+', vote_plus_question_path(voted_to), remote: true, method: :post, class: 'vote-plus'
-          - if voted_to.kind_of? Answer
-            = link_to('+', vote_plus_question_answer_path(voted_to.question, voted_to),
-                      remote: true, method: :post, class: 'vote-plus')
-        p
-          - if voted_to.kind_of? Question
-            = link_to '-', vote_minus_question_path(voted_to), remote: true, method: :post, class: 'vote-minus'
-          - if voted_to.kind_of? Answer
-            = link_to('-', vote_minus_question_answer_path(voted_to.question, voted_to),
-                      remote: true, method: :post, class: 'vote-minus')
+          = voted_to.votes_sum
+
+      .votes-link.vote-minus
+        - if voted_to.kind_of? Question
+          = link_to '-', vote_minus_question_path(voted_to), remote: true, method: :post, class: 'vote-minus'
+        - if voted_to.kind_of? Answer
+          = link_to('-', vote_minus_question_answer_path(voted_to.question, voted_to),
+                    remote: true, method: :post, class: 'vote-minus')
+
+  - else
+    .votes-sum
+      p
+        = voted_to.votes_sum

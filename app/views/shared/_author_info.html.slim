@@ -1,5 +1,9 @@
-.author-info
-  .avatar-thumb
-    = image_tag user.avatar.thumb
-  .author-info-text
-    p= link_to user.nickname, user_path(user)
+.user-info
+  .created-at
+    = "#{time_ago_in_words(object.created_at)} ago"
+
+  .user-avatar-32
+    = image_tag object.user.avatar.thumb
+
+  .user-details
+    = link_to object.user.nickname, user_path(object.user)

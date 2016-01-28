@@ -1,7 +1,8 @@
 - if can?(:create, Comment)
-  .comments-form
-    = link_to 'Add comment'
+  = link_to 'Add comment', '#', class: 'new-comment', data: { comment_for: dom_id(commentable) }
 
+
+  .new-comment-form-container
     - if commentable.is_a?(Answer)
       = form_for [commentable.question, commentable, comment], remote: true do |f|
         = f.hidden_field :commentable, value: commentable.class.name

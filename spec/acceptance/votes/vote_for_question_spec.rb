@@ -19,7 +19,7 @@ feature 'Vote for the question', %q{
     describe 'can vote' do
 
       scenario 'PLUS', js: true do
-        within '.question .votes' do
+        within '.question .votes-container' do
           click_on '+'
           expect(page).to have_content '1'
           expect(page).to have_link 'Re-vote?'
@@ -27,7 +27,7 @@ feature 'Vote for the question', %q{
       end
 
       scenario 'MINUS', js: true do
-        within '.question .votes' do
+        within '.question .votes-container' do
           click_on '-'
           expect(page).to have_content '-1'
           expect(page).to have_link 'Re-vote?'
@@ -39,7 +39,7 @@ feature 'Vote for the question', %q{
           let!(:vote) { create(:vote_for_question, voteable: question, user: user, value: 1) }
           before { visit question_path question }
           scenario 'see info about that', js: true do
-            within '.question .votes' do
+            within '.question .votes-container' do
               expect(page).to_not have_link '+', href: vote_plus_question_path(question)
               expect(page).to_not have_link '-', href: vote_minus_question_path(question)
               expect(page).to have_content '1'
@@ -54,7 +54,7 @@ feature 'Vote for the question', %q{
           scenario 'vote PLUS with others', js: true do
             visit question_path question
             click_on '+'
-            within '.question .votes' do
+            within '.question .votes-container' do
               expect(page).to_not have_link '+', href: vote_plus_question_path(question)
               expect(page).to_not have_link '-', href: vote_minus_question_path(question)
               expect(page).to have_link 'Re-vote?'
@@ -65,7 +65,7 @@ feature 'Vote for the question', %q{
           scenario 'vote MINUS with others', js: true do
             visit question_path question
             click_on '-'
-            within '.question .votes' do
+            within '.question .votes-container' do
               expect(page).to_not have_link '+', href: vote_plus_question_path(question)
               expect(page).to_not have_link '-', href: vote_minus_question_path(question)
               expect(page).to have_link 'Re-vote?'
@@ -80,7 +80,7 @@ feature 'Vote for the question', %q{
         before { visit question_path question }
 
         scenario 'when click re-vote link', js: true do
-          within '.question .votes' do
+          within '.question .votes-container' do
             expect(page).to have_link 'Re-vote?'
             click_on 'Re-vote'
             expect(page).to_not have_link '+', href: vote_plus_question_path(question)
@@ -93,7 +93,7 @@ feature 'Vote for the question', %q{
     describe 'can not vote' do
       scenario 'user is question author', js: true do
         visit question_path question_with_autor
-        within '.votes' do
+        within '.votes-container' do
           expect(page).to_not have_link '+', href: vote_plus_question_path(question)
           expect(page).to_not have_link '-', href: vote_minus_question_path(question)
           expect(page).to_not have_content 'Re-vote?'
@@ -106,7 +106,7 @@ feature 'Vote for the question', %q{
   describe 'Non-authorized user can not vote' do
     scenario 'user dont have votes link', js: true do
       visit question_path question
-      within '.votes' do
+      within '.votes-container' do
         expect(page).to_not have_link '+', href: vote_plus_question_path(question)
         expect(page).to_not have_link '-', href: vote_minus_question_path(question)
         expect(page).to_not have_content 'Re-vote?'
