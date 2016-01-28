@@ -4,7 +4,12 @@ RSpec.describe RegistrationsController, type: :controller do
 
   before do
     @request.env["devise.mapping"] = Devise.mappings[:user]
-    session["devise.oauth_data"] = OmniAuth::AuthHash.new(provider: 'twitter', uid: '222222')
+    session["devise.oauth_data"] = OmniAuth::AuthHash.new(
+      provider: 'twitter',
+      uid: '222222',
+      info: {
+        image: 'http://abs.twimg.com/sticky/default_profile_images/default_profile_1_normal.png'
+        } )
   end
 
   describe '#email_required' do

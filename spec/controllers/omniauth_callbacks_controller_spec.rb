@@ -33,7 +33,13 @@ RSpec.describe OmniauthCallbacksController, type: :controller do
 
     context 'User does not exists' do
       before do
-        request.env['omniauth.auth'] = OmniAuth::AuthHash.new(provider: 'facebook', uid: '222222', info: { email: 'another@user.com' })
+        request.env['omniauth.auth'] = OmniAuth::AuthHash.new(
+          provider: 'facebook',
+          uid: '222222',
+          info: {
+            image: 'http://abs.twimg.com/sticky/default_profile_images/default_profile_1_normal.png',
+            email: 'another@user.com'
+            })
       end
 
       it 'should create new User' do

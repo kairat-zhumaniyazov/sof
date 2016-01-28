@@ -33,10 +33,11 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.create_with_psw(email, nickname)
+  def self.create_with_psw(email, nickname, avatar_url = nil)
     password = Devise.friendly_token[0, 20]
     user = User.create(email: email,
                        nickname: nickname,
+                       remote_avatar_url: avatar_url,
                        password: password,
                        password_confirmation: password,
                        confirmed_at: Time.zone.now)
@@ -58,7 +59,9 @@ class User < ActiveRecord::Base
 
   def self.load_or_create_user(auth)
     user = User.find_by(email: auth.info.email)
-    user = create_with_psw(auth.info.email, nickname_from_auth_hash(auth)) unless user
+    user = create_with_psw(auth.info.email,
+                           nickname_from_auth_hash(auth),
+                           auth.info.image) unless user
     user
   end
 
