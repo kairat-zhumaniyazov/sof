@@ -3,7 +3,7 @@ div.votes-links
     - if voted_to.user_is_voted?(current_user)
       .votes-sum
         p
-          = voted_to.votes_sum
+          = voted_to.votes.map{|v| v.value}.sum
       p
         - if voted_to.kind_of? Question
           =  link_to 'Re-vote?', re_vote_question_path(voted_to), remote: true, method: :post, class: 're-vote'
@@ -21,7 +21,7 @@ div.votes-links
                     remote: true, method: :post, class: 'vote-plus')
       .votes-sum
         p
-          = voted_to.votes_sum
+          = voted_to.votes.map{|v| v.value}.sum
 
       .votes-link.vote-minus
         - if voted_to.kind_of? Question
@@ -33,4 +33,4 @@ div.votes-links
   - else
     .votes-sum
       p
-        = voted_to.votes_sum
+        = voted_to.votes.map{|v| v.value}.sum

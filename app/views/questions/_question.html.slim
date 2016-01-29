@@ -1,19 +1,19 @@
-- cache [question, cache_key_for_question_with_author(question)]
-  div class = "question question#{question.id}"
-    .votes
-      .count
-        = question.try(:votes_value) && !question.votes_value.nil? ? question.votes_value : 0
-      div
-        | votes
-    .answers
-      .count
-        = question.try(:answers_count) && !question.answers_count.nil? ? question.answers_count : 0
-      div
-        | answers
+div class = "question question#{question.id}"
+
+  .votes
+    .count
+      = question.try(:votes_value) && !question.votes_value.nil? ? question.votes_value : 0
+    div
+      | votes
+  .answers
+    .count
+      = question.try(:answers_count) && !question.answers_count.nil? ? question.answers_count : 0
+    div
+      | answers
+
+  - cache [question, :question_list_item]
     .summary
       h4
         = link_to question.title, question_path(question)
-      p
-        = "created at: #{question.created_at.strftime('%d %b %Y %R')}"
 
-    = render 'shared/author_info', object: question
+  = render 'shared/author_info', object: question
