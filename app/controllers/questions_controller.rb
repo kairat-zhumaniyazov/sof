@@ -13,7 +13,7 @@ class QuestionsController < ApplicationController
   authorize_resource
 
   def index
-    respond_with(@questions = Question.with_votes_sum_and_answers_count)
+    respond_with(@questions = Question.eager_load(:user).all)
   end
 
   def show

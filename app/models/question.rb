@@ -12,15 +12,9 @@ class Question < ActiveRecord::Base
 
   # rubocop:disable Metrics/LineLength
   scope :created_yesterday, -> { where(created_at: Date.yesterday.beginning_of_day..Date.yesterday.end_of_day) }
-  scope :with_votes_sum_and_answers_count, -> {
-    includes(:user).
-    joins('LEFT JOIN votes v ON questions.id = v.voteable_id AND v.voteable_type = \'Question\'').
-    joins('LEFT JOIN answers a ON questions.id = a.question_id').
-    select('questions.*, SUM(v.value) as votes_value, COUNT(a.*) AS answers_count').
-    group('questions.id') }
 
   scope :with_includes, -> {
-    includes(:user, :attachments, :votes, comments: :user, answers: [:user, :votes, :attachments, comments: :user]) }
+    eager_load(:user, :attachments, comments: :user, answers: [:user, :attachments, comments: :user]) }
 
   default_scope { order(created_at: :desc) }
 
