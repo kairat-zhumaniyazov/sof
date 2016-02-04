@@ -1,6 +1,7 @@
 .user-info
   .created-at
-    = "#{time_ago_in_words(object.created_at)} ago"
+    span.timeago title="#{object.created_at.getutc.iso8601}"
+      = object.created_at.to_s
 
   .user-avatar-32
     - if object.user.avatar.thumb.url

@@ -1,4 +1,4 @@
-div class = "question question#{question.id}"
+div class="question question#{question.id}"
 
   .votes
     .count
@@ -11,9 +11,8 @@ div class = "question question#{question.id}"
     div
       | answers
 
-  - cache [question, :question_list_item]
-    .summary
-      h4
-        = link_to question.title, question_path(question)
+  .summary
+    h4
+      = link_to question.title, question_path(question)
 
   = render 'shared/author_info', object: question

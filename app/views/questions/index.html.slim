@@ -6,9 +6,11 @@
     .row
       .col-md-12
         - if @questions.any?
-          .questions-list-container
-            - @questions.each do |question|
-              = render question, question: question
+          - cache collection_cache_key_for :question
+            .questions-list-container
+              - @questions.each do |question|
+                - cache [question, :questions_list_item]
+                  = render question, question: question
         - else
           div
             | Questions is empty

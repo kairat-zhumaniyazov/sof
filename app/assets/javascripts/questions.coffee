@@ -1,4 +1,6 @@
 $ ->
+  $('span.timeago').timeago()
+
   $('.question').on 'click', 'a.edit-question-link', (e) ->
     e.preventDefault()
     $(this).hide()
