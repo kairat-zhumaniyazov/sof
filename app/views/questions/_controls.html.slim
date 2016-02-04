@@ -6,10 +6,10 @@
       = link_to 'Subscribe', subscribe_question_path(@question), method: :post, remote: true
 
 - if can?(:manage, @question)
-  /- cache [@question, :controls]
-  .question-managing-controls
-    ul.clear
-      li
-        = link_to 'Edit', '', class: 'edit-question-link'
-      li
-        = link_to 'Delete question', @question, method: :delete
+  - cache [@question, :controls]
+    .question-managing-controls
+      ul.clear
+        li
+          = link_to 'Edit', '', class: 'edit-question-link'
+        li
+          = link_to 'Delete question', @question, method: :delete

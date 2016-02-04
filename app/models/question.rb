@@ -14,7 +14,7 @@ class Question < ActiveRecord::Base
   scope :created_yesterday, -> { where(created_at: Date.yesterday.beginning_of_day..Date.yesterday.end_of_day) }
 
   scope :with_includes, -> {
-    eager_load(:user, :attachments, comments: :user, answers: [:user, :attachments, comments: :user]) }
+    order('comments.created_at').eager_load(:user, :attachments, comments: :user, answers: [:user, :attachments, comments: :user]) }
 
   default_scope { order(created_at: :desc) }
 

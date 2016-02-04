@@ -10,38 +10,20 @@
         td.post-cell
           .post-content
             .post-body
-              = @question.body
+              - cache [@question, :body]
+                = @question.body
 
               - if @question.attachments.any?
-                = render 'shared/attached_files', files: @question.attachments
+                - cache_unless [@question, :attachments]
+                  = render 'shared/attached_files', files: @question.attachments
 
             .post-footer
-
               .post-controls
-                - if current_user
-                  .subscribe-controls
-                    - if @question.followers.include? current_user
-                        = link_to 'Unsubscribe', unsubscribe_question_path(@question), method: :post, remote: true
-                    - else
-                      = link_to 'Subscribe', subscribe_question_path(@question), method: :post, remote: true
+                = render 'questions/controls'
 
-                - if can?(:manage, @question)
-                  //- cache [@question, :controls]
-                  .question-managing-controls
-                    ul.clear
-                      li
-                        = link_to 'Edit', '', class: 'edit-question-link'
-                      li
-                        = link_to 'Delete question', @question, method: :delete
-
-              = render "shared/author_info", object: @question
+              - cache [@question, :author_info]
+                = render 'shared/author_info', object: @question
 
           #edit-question-form-container
             div#validation-errors
             = render partial: 'form', locals: { submit_text: 'Save', remote: true }
-
-
-      tr
-        td.vote-cell
-        td.post-cell
-          = render 'comments/list', commentable: @question, comment: @question.comments.build

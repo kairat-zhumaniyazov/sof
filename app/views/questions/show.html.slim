@@ -1,38 +1,11 @@
 .question id="#{dom_id @question}"
-  .question-header
-    h3= @question.title
+  = render 'question_block'
 
-    table.post
-      tbody
-        tr
-          td.vote-cell
-            .votes-container
-              = render partial: 'shared/votes', locals: { object: @question }
-          td.post-cell
-            .post-content
-              .post-body
-                /- cache [@question, :body]
-                = @question.body
-
-                - if @question.attachments.any?
-                  /- cache_unless [@question, :attachments]
-                  = render 'shared/attached_files', files: @question.attachments
-
-              .post-footer
-                .post-controls
-                  = render 'questions/controls'
-
-                = render 'shared/author_info', object: @question
-
-            #edit-question-form-container
-              div#validation-errors
-              = render partial: 'form', locals: { submit_text: 'Save', remote: true }
-
-
-        tr
-          td.vote-cell
-          td.post-cell
-            = render 'comments/list', commentable: @question, comment: @question.comments.build
+  table
+    tr
+      td.vote-cell
+      td.post-cell
+        = render 'comments/list', commentable: @question
 
 
 

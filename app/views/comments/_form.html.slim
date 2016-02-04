@@ -1,18 +1,19 @@
 - if can?(:create, Comment)
-  = link_to 'Add comment', '#', class: 'new-comment', data: { comment_for: dom_id(commentable) }
+  - cache [commentable, :new_comment_form]
+    = link_to 'Add comment', '#', class: 'new-comment', data: { comment_for: dom_id(commentable) }
 
 
-  .new-comment-form-container
-    - if commentable.is_a?(Answer)
-      = form_for [commentable.question, commentable, comment], remote: true do |f|
-        = f.hidden_field :commentable, value: commentable.class.name
-        = f.label :body
-        = f.text_field :body
-        = f.submit 'Create comment'
+    .new-comment-form-container
+      - if commentable.is_a?(Answer)
+        = form_for [commentable.question, commentable, commentable.comments.build], remote: true do |f|
+          = f.hidden_field :commentable, value: commentable.class.name
+          = f.label :body
+          = f.text_field :body
+          = f.submit 'Create comment'
 
-    - if commentable.is_a?(Question)
-      = form_for [commentable, comment], remote: true do |f|
-        = f.hidden_field :commentable, value: commentable.class.name
-        = f.label :body
-        = f.text_field :body
-        = f.submit 'Create comment'
+      - if commentable.is_a?(Question)
+        = form_for [commentable, commentable.comments.build], remote: true do |f|
+          = f.hidden_field :commentable, value: commentable.class.name
+          = f.label :body
+          = f.text_field :body
+          = f.submit 'Create comment'

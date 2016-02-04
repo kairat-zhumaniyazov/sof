@@ -35,4 +35,4 @@ div.question-answer id="#{dom_id answer}"
     tr
       td.vote-cell
       td.post-cell
-        = render partial: 'comments/list', locals: { commentable: answer, comment: answer.comments.build }
+        = render 'comments/list', commentable: answer
