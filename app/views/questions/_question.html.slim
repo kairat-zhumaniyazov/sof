@@ -2,7 +2,7 @@ div class = "question question#{question.id}"
 
   .votes
     .count
-      = question.try(:votes_value) && !question.votes_value.nil? ? question.votes_value : 0
+      = question.votes_sum
     div
       | votes
   .answers

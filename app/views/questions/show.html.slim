@@ -7,7 +7,7 @@
         tr
           td.vote-cell
             .votes-container
-              = render partial: 'shared/votes', locals: { voted_to: @question }
+              = render partial: 'shared/votes', locals: { object: @question }
           td.post-cell
             .post-content
               .post-body

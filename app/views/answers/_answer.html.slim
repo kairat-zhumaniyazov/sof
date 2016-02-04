@@ -4,7 +4,7 @@ div.question-answer id="#{dom_id answer}"
       tr
         td.vote-cell
           .votes-container
-            = render partial: 'shared/votes', locals: { voted_to: answer }
+            = render partial: 'shared/votes', locals: { object: answer }
             - if answer.best?
               p#best-answer Best answer
         td.post-cell
