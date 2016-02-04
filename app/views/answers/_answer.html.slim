@@ -10,27 +10,31 @@ div.question-answer id="#{dom_id answer}"
         td.post-cell
           .post-content
             .post-body
-              = answer.body
+              - cache [answer, :body]
+                = answer.body
 
               - if answer.attachments.any?
-                //- cache [answer, :attachments]
-                = render 'shared/attached_files', files: answer.attachments
+                - cache_unless [answer, :attachments]
+                  = render 'shared/attached_files', files: answer.attachments
 
             .post-footer
               .post-controls
                 = render 'answers/controls', answer: answer
 
-              = render 'shared/author_info', object: answer
+              - cache [answer, :author_info]
+                = render 'shared/author_info', object: answer
 
-          .edit-answer-form
-            = form_for [@question, answer], remote: true do |f|
-              p= f.label :body, 'Answer'
-              p= f.text_area :body
-              p= f.fields_for :attachments do |a|
-                = render 'shared/attachment_fields', f: a
-              .links
-                = link_to_add_association 'add file', f, :attachments, partial: 'shared/attachment_fields'
-              p= f.submit 'Save'
+          - if can?(:edit, answer)
+            - cache [answer, :edit_form]
+              .edit-answer-form
+                = form_for [@question, answer], remote: true do |f|
+                  p= f.label :body, 'Answer'
+                  p= f.text_area :body
+                  p= f.fields_for :attachments do |a|
+                    = render 'shared/attachment_fields', f: a
+                  .links
+                    = link_to_add_association 'add file', f, :attachments, partial: 'shared/attachment_fields'
+                  p= f.submit 'Save'
 
     tr
       td.vote-cell
