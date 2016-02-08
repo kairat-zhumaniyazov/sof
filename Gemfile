@@ -95,4 +95,5 @@ group :development do
   gem 'capistrano-sidekiq', require: false
   gem 'capistrano3-unicorn', require: false
   gem 'rubocop', require: false
+  gem 'awesome_rails_console'
 end
