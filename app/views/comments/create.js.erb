@@ -32,6 +32,8 @@
     <% end %>
 
   <% end %>
+
+  $('#<%= dom_id @comment %> span.timeago').timeago();
 <% else %>
   $('<%= j render 'answers/validation_errors' %>').insertBefore($('#new-answer-form form'));
 <% end %>
