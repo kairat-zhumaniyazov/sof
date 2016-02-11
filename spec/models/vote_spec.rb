@@ -16,12 +16,18 @@ RSpec.describe Vote, type: :model do
         subject { question.votes.create(user: create(:user), voteable: question, value: 1) }
 
         it 'should call votes calculator' do
-          expect(VotesCalculator).to receive(:calculate_for).with(question)
+          expect(VotesCalculator).to receive(:calculate_for).with(question, 1)
           subject
         end
 
         it 'should change votes sum for question' do
-          expect { subject }.to change{question.votes_sum}.by(1)
+          subject
+          question.reload
+          expect(question.votes_sum).to eq 1
+        end
+
+        it 'should change votes count' do
+          expect{ subject }.to change(question.votes, :count).by(1)
         end
       end
 
@@ -30,12 +36,18 @@ RSpec.describe Vote, type: :model do
         subject { vote.destroy }
 
         it 'should call votes caclulator' do
-          expect(VotesCalculator).to receive(:calculate_for).with(question)
+          expect(VotesCalculator).to receive(:calculate_for).with(question, -1)
           subject
         end
 
         it 'should change votes sum for Question' do
-          expect { subject }.to change{question.votes_sum}.by(-1)
+          subject
+          question.reload
+          expect(question.votes_sum).to eq 0
+        end
+
+        it 'should change votes count' do
+          expect{ subject }.to change(question.votes, :count).by(-1)
         end
       end
     end
@@ -48,12 +60,18 @@ RSpec.describe Vote, type: :model do
         subject { answer.votes.create(user: create(:user), voteable: answer, value: 1) }
 
         it 'should call votes calculator' do
-          expect(VotesCalculator).to receive(:calculate_for).with(answer)
+          expect(VotesCalculator).to receive(:calculate_for).with(answer, 1)
           subject
         end
 
         it 'should change votes sum for answer' do
-          expect { subject }.to change{answer.votes_sum}.by(1)
+          subject
+          answer.reload
+          expect(answer.votes_sum).to eq 1
+        end
+
+        it 'should change votes count' do
+          expect{ subject }.to change(answer.votes, :count).by(1)
         end
       end
 
@@ -62,12 +80,18 @@ RSpec.describe Vote, type: :model do
         subject { vote.destroy }
 
         it 'should call votes caclulator' do
-          expect(VotesCalculator).to receive(:calculate_for).with(answer)
+          expect(VotesCalculator).to receive(:calculate_for).with(answer, -1)
           subject
         end
 
         it 'should change votes sum for answer' do
-          expect { subject }.to change{answer.votes_sum}.by(-1)
+          subject
+          answer.reload
+          expect(answer.votes_sum).to eq 0
+        end
+
+        it 'should change votes count' do
+          expect{ subject }.to change(answer.votes, :count).by(-1)
         end
       end
     end
