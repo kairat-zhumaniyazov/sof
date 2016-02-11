@@ -12,6 +12,8 @@ engines:
       languages:
       - ruby
       - javascript
+    exclude_paths:
+      - public/uploads/*
   eslint:
     enabled: true
   fixme:

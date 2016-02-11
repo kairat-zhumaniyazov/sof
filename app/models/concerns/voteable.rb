@@ -20,7 +20,7 @@ module Voteable
   end
 
   def make_vote(value, user)
-    user_vote = votes.create_with(user: user).find_or_create_by(user: user)
+    user_vote = votes.create_with(user: user, value: value).find_or_create_by(user: user)
     user_vote.update(value: value) if user_vote.value != value
     self.votes_sum += value
 

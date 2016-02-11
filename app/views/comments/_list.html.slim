@@ -1,8 +1,8 @@
 .comments-container
-  - cache comments_collection_cache_key_for(commentable)
-    .comments-list
-      - if commentable.comments.any?
-        - commentable.comments.each do |comment|
-          = render partial: comment, comment: comment
+  /- cache comments_collection_cache_key_for(commentable)
+  .comments-list
+    - if commentable.comments.any?
+      - commentable.comments.each do |comment|
+        = render partial: comment, comment: comment
 
   = render 'comments/form', commentable: commentable
