@@ -6,8 +6,7 @@ class Vote < ActiveRecord::Base
 
   validates :user_id, :value, :voteable_id, presence: true
 
-
-  after_commit :calculate_sum, on:[:create, :update, :destroy]
+  after_commit :calculate_sum, on: [:create, :update, :destroy]
   after_create :delta_after_create
   before_update :delta_after_update
   after_destroy :delta_after_destroy
@@ -19,7 +18,7 @@ class Vote < ActiveRecord::Base
   end
 
   def delta_after_update
-    self.delta = self.value_changed? ? self.value_change.last - self.value_change.first : 0
+    self.delta = value_changed? ? value_change.last - value_change.first : 0
   end
 
   def delta_after_destroy
@@ -27,6 +26,6 @@ class Vote < ActiveRecord::Base
   end
 
   def calculate_sum
-    VotesCalculator.calculate_for(voteable, self.delta) if self.delta && self.delta != 0
+    VotesCalculator.calculate_for(voteable, delta) if delta && delta != 0
   end
 end
