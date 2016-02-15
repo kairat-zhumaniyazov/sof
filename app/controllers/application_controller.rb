@@ -1,6 +1,8 @@
 require 'application_responder'
 
 class ApplicationController < ActionController::Base
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
   self.responder = ApplicationResponder
   respond_to :html
 
@@ -13,4 +15,14 @@ class ApplicationController < ActionController::Base
   end
 
   check_authorization unless: :devise_controller?
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:nickname, :email,
+      :password, :password_confirmation, :remember_me, :avatar, :avatar_cache) }
+    devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:nickname, 
+      :email, :password, :password_confirmation, :current_password,
+      :avatar, :avatar_cache) }
+  end
 end

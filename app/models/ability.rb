@@ -43,5 +43,7 @@ class Ability
     can :unsubscribe, Question do |question|
       question.followers.include? user
     end
+
+    can :update, user, id: user.id
   end
 end

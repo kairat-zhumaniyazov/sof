@@ -28,6 +28,7 @@ gem 'bootswatch-rails'
 gem 'slim-rails'
 
 gem 'devise'
+gem 'rmagick', require: false
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
@@ -71,6 +72,7 @@ group :test do
   gem 'database_cleaner'
   gem 'json_spec'
   gem 'fuubar'
+  gem 'test_after_commit'
 end
 
 group :development do
@@ -94,4 +96,5 @@ group :development do
   gem 'capistrano-sidekiq', require: false
   gem 'capistrano3-unicorn', require: false
   gem 'rubocop', require: false
+  gem 'awesome_rails_console'
 end

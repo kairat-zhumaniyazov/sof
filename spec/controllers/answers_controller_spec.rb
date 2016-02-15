@@ -158,6 +158,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'should have votes sum' do
         subject
+        another_answer.reload
         expect(another_answer.votes_sum).to eq 1
       end
 
@@ -210,6 +211,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'should have votes sum' do
         subject
+        another_answer.reload
         expect(another_answer.votes_sum).to eq -1
       end
 

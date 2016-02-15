@@ -2,7 +2,8 @@ class QuestionsController < ApplicationController
   include VoteableController
 
   before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
-  before_action :load_question, only: [:show, :destroy, :update, :subscribe, :unsubscribe]
+  before_action :load_question, only: [:destroy, :update, :subscribe, :unsubscribe]
+  before_action :load_question_with_includes, only: :show
   before_action :build_answer, only: :show
   after_action :publish_new_question, only: :create
 
@@ -12,7 +13,7 @@ class QuestionsController < ApplicationController
   authorize_resource
 
   def index
-    respond_with(@questions = Question.all)
+    respond_with(@questions = Question.eager_load(:user).all)
   end
 
   def show
@@ -61,6 +62,10 @@ class QuestionsController < ApplicationController
     PrivatePub.publish_to '/questions', question: render_to_string(
       partial: 'question',
       locals: { question: @question })
+  end
+
+  def load_question_with_includes
+    @question = Question.with_includes.find(params[:id])
   end
 
   def build_answer

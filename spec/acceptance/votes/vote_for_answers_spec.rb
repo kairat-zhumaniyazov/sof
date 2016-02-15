@@ -21,7 +21,7 @@ feature 'Vote for the answer', %q{
 
       scenario 'PLUS', js: true do
         within "##{dom_id(another_answer)}" do
-          within '.votes' do
+          within '.votes-container' do
             click_on '+'
             expect(page).to have_content '1'
             expect(page).to have_content 'Re-vote?'
@@ -31,7 +31,7 @@ feature 'Vote for the answer', %q{
 
       scenario 'MINUS', js: true do
         within "##{dom_id(another_answer)}" do
-          within '.votes' do
+          within '.votes-container' do
             click_on '-'
             expect(page).to have_content '-1'
             expect(page).to have_content 'Re-vote?'
@@ -45,7 +45,7 @@ feature 'Vote for the answer', %q{
         let!(:vote) { create(:vote_for_question, voteable: another_answer, user: user, value: 1) }
         before { visit question_path question }
         scenario 'see info about that', js: true do
-          within "##{dom_id(another_answer)} .votes" do
+          within "##{dom_id(another_answer)} .votes-container" do
             expect(page).to_not have_link '+', href: vote_plus_question_answer_path(another_answer.question, another_answer)
             expect(page).to_not have_link '-', href: vote_minus_question_answer_path(another_answer.question, another_answer)
             expect(page).to have_content '1'
@@ -59,7 +59,7 @@ feature 'Vote for the answer', %q{
 
         scenario 'vote PLUS with others', js: true do
           within "##{dom_id(another_answer)}" do
-            within '.votes' do
+            within '.votes-container' do
               click_on '+'
               expect(page).to_not have_link '+', href: vote_plus_question_answer_path(another_answer.question, another_answer)
               expect(page).to_not have_link '-', href: vote_minus_question_answer_path(another_answer.question, another_answer)
@@ -71,7 +71,7 @@ feature 'Vote for the answer', %q{
 
         scenario 'vote MINUS with others', js: true do
           within "##{dom_id(another_answer)}" do
-            within '.votes' do
+            within '.votes-container' do
               click_on '-'
               expect(page).to_not have_link '+', href: vote_plus_question_answer_path(another_answer.question, another_answer)
               expect(page).to_not have_link '-', href: vote_minus_question_answer_path(another_answer.question, another_answer)
@@ -87,7 +87,7 @@ feature 'Vote for the answer', %q{
         before { visit question_path question }
 
         scenario 'when click re-vote link', js: true do
-          within "##{dom_id(another_answer)} .votes" do
+          within "##{dom_id(another_answer)} .votes-container" do
             expect(page).to have_link 'Re-vote?'
             click_on 'Re-vote'
             expect(page).to have_link '+'

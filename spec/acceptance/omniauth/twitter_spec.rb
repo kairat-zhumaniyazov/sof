@@ -15,6 +15,7 @@ feature 'Authorization by Twitter', %q{
 
       expect(page).to have_content 'For registration you need to add your valid email.'
       fill_in 'Email', with: 'test@email.com'
+      fill_in 'Nickname', with: 'test_nickname'
       click_on 'Add'
 
       expect(page).to have_content 'Congratulations! Email successfully registered. You must verify your email address'

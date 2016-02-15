@@ -11,6 +11,7 @@ feature 'New answer for question', %q{
   before do
     sign_in user
     visit question_path question
+    click_on 'New answer'
   end
 
   describe 'First answer for question' do

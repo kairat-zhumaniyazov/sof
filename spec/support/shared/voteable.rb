@@ -32,4 +32,68 @@ shared_examples_for 'voteable' do
       expect(@voted_to.user_is_voted? user).to be false
     end
   end
+
+
+  describe 'has a #make_vote' do
+    subject { @voted_to.make_vote(1, user) }
+
+    context 'for new vote' do
+      it 'should created new vote' do
+        expect{ subject }.to change(@voted_to.votes, :count).by(1)
+      end
+
+      it 'should have right votes sum' do
+        subject
+        @voted_to.reload
+        expect(@voted_to.votes_sum).to eq 1
+      end
+
+      it 'should call votes calculator' do
+        expect(VotesCalculator).to receive(:calculate_for).with(@voted_to, 1)
+        subject
+      end
+    end
+
+    context 'for exists vote' do
+      context 'Minus' do
+        let!(:vote) { create(:vote, voteable: @voted_to, user: user, value: 1) }
+        subject { @voted_to.make_vote(-1, user) }
+
+        it 'should not create new vote' do
+          expect { subject }.to_not change(Vote, :count)
+        end
+
+        it 'should have right votes sum' do
+          subject
+          @voted_to.reload
+          expect(@voted_to.votes_sum).to eq -1
+        end
+
+        it 'should call votes calculator' do
+          expect(VotesCalculator).to receive(:calculate_for).with(@voted_to, -2)
+          subject
+        end
+      end
+
+      context 'Plus' do
+        let!(:vote) { create(:vote, voteable: @voted_to, user: user, value: -1) }
+        subject { @voted_to.make_vote(1, user) }
+
+        it 'should not create new vote' do
+          expect { subject }.to_not change(Vote, :count)
+        end
+
+        it 'should have right votes sum' do
+          subject
+          @voted_to.reload
+          expect(@voted_to.votes_sum).to eq 1
+        end
+
+        it 'should call votes calculator' do
+          expect(VotesCalculator).to receive(:calculate_for).with(@voted_to, 2)
+          subject
+        end
+      end
+    end
+  end
 end

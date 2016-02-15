@@ -1,4 +1,11 @@
 .comments-container {
+  &::before {
+    clear: both;
+    content: " ";
+    height: 0px;
+    display: block;
+  }
+
   .comments-form {
     margin-left: 50px;
   }

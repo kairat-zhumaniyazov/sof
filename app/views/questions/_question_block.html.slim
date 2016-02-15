@@ -1,35 +1,29 @@
-- cache [@question, :title]
-  .question-header
-    h3= @question.title
+.question-header
+  h3= @question.title
 
-- cache [@question, :body]
-  p= @question.body
+  table.post
+    tbody
+      tr
+        td.vote-cell
+          .votes-container
+            = render partial: 'shared/votes', locals: { object: @question }
+        td.post-cell
+          .post-content
+            .post-body
+              - cache [@question, :body]
+                = @question.body
 
-- if @question.attachments.any?
-  - cache_unless [@question, :attachments]
-    = render 'shared/attached_files', files: @question.attachments
+              - if @question.attachments.any?
+                - cache_unless [@question, :attachments]
+                  = render 'shared/attached_files', files: @question.attachments
 
-.votes-container
-  = render partial: 'shared/votes', locals: { voted_to: @question }
+            .post-footer
+              .post-controls
+                = render 'questions/controls'
 
-- if current_user
-  .subscribe-controls
-    - if @question.followers.include? current_user
-        = link_to 'Unsubscribe', unsubscribe_question_path(@question), method: :post, remote: true
-    - else
-      = link_to 'Subscribe', subscribe_question_path(@question), method: :post, remote: true
+              - cache [@question, :author_info]
+                = render 'shared/author_info', object: @question
 
-- if can?(:manage, @question)
-  - cache [@question, :controls]
-    .question-controls
-      ul.clear
-        li
-          = link_to 'Edit', '', class: 'edit-question-link'
-        li
-          = link_to 'Delete question', @question, method: :delete
-
-    div#edit-question-form-container
-      div#validation-errors
-      = render partial: 'form', locals: { submit_text: 'Save', remote: true }
-
-= render 'comments/list', commentable: @question, comment: @question.comments.build
+          #edit-question-form-container
+            div#validation-errors
+            = render partial: 'form', locals: { submit_text: 'Save', remote: true }

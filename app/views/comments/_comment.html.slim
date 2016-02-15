@@ -1,3 +1,10 @@
-- cache [comment, :body]
-  div id="#{dom_id comment}"
-    = comment.body
+- cache [comment]
+  .comments-list-item id="#{dom_id comment}"
+    .comment-body
+      = comment.body
+      '  –
+      = link_to(comment.user.nickname, user_path(comment.user), class: 'comment-user')
+      '
+
+      span.timeago.comment-created-at title="#{comment.created_at.getutc.iso8601}"
+        = comment.created_at.to_s

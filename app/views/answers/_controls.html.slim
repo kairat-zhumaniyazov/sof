@@ -1,0 +1,13 @@
+- if can?(:manage, answer)
+  - cache [answer, :controls]
+    = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+    = link_to 'Delete answer', [@question, answer], remote: true, method: :delete
+
+- if can?(:best_answer, answer)
+  - cache [answer, :best_answer_control]
+    p
+      = link_to 'Best answer', best_answer_question_answer_path(@question, answer),
+                 remote: true,
+                 method: :post,
+                 class: 'best-answer-link',
+                 id: "best-answer-link-#{answer.id}"

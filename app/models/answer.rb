@@ -3,7 +3,7 @@ class Answer < ActiveRecord::Base
   include Voteable
   include Commentable
 
-  belongs_to :question, touch: true
+  belongs_to :question, touch: true, counter_cache: true
   belongs_to :user
 
   validates :body, :question_id, :user_id, presence: true

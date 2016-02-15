@@ -7,3 +7,70 @@
 @import "answers";
 @import "questions";
 @import "comments";
+@import "users";
+
+footer.footer {
+  margin-top: 50px;
+}
+
+.questions-list-container {
+
+  .user-info {
+    float: right;
+    color: #848A91;
+    box-sizing: border-box;
+    width: 200px;
+    background-color: #E8E7E5;
+    padding: 7px 10px;
+    margin-top: 20px;
+
+    div.created-at {
+      font-size: 12px;
+      margin-top: 0px;
+      margin-bottom: 5px;
+    }
+
+    div.user-avatar-32 {
+      float: left;
+
+      img.avatar {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    div.user-details {
+      float: left;
+      margin-left: 10px;
+
+      &::after {
+        clear: both;
+        content: " ";
+        display: table;
+      }
+    }
+
+    &::after {
+      clear: both;
+      content: " ";
+      display: table;
+    }
+  }
+}
+
+.user-avatar-32 {
+  vertical-align: middle;
+
+  p.no-avatar-thumb {
+    width: 32px;
+    height: 32px;
+    background-color: #afafaf;
+    font-size: 8px;
+    font-weight: bold;
+    text-align: center;
+    padding: 4px 0px;
+    margin: 0px;
+    color: white;
+    vertical-align: middle;
+  }
+}

@@ -12,6 +12,7 @@ feature 'Add files to answer', %q{
   background do
     sign_in user
     visit question_path question
+    click_on 'New answer'
   end
 
   scenario 'User can attach files for answer', js: true do

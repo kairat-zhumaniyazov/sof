@@ -5,10 +5,6 @@ module Voteable
     has_many :votes, as: :voteable, dependent: :destroy
   end
 
-  def votes_sum
-    votes.sum(:value)
-  end
-
   def user_is_voted?(user)
     votes.find_by(user: user) ? true : false
   end
@@ -16,6 +12,7 @@ module Voteable
   def re_vote(user)
     vote = votes.find_by(user: user)
     if vote
+      self.votes_sum -= vote.value
       vote.destroy
       return true
     end
@@ -23,9 +20,11 @@ module Voteable
   end
 
   def make_vote(value, user)
-    user_vote = votes.create_with(user: user).find_or_create_by(user: user)
+    user_vote = votes.create_with(user: user, value: value).find_or_create_by(user: user)
     user_vote.update(value: value) if user_vote.value != value
+    self.votes_sum += value
 
     ReputationCalculator.calculate(:vote, self, user, value: value)
+
   end
 end

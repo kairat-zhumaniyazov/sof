@@ -62,5 +62,8 @@ RSpec.describe Ability do
     it { should_not be_able_to :unsubscribe, create(:question), user: user }
 
     it { should be_able_to :read, :search }
+
+    it { should be_able_to :update, user, user: user }
+    it { should_not be_able_to :update, other, user: user }
   end
 end

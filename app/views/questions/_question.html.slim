@@ -1,4 +1,5 @@
-div class = "question question#{question.id}"
+div class="question question#{question.id}"
+
   .votes
     .count
       = question.votes_sum
@@ -6,11 +7,12 @@ div class = "question question#{question.id}"
       | votes
   .answers
     .count
-      = question.answers.count
+      = question.answers_count
     div
       | answers
+
   .summary
     h4
       = link_to question.title, question_path(question)
-    p
-      = "created at: #{question.created_at.strftime('%d %b %Y %R')}"
+
+  = render 'shared/author_info', object: question
