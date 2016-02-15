@@ -7,6 +7,7 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'cancan/matchers'
 require 'sidekiq/testing'
+require 'test_after_commit'
 
 Sidekiq::Testing.fake!
 
@@ -37,6 +38,8 @@ RSpec.configure do |config|
   config.extend ControllerMacros, type: :controller
   config.include AcceptanceHelper, type: :feature
   config.include OmniauthMacros
+
+  TestAfterCommit.enabled = true
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

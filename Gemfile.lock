@@ -426,6 +426,8 @@ GEM
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     temple (0.7.6)
+    test_after_commit (0.4.2)
+      activerecord (>= 3.2)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
@@ -531,6 +533,7 @@ DEPENDENCIES
   slim-rails
   spring
   spring-commands-rspec
+  test_after_commit
   therubyracer
   thin
   thinking-sphinx

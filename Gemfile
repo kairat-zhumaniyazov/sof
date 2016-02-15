@@ -72,6 +72,7 @@ group :test do
   gem 'database_cleaner'
   gem 'json_spec'
   gem 'fuubar'
+  gem 'test_after_commit'
 end
 
 group :development do
