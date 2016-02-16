@@ -15,6 +15,8 @@ AllCops:
     Enabled: true
   DisplayCopNames: true
   StyleGuideCopsOnly: true
+  Lint/UselessAssignment:
+    Enabled: false
 
 Metrics/LineLength:
   Max: 100

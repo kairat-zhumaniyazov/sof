@@ -27,6 +27,8 @@ engines:
         enabled: false
       Rubocop/Style/ClassAndModuleChildren:
         enabled: false
+      Rubocop/Lint/UselessAssignment:
+        enabled: false
 ratings:
   paths:
   - Gemfile.lock

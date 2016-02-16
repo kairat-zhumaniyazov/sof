@@ -47,13 +47,14 @@ class User < ActiveRecord::Base
 
   private
 
+  # rubocop:disable Metrics/AbcSize
   def self.nickname_from_auth_hash(auth)
     if auth.info.nickname
       nickname = I18n.transliterate(auth.info.nickname)
     elsif auth.info.first_name || auth.info.last_name
       nickname = I18n.transliterate("#{auth.info.first_name}_#{auth.info.last_name}")
     else
-      nickname = auth.info.email.gsub('@', '_')
+      nickname = auth.info.email.tr('@', '_')
     end
   end
 
