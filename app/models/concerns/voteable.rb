@@ -25,6 +25,5 @@ module Voteable
     self.votes_sum += value
 
     ReputationCalculator.calculate(:vote, self, user, value: value)
-
   end
 end

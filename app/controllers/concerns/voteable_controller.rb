@@ -15,7 +15,6 @@ module VoteableController
 
   def re_vote
     if res = @vote_for_obj.re_vote(current_user)
-      #@vote_for_obj.reload
       render json: {
         success: res,
         votes_sum: @vote_for_obj.votes_sum,
@@ -33,7 +32,6 @@ module VoteableController
   def vote(value)
     if current_user.id != @vote_for_obj.user_id
       @vote_for_obj.make_vote(value, current_user)
-      #@vote_for_obj.reload
 
       render json: {
         votes_sum: @vote_for_obj.votes_sum,

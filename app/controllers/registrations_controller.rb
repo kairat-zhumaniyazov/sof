@@ -3,14 +3,14 @@ class RegistrationsController < Devise::RegistrationsController
     respond_with(@user = User.new)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def create_with_email
     if @user = User.find_by(email: user_params[:email])
       flash[:notice] =
         'Email already registered in system. For binding you must verify your email address.'
       create_auth_and_redirect_for @user
     else
-      @user = User.create_with_psw(user_params[:email],
-                                   user_params[:nickname],
+      @user = User.create_with_psw(user_params[:email], user_params[:nickname],
                                    session['devise.oauth_data']['info']['image'])
       if @user
         flash[:notice] =

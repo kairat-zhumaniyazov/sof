@@ -21,7 +21,7 @@ class Ability
     can :manage, :all
   end
 
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def user_abilities
     guest_abilities
     can :manage, [Question, Answer, Comment], user: user
