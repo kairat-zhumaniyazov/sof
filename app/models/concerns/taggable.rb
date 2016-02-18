@@ -1,6 +1,8 @@
 module Taggable
   extend ActiveSupport::Concern
 
+  HASHTAG_REGEXP_PATTERN = /\B#(\w+)/i
+
   included do
     before_create :parse_tags
     before_save :parse_tags
@@ -9,7 +11,6 @@ module Taggable
   private
 
   def parse_tags
-    pattern = /(?:\s|^)(#(?!(?:\d+|\w+?_|_\w+?)(?:\s|$))([a-z0-9\-_]+))/i
-    self.tags = body.scan(pattern).map(&:last)
+    self.tags = body.scan(HASHTAG_REGEXP_PATTERN).map(&:last)
   end
 end

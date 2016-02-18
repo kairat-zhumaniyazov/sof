@@ -11,7 +11,7 @@
           .post-content
             .post-body
               - cache [@question, :body]
-                = @question.body
+                = hashtags_to_links @question.body
 
               - if @question.attachments.any?
                 - cache_unless [@question, :attachments]
