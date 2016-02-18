@@ -11,6 +11,6 @@ module Taggable
   private
 
   def parse_tags
-    self.tags = body.scan(HASHTAG_REGEXP_PATTERN).map(&:last)
+    self.tags = body.scan(HASHTAG_REGEXP_PATTERN).map(&:last).uniq
   end
 end

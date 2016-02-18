@@ -62,7 +62,6 @@ describe Api::V1::QuestionsController do
       it_behaves_like 'API :get request successfully responsible'
 
       it 'should return question object' do
-        p response.body
         expect(response.body).to be_json_eql(question.to_json).at_path('question').
           excluding('answers', 'attachments', 'comments')
       end
