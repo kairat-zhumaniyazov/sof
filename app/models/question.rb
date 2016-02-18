@@ -2,6 +2,7 @@ class Question < ActiveRecord::Base
   include Attachable
   include Voteable
   include Commentable
+  include Taggable
 
   has_many :answers, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
