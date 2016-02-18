@@ -6,6 +6,6 @@ module QuestionsHelper
   end
 
   def hashtag_link(hashtag)
-    link_to("##{hashtag}", tagged_questions_path(hashtag))
+    link_to("##{hashtag}", tagged_questions_path(hashtag.downcase))
   end
 end
