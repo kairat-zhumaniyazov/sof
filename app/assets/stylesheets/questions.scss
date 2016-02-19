@@ -168,3 +168,15 @@ td.vote-cell {
     color: #939494;
   }
 }
+
+.tags-list {
+  margin-top: 20px;
+  min-width: 200px;
+  max-width: 500px;
+
+  a {
+    border: 1px solid #E1ECF4;
+    padding: 2px 4px;
+    background: #E1ECF4;
+  }
+}
