@@ -20,6 +20,9 @@ class Question < ActiveRecord::Base
       .includes(:answers).eager_load(:attachments, comments: :user)
   }
 
+  scope :any_tags, -> (tags) { where('tags && ARRAY[?]', tags) }
+  scope :all_tags, -> (tags) { where('tags @> ARRAY[?]', tags) }
+
   default_scope { order(created_at: :desc) }
 
   after_create :subscribe_author

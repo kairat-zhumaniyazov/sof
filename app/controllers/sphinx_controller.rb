@@ -30,6 +30,10 @@ class SphinxController < ApplicationController
     @results = klass.search(query) if klass
   end
 
+  def search_tag(query, *_args)
+    @results = Question.all_tags(query.split(' '))
+  end
+
   alias_method :search_question, :search_model
   alias_method :search_answer, :search_model
   alias_method :search_comment, :search_model
