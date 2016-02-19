@@ -35,4 +35,65 @@ feature 'Questions list by tag', %q{
     end
   end
 
+  describe 'with click on hashtag' do
+    describe 'from root page' do
+      scenario '#rubyonrails' do
+        visit root_path
+        expect(page).to have_link question_1.title
+        expect(page).to have_link question_2.title
+        expect(page).to have_link question_3.title
+
+        click_on 'rubyonrails'
+
+        expect(current_path).to eq tagged_questions_path(tag: 'rubyonrails')
+        expect(page).to_not have_link question_1.title
+        expect(page).to_not have_link question_2.title
+        expect(page).to have_link question_3.title
+      end
+
+      scenario '#rails' do
+        visit root_path
+        expect(page).to have_link question_1.title
+        expect(page).to have_link question_2.title
+        expect(page).to have_link question_3.title
+
+        within "##{dom_id question_2}" do
+          click_on 'rails'
+        end
+
+        expect(current_path).to eq tagged_questions_path(tag: 'rails')
+        expect(page).to_not have_link question_1.title
+        expect(page).to have_link question_2.title
+        expect(page).to have_link question_3.title
+      end
+    end
+
+
+    describe 'from question page' do
+      scenario '#rubyonrails' do
+        visit question_path question_3
+        within '.tags-list' do
+          click_on 'rubyonrails'
+        end
+
+        expect(current_path).to eq tagged_questions_path(tag: 'rubyonrails')
+        expect(page).to_not have_link question_1.title
+        expect(page).to_not have_link question_2.title
+        expect(page).to have_link question_3.title
+      end
+
+      scenario '#rails' do
+        visit question_path question_3
+        within '.tags-list' do
+          click_on 'rails'
+        end
+
+        expect(current_path).to eq tagged_questions_path(tag: 'rails')
+        expect(page).to_not have_link question_1.title
+        expect(page).to have_link question_2.title
+        expect(page).to have_link question_3.title
+      end
+    end
+  end
+
 end
