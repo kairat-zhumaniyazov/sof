@@ -28,4 +28,15 @@ feature 'Tags list for each question', %q{
     end
   end
 
+  scenario 'question show' do
+    visit question_path question_1
+
+    within "##{dom_id question_1}" do
+      within '.tags-list' do
+        expect(page).to have_link 'tag_1'
+        expect(page).to have_link 'tag_2'
+      end
+    end
+  end
+
 end

@@ -17,6 +17,9 @@
                 - cache_unless [@question, :attachments]
                   = render 'shared/attached_files', files: @question.attachments
 
+            - if @question.tags.any?
+              = render 'shared/tags_list', question: @question
+
             .post-footer
               .post-controls
                 = render 'questions/controls'

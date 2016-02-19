@@ -1,0 +1,3 @@
+div.tags-list
+  - question.tags.each do |tag|
+    = link_to tag, tagged_questions_path(tag)

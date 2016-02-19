@@ -15,9 +15,7 @@ div class="question question_#{question.id}" id="#{dom_id question}"
     h4
       = link_to question.title, question_path(question)
 
-    div.tags-list
-      - if question.tags.any?
-        - question.tags.each do |tag|
-          = link_to tag, tagged_questions_path(tag)
+    - if question.tags.any?
+      = render 'shared/tags_list', question: question
 
   = render 'shared/author_info', object: question
