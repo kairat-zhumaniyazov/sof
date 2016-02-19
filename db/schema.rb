@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 20160218093438) do
     t.text     "tags",          default: [],              array: true
   end
 
+  add_index "questions", ["tags"], name: "index_questions_on_tags", using: :btree
   add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree
 
   create_table "subscriptions", force: :cascade do |t|
