@@ -91,4 +91,6 @@ RSpec.describe Question, type: :model do
       end
     end
   end
+
+  it_behaves_like 'taggable'
 end

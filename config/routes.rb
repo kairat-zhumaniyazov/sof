@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   use_doorkeeper
 
-  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: 'registrations' }
+  devise_for :users, controllers:
+    {
+      omniauth_callbacks: 'omniauth_callbacks',
+      registrations: 'registrations'
+    }
+
   devise_scope :user do
     get 'email_required', to: 'registrations#email_required'
     post 'create_with_email', to: 'registrations#create_with_email'
@@ -23,7 +28,11 @@ Rails.application.routes.draw do
     resources :comments, only: [:create, :show]
   end
 
-  resources :questions, concerns: [:voteable, :commentable] do
+  concern :tagged do
+    get 'tagged/:tag', on: :collection, action: 'tagged_list', as: 'tagged'
+  end
+
+  resources :questions, concerns: [:voteable, :commentable, :tagged] do
     post 'subscribe', on: :member
     post 'unsubscribe', on: :member
 

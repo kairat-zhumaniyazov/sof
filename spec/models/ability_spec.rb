@@ -9,6 +9,7 @@ RSpec.describe Ability do
     it { should be_able_to :read, :all }
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :search }
+    it { should be_able_to :tagged_list, Question }
   end
 
   describe 'for admin' do

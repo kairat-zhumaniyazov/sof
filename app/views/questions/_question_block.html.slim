@@ -11,11 +11,14 @@
           .post-content
             .post-body
               - cache [@question, :body]
-                = @question.body
+                = hashtags_to_links @question.body
 
               - if @question.attachments.any?
                 - cache_unless [@question, :attachments]
                   = render 'shared/attached_files', files: @question.attachments
+
+            - if @question.tags.any?
+              = render 'shared/tags_list', question: @question
 
             .post-footer
               .post-controls

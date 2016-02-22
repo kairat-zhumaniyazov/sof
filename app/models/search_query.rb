@@ -1,7 +1,7 @@
 class SearchQuery
   include ActiveAttr::Model
 
-  INDICES = %w(question answer comment user)
+  INDICES = %w(tag question answer comment user)
 
   attribute :q
   attribute :index

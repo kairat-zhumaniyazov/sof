@@ -2,6 +2,7 @@ class Question < ActiveRecord::Base
   include Attachable
   include Voteable
   include Commentable
+  include Taggable
 
   has_many :answers, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
@@ -18,6 +19,9 @@ class Question < ActiveRecord::Base
       .order('comments.created_at')
       .includes(:answers).eager_load(:attachments, comments: :user)
   }
+
+  scope :any_tags, -> (tags) { where('tags && ARRAY[?]', tags) }
+  scope :all_tags, -> (tags) { where('tags @> ARRAY[?]', tags) }
 
   default_scope { order(created_at: :desc) }
 

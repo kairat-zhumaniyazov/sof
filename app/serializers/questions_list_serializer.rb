@@ -1,5 +1,5 @@
 class QuestionsListSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :created_at, :updated_at, :short_title, :user_id
+  attributes :id, :title, :body, :created_at, :updated_at, :short_title, :user_id, :tags
 
   has_many :answers
 

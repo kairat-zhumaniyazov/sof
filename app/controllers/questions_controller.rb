@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   include VoteableController
+  include TaggedController
 
   before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
   before_action :load_question, only: [:destroy, :update, :subscribe, :unsubscribe]

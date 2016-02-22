@@ -2,7 +2,9 @@
   - @results.each do |result|
     - case result
     - when Question
-      = render 'questions', result: result
+      - cache [result, :questions_list_item]
+        = render result, question: result
+
     - when Answer
       = render 'answers', result: result
     - when Comment
