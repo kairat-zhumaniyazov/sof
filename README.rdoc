@@ -1,31 +1,37 @@
 {<img src="https://travis-ci.org/kairat-zhumaniyazov/sof.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/kairat-zhumaniyazov/sof]
 {<img src="https://codeclimate.com/github/kairat-zhumaniyazov/sof/badges/gpa.svg" />}[https://codeclimate.com/github/kairat-zhumaniyazov/sof]
 
-== README
+== Вопросы и ответы
+Проект представляет из себя клон популярной системы вопросов и ответов StackoverFlow и является простым проектом для демонстрации  кода и обладаемых знании в разработке на RubyOnRails. В проекте реализовано лишь только базовая функциональность, такие как:
+  - регистрация пользователя и рекадктирование профиля;
+  - создание вопроса;
+  - добавление ответа на вопрос;
+  - прикрепление файлов на вопрос или ответ;
+  - добавление коментария для вопроса или ответа;
+  - возможность выбора "лучшего ответа" на вопрос;
+  - система голосования;
+  - полнетекстный поиск;
+  - система репутации пользователей;
+  - тэги для вопросов и поиск по ним;
+  - подписка на тему;
+  - email рассылка с новыми темами и оповещение подписанных участников обсуждения;
+  - динамическое обновление текущей страницы при появлении новых вопросов или ответов;
+  
+Что было использовано в разработке:
+  - Rails 4.2;
+  - REST API;
+  - TDD/BDD: Rspec, Capybara;
+  - Postgresql;
+  - Devise, OmniAuth;
+  - CanCan / Pundit;
+  - Faye, PrivatePub;
+  - ActiveJob, Siqekiq;
+  - Sphinx, ThinkingSphinx;
+  - Redis;
+  - Backup;
+  - Unicorn / Passenger;
+  - Ubuntu, Nginx, Monit;
+  
+Приложение написано в рамках курса "Профессиональная разработка на Ruby on Rails" thinknetica.com.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+2016 год.
